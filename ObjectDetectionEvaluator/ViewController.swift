@@ -9,10 +9,13 @@
 import Cocoa
 
 class ViewController: NSViewController {
-
+    
+    var evaluator = Evaluator()
+    var parser = Parser()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
     }
 

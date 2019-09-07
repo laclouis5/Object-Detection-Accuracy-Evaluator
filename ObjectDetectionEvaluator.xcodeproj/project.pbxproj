@@ -8,11 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		B9ABD4032323C68700AC087A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4022323C68700AC087A /* AppDelegate.swift */; };
-		B9ABD4052323C68700AC087A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4042323C68700AC087A /* ViewController.swift */; };
 		B9ABD4072323C68B00AC087A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9ABD4062323C68B00AC087A /* Assets.xcassets */; };
 		B9ABD40A2323C68B00AC087A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9ABD4082323C68B00AC087A /* Main.storyboard */; };
 		B9ABD4162323C68C00AC087A /* ObjectDetectionEvaluatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4152323C68C00AC087A /* ObjectDetectionEvaluatorTests.swift */; };
 		B9ABD4212323C68C00AC087A /* ObjectDetectionEvaluatorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4202323C68C00AC087A /* ObjectDetectionEvaluatorUITests.swift */; };
+		B9ABD43D2323DC4B00AC087A /* Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4322323DC4B00AC087A /* Evaluator.swift */; };
+		B9ABD43F2323DC4B00AC087A /* YoloParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4342323DC4B00AC087A /* YoloParser.swift */; };
+		B9ABD4402323DC4B00AC087A /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4352323DC4B00AC087A /* TestData.swift */; };
+		B9ABD4412323DC4B00AC087A /* BoxTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4372323DC4B00AC087A /* BoxTypes.swift */; };
+		B9ABD4422323DC4B00AC087A /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4382323DC4B00AC087A /* Box.swift */; };
+		B9ABD4432323DC4B00AC087A /* BoundingBoxes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4392323DC4B00AC087A /* BoundingBoxes.swift */; };
+		B9ABD4442323DC4B00AC087A /* BoxExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD43A2323DC4B00AC087A /* BoxExtensions.swift */; };
+		B9ABD4452323DC4B00AC087A /* Evaluation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD43B2323DC4B00AC087A /* Evaluation.swift */; };
+		B9ABD44A2323DEDE00AC087A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4492323DEDE00AC087A /* MainViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,7 +43,6 @@
 /* Begin PBXFileReference section */
 		B9ABD3FF2323C68700AC087A /* ObjectDetectionEvaluator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ObjectDetectionEvaluator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9ABD4022323C68700AC087A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B9ABD4042323C68700AC087A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		B9ABD4062323C68B00AC087A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B9ABD4092323C68B00AC087A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B9ABD40B2323C68B00AC087A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -46,6 +53,15 @@
 		B9ABD41C2323C68C00AC087A /* ObjectDetectionEvaluatorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ObjectDetectionEvaluatorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9ABD4202323C68C00AC087A /* ObjectDetectionEvaluatorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDetectionEvaluatorUITests.swift; sourceTree = "<group>"; };
 		B9ABD4222323C68C00AC087A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B9ABD4322323DC4B00AC087A /* Evaluator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Evaluator.swift; sourceTree = "<group>"; };
+		B9ABD4342323DC4B00AC087A /* YoloParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoloParser.swift; sourceTree = "<group>"; };
+		B9ABD4352323DC4B00AC087A /* TestData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
+		B9ABD4372323DC4B00AC087A /* BoxTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoxTypes.swift; sourceTree = "<group>"; };
+		B9ABD4382323DC4B00AC087A /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
+		B9ABD4392323DC4B00AC087A /* BoundingBoxes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoundingBoxes.swift; sourceTree = "<group>"; };
+		B9ABD43A2323DC4B00AC087A /* BoxExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoxExtensions.swift; sourceTree = "<group>"; };
+		B9ABD43B2323DC4B00AC087A /* Evaluation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Evaluation.swift; sourceTree = "<group>"; };
+		B9ABD4492323DEDE00AC087A /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				B9ABD4012323C68700AC087A /* ObjectDetectionEvaluator */,
+				B9ABD4312323DC4B00AC087A /* YoloParser */,
 				B9ABD4142323C68C00AC087A /* ObjectDetectionEvaluatorTests */,
 				B9ABD41F2323C68C00AC087A /* ObjectDetectionEvaluatorUITests */,
 				B9ABD4002323C68700AC087A /* Products */,
@@ -97,9 +114,9 @@
 			isa = PBXGroup;
 			children = (
 				B9ABD4022323C68700AC087A /* AppDelegate.swift */,
-				B9ABD4042323C68700AC087A /* ViewController.swift */,
 				B9ABD4062323C68B00AC087A /* Assets.xcassets */,
 				B9ABD4082323C68B00AC087A /* Main.storyboard */,
+				B9ABD4492323DEDE00AC087A /* MainViewController.swift */,
 				B9ABD40B2323C68B00AC087A /* Info.plist */,
 				B9ABD40C2323C68B00AC087A /* ObjectDetectionEvaluator.entitlements */,
 			);
@@ -122,6 +139,45 @@
 				B9ABD4222323C68C00AC087A /* Info.plist */,
 			);
 			path = ObjectDetectionEvaluatorUITests;
+			sourceTree = "<group>";
+		};
+		B9ABD4312323DC4B00AC087A /* YoloParser */ = {
+			isa = PBXGroup;
+			children = (
+				B9ABD4342323DC4B00AC087A /* YoloParser.swift */,
+				B9ABD4352323DC4B00AC087A /* TestData.swift */,
+				B9ABD4362323DC4B00AC087A /* Models */,
+			);
+			path = YoloParser;
+			sourceTree = "<group>";
+		};
+		B9ABD4362323DC4B00AC087A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B9ABD4472323DD0200AC087A /* Box */,
+				B9ABD4482323DD0B00AC087A /* Evaluator */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		B9ABD4472323DD0200AC087A /* Box */ = {
+			isa = PBXGroup;
+			children = (
+				B9ABD4382323DC4B00AC087A /* Box.swift */,
+				B9ABD4372323DC4B00AC087A /* BoxTypes.swift */,
+				B9ABD43A2323DC4B00AC087A /* BoxExtensions.swift */,
+				B9ABD4392323DC4B00AC087A /* BoundingBoxes.swift */,
+			);
+			path = Box;
+			sourceTree = "<group>";
+		};
+		B9ABD4482323DD0B00AC087A /* Evaluator */ = {
+			isa = PBXGroup;
+			children = (
+				B9ABD43B2323DC4B00AC087A /* Evaluation.swift */,
+				B9ABD4322323DC4B00AC087A /* Evaluator.swift */,
+			);
+			path = Evaluator;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -254,8 +310,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B9ABD4052323C68700AC087A /* ViewController.swift in Sources */,
 				B9ABD4032323C68700AC087A /* AppDelegate.swift in Sources */,
+				B9ABD4442323DC4B00AC087A /* BoxExtensions.swift in Sources */,
+				B9ABD4402323DC4B00AC087A /* TestData.swift in Sources */,
+				B9ABD43D2323DC4B00AC087A /* Evaluator.swift in Sources */,
+				B9ABD4422323DC4B00AC087A /* Box.swift in Sources */,
+				B9ABD4432323DC4B00AC087A /* BoundingBoxes.swift in Sources */,
+				B9ABD43F2323DC4B00AC087A /* YoloParser.swift in Sources */,
+				B9ABD4452323DC4B00AC087A /* Evaluation.swift in Sources */,
+				B9ABD4412323DC4B00AC087A /* BoxTypes.swift in Sources */,
+				B9ABD44A2323DEDE00AC087A /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
