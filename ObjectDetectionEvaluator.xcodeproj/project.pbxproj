@@ -146,18 +146,10 @@
 			children = (
 				B9ABD4342323DC4B00AC087A /* YoloParser.swift */,
 				B9ABD4352323DC4B00AC087A /* TestData.swift */,
-				B9ABD4362323DC4B00AC087A /* Models */,
-			);
-			path = YoloParser;
-			sourceTree = "<group>";
-		};
-		B9ABD4362323DC4B00AC087A /* Models */ = {
-			isa = PBXGroup;
-			children = (
 				B9ABD4472323DD0200AC087A /* Box */,
 				B9ABD4482323DD0B00AC087A /* Evaluator */,
 			);
-			path = Models;
+			path = YoloParser;
 			sourceTree = "<group>";
 		};
 		B9ABD4472323DD0200AC087A /* Box */ = {
