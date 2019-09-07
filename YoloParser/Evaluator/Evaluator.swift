@@ -65,23 +65,24 @@ class Evaluator {
                 // If gt box is not already associated and IoU threshold is triggered compute precision and recall and mark the gt box as visited and as TP
                 let visited = counter[detection.name]?[index] ?? true
                 
+                // Mark as TP
                 if maxIoU >= iouTresh && !visited {
                     evaluation.truePositives.append(true)
                     counter[detection.name]![index] = true
-                    
                     truePositiveNumber += 1
-                    let falsePositiveNumber = evaluation.truePositives.count - truePositiveNumber
-                    
-                    let (precision, recall) = computePrecRec(tp: truePositiveNumber, fp: falsePositiveNumber, totalPositive: evaluation.totalPositive)
-                    
-                    // Update evaluation
-                    evaluation.recalls.append(recall)
-                    evaluation.precisions.append(precision)
                 
                 // Else mark box as FP
                 } else {
                     evaluation.truePositives.append(false)
                 }
+                
+                let falsePositiveNumber = evaluation.truePositives.count - truePositiveNumber
+                
+                let (precision, recall) = computePrecRec(tp: truePositiveNumber, fp: falsePositiveNumber, totalPositive: evaluation.totalPositive)
+                
+                // Update evaluation
+                evaluation.recalls.append(recall)
+                evaluation.precisions.append(precision)
             }
             
             // Save evaluation
