@@ -684,7 +684,7 @@
         <scene sceneID="eJw-nF-2xf">
             <objects>
                 <windowController id="o2m-X3-nFy" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="uyx-63-Aog">
+                    <window key="window" title="Object Detection Evaluation" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="uyx-63-Aog">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
@@ -701,10 +701,10 @@
             </objects>
             <point key="canvasLocation" x="75" y="231"/>
         </scene>
-        <!--Main View Controller-->
+        <!--Main View-->
         <scene sceneID="pO8-og-ic5">
             <objects>
-                <viewController id="dDs-6t-GoO" customClass="MainViewController" customModule="ObjectDetectionEvaluator" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Main View" id="dDs-6t-GoO" customClass="MainViewController" customModule="ObjectDetectionEvaluator" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="n8Z-CU-zfo">
                         <rect key="frame" x="0.0" y="0.0" width="1234" height="440"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -758,7 +758,7 @@
                                                 <rect key="frame" x="0.0" y="37" width="1194" height="18"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9r7-Rv-cZt">
-                                                        <rect key="frame" x="-2" y="0.0" width="1168" height="17"/>
+                                                        <rect key="frame" x="-2" y="0.0" width="1156" height="17"/>
                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Number of Ground Truth Boxes:" id="1MK-pM-Hn4">
                                                             <font key="font" usesAppearanceFont="YES"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -766,8 +766,9 @@
                                                         </textFieldCell>
                                                     </textField>
                                                     <textField horizontalHuggingPriority="252" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SVH-hL-TMV">
-                                                        <rect key="frame" x="1170" y="0.0" width="26" height="17"/>
-                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="123" id="8RP-Ua-S1R">
+                                                        <rect key="frame" x="1158" y="0.0" width="38" height="17"/>
+                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="1,230" id="8RP-Ua-S1R">
+                                                            <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="evj-yT-p3Z"/>
                                                             <font key="font" usesAppearanceFont="YES"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -787,7 +788,7 @@
                                                 <rect key="frame" x="0.0" y="18" width="1194" height="19"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="x0x-Qr-DIU">
-                                                        <rect key="frame" x="-2" y="1" width="1157" height="17"/>
+                                                        <rect key="frame" x="-2" y="1" width="1154" height="17"/>
                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Number of Detection Boxes:" id="KC0-Ik-Ird">
                                                             <font key="font" usesAppearanceFont="YES"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -795,9 +796,10 @@
                                                         </textFieldCell>
                                                     </textField>
                                                     <textField horizontalHuggingPriority="252" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="L31-XJ-f26">
-                                                        <rect key="frame" x="1159" y="1" width="37" height="17"/>
-                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="2345" id="DPM-wx-BJr">
-                                                            <font key="font" usesAppearanceFont="YES"/>
+                                                        <rect key="frame" x="1156" y="1" width="40" height="17"/>
+                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="2,345" id="DPM-wx-BJr">
+                                                            <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="Ty8-MA-2rs"/>
+                                                            <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
@@ -826,6 +828,7 @@
                                                     <textField horizontalHuggingPriority="252" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ouu-kj-MOa">
                                                         <rect key="frame" x="1183" y="1" width="13" height="17"/>
                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="6" id="p67-eG-Hcx">
+                                                            <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="yD0-vf-liS"/>
                                                             <font key="font" usesAppearanceFont="YES"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -867,7 +870,7 @@
                                     <stackView distribution="fillEqually" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WjX-rV-G3X" userLabel="Detail Stack View">
                                         <rect key="frame" x="0.0" y="0.0" width="1194" height="289"/>
                                         <subviews>
-                                            <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vhy-PU-6G7" userLabel="Boxes Stack View">
+                                            <stackView wantsLayer="YES" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vhy-PU-6G7" userLabel="Boxes Stack View">
                                                 <rect key="frame" x="0.0" y="0.0" width="593" height="289"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cFD-2w-jVj" userLabel="Detail Label">
@@ -1067,7 +1070,7 @@
                 </viewController>
                 <customObject id="VmN-xn-kWM" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="733"/>
+            <point key="canvasLocation" x="75" y="720"/>
         </scene>
     </scenes>
 </document>

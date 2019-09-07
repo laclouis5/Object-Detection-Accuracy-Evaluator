@@ -10,17 +10,22 @@ import Cocoa
 
 class MainViewController: NSViewController {
 
+    // MARK: - Properties
     var yoloFolders: [URL]!
     var boxes: [Box]!
     var evaluator: Evaluator!
     
+    // MARK: - Outlets
+    @IBOutlet weak var folderPath: NSTextField!
+    @IBOutlet weak var workingIndicator: NSProgressIndicator!
+    
     @IBOutlet weak var nbGroundTruths: NSTextField!
     @IBOutlet weak var nbDetections: NSTextField!
     @IBOutlet weak var nbLabels: NSTextField!
+    
     @IBOutlet var boxesStats: NSTextView!
-    @IBOutlet weak var folderPath: NSTextField!
+    
     @IBOutlet var evalutationStats: NSTextView!
-    @IBOutlet weak var workingIndicator: NSProgressIndicator!
     @IBOutlet weak var runEvaluationButton: NSButton!
     @IBOutlet weak var evalutationIndicator: NSProgressIndicator!
     
@@ -37,8 +42,9 @@ class MainViewController: NSViewController {
         update()
     }
     
+    // MARK: - Methods
     func update() {
-        // Folder Part
+        // Folder
         if yoloFolders.count == 0 {
             folderPath.stringValue = "No folder selected..."
         } else if yoloFolders.count == 1 {
@@ -83,6 +89,7 @@ class MainViewController: NSViewController {
         }
     }
     
+    // MARK: - Actions
     @IBAction func browseFile(sender: AnyObject) {
         let dialog = NSOpenPanel();
         
@@ -113,6 +120,9 @@ class MainViewController: NSViewController {
     @IBAction func runEvaluation(_ sender: Any) {
         evalutationIndicator.isHidden = false
         evalutationIndicator.startAnimation(self)
+        runEvaluationButton.isEnabled = false
+        
+        evaluator.reset()
         
         DispatchQueue.global(qos: .background).async {
             self.evaluator.evaluate(on: self.boxes)
@@ -120,6 +130,7 @@ class MainViewController: NSViewController {
                 self.update()
                 self.evalutationIndicator.isHidden = true
                 self.evalutationIndicator.stopAnimation(self)
+                self.runEvaluationButton.isEnabled = true
             }
         }
     }

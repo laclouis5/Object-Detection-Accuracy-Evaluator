@@ -89,6 +89,11 @@ class Evaluator {
         }
     }
     
+    func reset() {
+        detail = [:]
+        result = Evaluation()
+    }
+    
     private func computePrecRec(tp: Int, fp: Int, totalPositive: Int) -> (Double, Double) {
         let precision = Double(tp) / (Double(tp) + Double(fp))
         let recall = Double(tp) / Double(totalPositive)
