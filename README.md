@@ -1,6 +1,8 @@
 #  Documentation
 Swift 5 implementation of mAP computation for Yolo-style detections.
 
+![App View](https://github.com/laclouis5/ObjectDetectionEvaluator/blob/master/app.png "Main View of the App")
+
 ## Yolo-Style Format for Annotations
 One TXT file for each image. Detections should be stored in  `detection-results` folder and ground truth in `ground-truth`. Coordinates are relative to the image size. Images should be stores as `.jpg` files in `image` folder.
 
