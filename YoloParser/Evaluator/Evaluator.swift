@@ -37,7 +37,7 @@ class Evaluator {
             var counter = groundTruths.mapValues { [Bool](repeating: false, count: $0.count) }
             
             // Init evaluation and store 'totalPositive'
-            var evaluation = Evaluation(for: label, reservingCapacity: detections.count)
+            var evaluation = Evaluation(reservingCapacity: detections.count)
             
             evaluation.totalPositive = boxes
                 .getBoundingBoxesByDetectionMode(.groundTruth)
@@ -65,23 +65,21 @@ class Evaluator {
                 // If gt box is not already associated and IoU threshold is triggered compute precision and recall and mark the gt box as visited and as TP
                 let visited = counter[detection.name]?[index] ?? true
                 
+                var TP = false
                 if maxIoU >= iouTresh && !visited {
-                    evaluation.truePositives.append(true)
+                    // Mark as TP
+                    TP = true
                     counter[detection.name]![index] = true
-                    
                     truePositiveNumber += 1
-                    let falsePositiveNumber = evaluation.truePositives.count - truePositiveNumber
-                    
-                    let (precision, recall) = computePrecRec(tp: truePositiveNumber, fp: falsePositiveNumber, totalPositive: evaluation.totalPositive)
-                    
-                    // Update evaluation
-                    evaluation.recalls.append(recall)
-                    evaluation.precisions.append(precision)
-                
-                // Else mark box as FP
-                } else {
-                    evaluation.truePositives.append(false)
                 }
+                
+                // Not sure about this line
+                let falsePositiveNumber = evaluation.detections.count+1 - truePositiveNumber
+                
+                let (precision, recall) = computePrecRec(tp: truePositiveNumber, fp: falsePositiveNumber, totalPositive: evaluation.totalPositive)
+                
+                // Update evaluation
+                evaluation.detections.append(Detection(TP: TP, precision: precision, recall: recall))
             }
             
             // Save evaluation
@@ -107,6 +105,7 @@ extension Evaluator: CustomStringConvertible {
         var description = ""
         
         for label in detail.keys.sorted() {
+            description += "\(label.uppercased())\n"
             description += detail[label]!.description + "\n"
         }
         

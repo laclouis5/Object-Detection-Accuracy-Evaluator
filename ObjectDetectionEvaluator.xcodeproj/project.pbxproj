@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B902CAC823245CD700C2BB74 /* Evaluations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B902CAC723245CD700C2BB74 /* Evaluations.swift */; };
+		B902CACA2324651800C2BB74 /* Detection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B902CAC92324651800C2BB74 /* Detection.swift */; };
 		B9685EFD23245A43007F68A8 /* YoloParserErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9685EFC23245A43007F68A8 /* YoloParserErrors.swift */; };
 		B9ABD4032323C68700AC087A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4022323C68700AC087A /* AppDelegate.swift */; };
 		B9ABD4072323C68B00AC087A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9ABD4062323C68B00AC087A /* Assets.xcassets */; };
@@ -42,6 +44,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B902CAC723245CD700C2BB74 /* Evaluations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Evaluations.swift; sourceTree = "<group>"; };
+		B902CAC92324651800C2BB74 /* Detection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detection.swift; sourceTree = "<group>"; };
 		B9685EFC23245A43007F68A8 /* YoloParserErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoloParserErrors.swift; sourceTree = "<group>"; };
 		B9ABD3FF2323C68700AC087A /* ObjectDetectionEvaluator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ObjectDetectionEvaluator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9ABD4022323C68700AC087A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -170,7 +174,9 @@
 			isa = PBXGroup;
 			children = (
 				B9ABD43B2323DC4B00AC087A /* Evaluation.swift */,
+				B902CAC723245CD700C2BB74 /* Evaluations.swift */,
 				B9ABD4322323DC4B00AC087A /* Evaluator.swift */,
+				B902CAC92324651800C2BB74 /* Detection.swift */,
 			);
 			path = Evaluator;
 			sourceTree = "<group>";
@@ -308,10 +314,12 @@
 				B9685EFD23245A43007F68A8 /* YoloParserErrors.swift in Sources */,
 				B9ABD4032323C68700AC087A /* AppDelegate.swift in Sources */,
 				B9ABD4442323DC4B00AC087A /* BoxExtensions.swift in Sources */,
+				B902CAC823245CD700C2BB74 /* Evaluations.swift in Sources */,
 				B9ABD4402323DC4B00AC087A /* TestData.swift in Sources */,
 				B9ABD43D2323DC4B00AC087A /* Evaluator.swift in Sources */,
 				B9ABD4422323DC4B00AC087A /* Box.swift in Sources */,
 				B9ABD4432323DC4B00AC087A /* BoundingBoxes.swift in Sources */,
+				B902CACA2324651800C2BB74 /* Detection.swift in Sources */,
 				B9ABD43F2323DC4B00AC087A /* YoloParser.swift in Sources */,
 				B9ABD4452323DC4B00AC087A /* Evaluation.swift in Sources */,
 				B9ABD4412323DC4B00AC087A /* BoxTypes.swift in Sources */,

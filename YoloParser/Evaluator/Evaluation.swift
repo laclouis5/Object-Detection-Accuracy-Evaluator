@@ -9,36 +9,26 @@
 import Foundation
 
 struct Evaluation {
-    var label = ""
     var mAP = 0.0
-    var truePositives = [Bool]()
     var totalPositive = 0
-    var precisions = [Double]()
-    var recalls = [Double]()
+    var detections = [Detection]()
     
-    // MARK: - Initializers
     init() { }
     
-    init(label: String) {
-        self.label = label
-    }
-    
     // Reserve capacity to avoid copy overhead with large collections
-    init(for label: String, reservingCapacity capacity: Int) {
-        self.init(label: label)
-        
-        truePositives.reserveCapacity(capacity)
-        precisions.reserveCapacity(capacity)
-        recalls.reserveCapacity(capacity)
+    init(reservingCapacity capacity: Int) {
+        detections.reserveCapacity(capacity)
     }
 }
 
 extension Evaluation: CustomStringConvertible {
     var description: String {
-        var description = "\(label.uppercased())\n"
+        var description = ""
+        description += "mAP: \(mAP)\n"
         description += "  Total Positive: \(totalPositive)\n"
-        description += "  True Positive:  \(truePositives.filter { $0 }.count)\n"
-        description += "  False Positive: \(truePositives.count - truePositives.filter { $0 }.count)\n"
+        description += "  True Positive:  \(detections.filter { $0.TP }.count)\n"
+        description += "  False Positive: \(detections.count - detections.filter { $0.TP }.count)\n"
+        
         return description
     }
 }
