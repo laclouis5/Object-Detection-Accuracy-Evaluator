@@ -32,6 +32,7 @@ struct Evaluation {
         recalls.reserveCapacity(capacity)
     }
 }
+
 extension Evaluation: CustomStringConvertible {
     var description: String {
         var description = "\(label.uppercased())\n"

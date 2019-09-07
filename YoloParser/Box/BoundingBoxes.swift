@@ -47,11 +47,11 @@ extension Array where Element == Box {
         return descr
     }
     
+    // MARK: - Methods
     func dispStats() {
         print(stats)
     }
     
-    // MARK: - Methods
     func getBoundingBoxesByLabel(_ label: String) -> [Box] {
         return self.filter { $0.label == label }
     }

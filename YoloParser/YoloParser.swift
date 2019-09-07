@@ -8,12 +8,6 @@
 
 import Foundation
 
-enum YoloParserError: Error {
-    case folderNotListable(_ folder: URL)
-    case unreadableAnnotation(_ file: URL)
-    case invalidLineFormat(file: URL, line: [String])
-}
-
 struct Parser {
     func parseYoloTxtFile(_ fileURL: URL, coordType: CoordType = .XYX2Y2, coordSystem: CoordinateSystem = .absolute) throws -> [Box] {
         var boxes = [Box]()

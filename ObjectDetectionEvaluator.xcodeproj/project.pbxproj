@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B9685EFD23245A43007F68A8 /* YoloParserErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9685EFC23245A43007F68A8 /* YoloParserErrors.swift */; };
 		B9ABD4032323C68700AC087A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4022323C68700AC087A /* AppDelegate.swift */; };
 		B9ABD4072323C68B00AC087A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9ABD4062323C68B00AC087A /* Assets.xcassets */; };
 		B9ABD40A2323C68B00AC087A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9ABD4082323C68B00AC087A /* Main.storyboard */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B9685EFC23245A43007F68A8 /* YoloParserErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoloParserErrors.swift; sourceTree = "<group>"; };
 		B9ABD3FF2323C68700AC087A /* ObjectDetectionEvaluator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ObjectDetectionEvaluator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9ABD4022323C68700AC087A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B9ABD4062323C68B00AC087A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				B9ABD4342323DC4B00AC087A /* YoloParser.swift */,
+				B9685EFC23245A43007F68A8 /* YoloParserErrors.swift */,
 				B9ABD4352323DC4B00AC087A /* TestData.swift */,
 				B9ABD4472323DD0200AC087A /* Box */,
 				B9ABD4482323DD0B00AC087A /* Evaluator */,
@@ -302,6 +305,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9685EFD23245A43007F68A8 /* YoloParserErrors.swift in Sources */,
 				B9ABD4032323C68700AC087A /* AppDelegate.swift in Sources */,
 				B9ABD4442323DC4B00AC087A /* BoxExtensions.swift in Sources */,
 				B9ABD4402323DC4B00AC087A /* TestData.swift in Sources */,
