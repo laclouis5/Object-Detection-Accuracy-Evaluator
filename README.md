@@ -24,7 +24,17 @@ Format for ground truths:
 * `confidence` score is a float in 0..1.
 
 # How to Use
-* Build and run the app
+* Clone the repo on your Mac
+* Build and run the app using Xcode
 * Select folders where detections and ground truths are stored
 * Check in the top and left panel that everything went well (number of classes, number of images and annotations...)
 * Launch the evaluation and see the results in the right panel
+
+# TODO
+- [ ] Parallelize file reading in `YoloParser` for speedup
+- [ ] Add a selector for the input format (XYWH, XYX2Y2, relative, absolute)
+- [ ] Add methods for mAP computation
+- [ ] Logs for errors during reading
+- [x] Background queue for file reading and evaluation
+- [x] Graphical interface
+- [x] Optimize getters in `Evaluator` (Speed x10)
