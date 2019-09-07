@@ -89,16 +89,22 @@ class Evaluator {
         }
     }
     
-    func dispStats() {
-        for label in detail.keys.sorted() {
-            print(detail[label]!)
-        }
-    }
-    
     private func computePrecRec(tp: Int, fp: Int, totalPositive: Int) -> (Double, Double) {
         let precision = Double(tp) / (Double(tp) + Double(fp))
         let recall = Double(tp) / Double(totalPositive)
         
         return (precision, recall)
+    }
+}
+
+extension Evaluator: CustomStringConvertible {
+    var description: String {
+        var description = ""
+        
+        for label in detail.keys.sorted() {
+            description += detail[label]!.description + "\n"
+        }
+        
+        return description
     }
 }
