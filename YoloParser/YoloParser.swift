@@ -64,9 +64,9 @@ struct Parser {
             do {
                 boxes.append(contentsOf: try parseYoloTxtFile(file, coordType: coordType, coordSystem: coordSystem))
             } catch YoloParserError.unreadableAnnotation(let fileURL) {
-                print("Unable to read annotation file: \(fileURL)")
+                throw YoloParserError.unreadableAnnotation(fileURL)
             } catch YoloParserError.invalidLineFormat(let fileURL, let line) {
-                print("Invalid line format: \(line) for file: \(fileURL)")
+                throw YoloParserError.invalidLineFormat(file: fileURL, line: line)
             }
         }
         
