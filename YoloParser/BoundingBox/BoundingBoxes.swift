@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Array where Element == Box {
+extension Array where Element == BoundingBox {
     // MARK: - Computed Properties
     var labels: Set<String> {
         return Set(self.map { $0.label })
@@ -52,46 +52,43 @@ extension Array where Element == Box {
     }
     
     // MARK: - Methods
-    func getBoundingBoxesByLabel(_ label: String) -> [Box] {
+    func getBoundingBoxesByLabel(_ label: String) -> [BoundingBox] {
         return self.filter { $0.label == label }
     }
     
-    func getBoundingBoxesByDetectionMode(_ detectionMode: DetectionMode) -> [Box] {
+    func getBoundingBoxesByDetectionMode(_ detectionMode: DetectionMode) -> [BoundingBox] {
         return self.filter { $0.detectionMode == detectionMode }
     }
     
-    func getBoundingBoxesByName(_ name: String) -> [Box] {
+    func getBoundingBoxesByName(_ name: String) -> [BoundingBox] {
         return self.filter { $0.name == name }
     }
     
-    func getBoxesDictByName() -> [String: [Box]] {
+    func getBoxesDictByName() -> [String: [BoundingBox]] {
         return self.reduce(into: [:], { (dict, box) in
             dict[box.name, default: [box]].append(box)
         })
     }
     
-    func getBoxesDictByLabel() -> [String: [Box]] {
+    func getBoxesDictByLabel() -> [String: [BoundingBox]] {
         return self.reduce(into: [:], { (dict, box) in
             dict[box.name, default: [box]].append(box)
         })
     }
     
     mutating func mapLabels(with labels: [String: String]) {
-        // FIXME: Make this function to accept all kind of dict, not only String
         guard Set(labels.keys) == Set(self.labels) else {
             print("Error: new label keys must match old labels")
             return
         }
             
         self = self.map {
-            // Boxes are always stored as absolute XYWH
-            Box(name: $0.name,
-                a: $0.x, b: $0.y, c: $0.w, d: $0.h,
-                label: labels[$0.label]!,
-                coordType: .XYWH,
-                coordSystem: .absolute,
-                confidence: $0.confidence,
-                imgSize: $0.imgSize)
+            BoundingBox(name: $0.name,
+                        box: $0.box,
+                        label: labels[$0.label]!,
+                        coordSystem: .absolute,
+                        confidence: $0.confidence,
+                        imgSize: $0.imgSize)
         }
     }
 }

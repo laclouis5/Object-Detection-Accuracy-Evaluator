@@ -8,15 +8,11 @@
 
 import Foundation
 
-extension Box: CustomStringConvertible {
+extension BoundingBox: CustomStringConvertible {
     var description: String {
         var description = "\(self.label):"
-        switch self.coordType {
-        case .XYX2Y2:
-            description += " (xMin: \(self.x), yMin: \(self.y), xMax: \(self.w), yMax: \(self.h))"
-        default:
-            description += " (x: \(self.x), y: \(self.y), w: \(self.w), h: \(self.h))"
-        }
+        
+        description += " (x: \(self.box.midX), y: \(self.box.midY), width: \(self.box.width), height: \(self.box.height))"
         
         switch self.coordSystem {
         case .absolute:
