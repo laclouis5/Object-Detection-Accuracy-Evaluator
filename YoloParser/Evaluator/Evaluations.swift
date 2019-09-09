@@ -24,8 +24,8 @@ extension Dictionary where Value == Evaluation {
     }
     
     // Not sure about this shit...
-    var detections: [Detection] {
-        let allDetections = self.reduce(into: [Detection]()) { (result, evaluation) in
+    var detections: [DetectionResult] {
+        let allDetections = self.reduce(into: [DetectionResult]()) { (result, evaluation) in
             result += evaluation.value.detections
         }
         return allDetections.sorted(by: { (det1, det2) -> Bool in

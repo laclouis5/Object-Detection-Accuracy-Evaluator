@@ -11,7 +11,7 @@ import Foundation
 struct Evaluation {
     var mAP = 0.0
     var totalPositive = 0
-    var detections = [Detection]()
+    var detections = [DetectionResult]()
     
     init() { }
     

@@ -126,6 +126,7 @@ class MainViewController: NSViewController {
         
         DispatchQueue.global(qos: .background).async {
             self.evaluator.evaluate(on: self.boxes)
+            
             DispatchQueue.main.async {
                 self.update()
                 self.evalutationIndicator.isHidden = true

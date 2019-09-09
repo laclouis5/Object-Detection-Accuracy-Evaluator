@@ -8,6 +8,7 @@
 
 import Foundation
 
+// May be an extention of [String : Evaluation]
 class Evaluator {
     //MARK: - Properties
     var result = Evaluation()
@@ -79,7 +80,7 @@ class Evaluator {
                 let (precision, recall) = computePrecRec(tp: truePositiveNumber, fp: falsePositiveNumber, totalPositive: evaluation.totalPositive)
                 
                 // Update evaluation
-                evaluation.detections.append(Detection(TP: TP, precision: precision, recall: recall))
+                evaluation.detections.append(DetectionResult(confidence: detection.confidence!, TP: TP, precision: precision, recall: recall))
             }
             
             // Save evaluation
