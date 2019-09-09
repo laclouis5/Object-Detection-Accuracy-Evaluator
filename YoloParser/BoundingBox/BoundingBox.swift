@@ -37,6 +37,6 @@ struct BoundingBox {
     
     // MARK: - Methods
     func iou(with bbox: BoundingBox) -> Double {
-        return Double(self.box.iou(with: bbox.box))
+        return Double(box.iou(with: bbox.box))
     }
 }
