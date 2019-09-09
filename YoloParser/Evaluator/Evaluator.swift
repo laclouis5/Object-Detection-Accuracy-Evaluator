@@ -14,7 +14,7 @@ class Evaluator {
     var detail = [String: Evaluation]()
     
     //MARK: - Methods
-    func evaluate(on boxes: [Box], iouTresh: Double = 0.5) {
+    func evaluate(on boxes: [BoundingBox], iouTresh: Double = 0.5) {
         let allGroundTruths = boxes
             .getBoundingBoxesByDetectionMode(.groundTruth)
         let allDetections = boxes
@@ -54,7 +54,7 @@ class Evaluator {
                 var index = 0
                 
                 for (i, groundTruth) in associatedGts.enumerated() {
-                    let iou = detection.computeIoU(with: groundTruth)
+                    let iou = detection.iou(with: groundTruth)
                     // Find the greatest IoU
                     if iou > maxIoU {
                         maxIoU = iou
