@@ -61,4 +61,13 @@ extension CGRect {
             return 0.0
         }
     }
+    
+    func absoluteBox(relativeTo imgSize: CGSize) -> CGRect {
+        let x = midX / imgSize.width
+        let y = midY / imgSize.height
+        let w = width / imgSize.width
+        let h = height / imgSize.height
+        
+        return CGRect(midX: x, midY: y, width: w, height: h)
+    }
 }

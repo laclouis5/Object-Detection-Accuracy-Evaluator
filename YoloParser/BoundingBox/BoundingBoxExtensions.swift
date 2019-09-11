@@ -31,3 +31,21 @@ extension BoundingBox: CustomStringConvertible {
         return description
     }
 }
+
+extension BoundingBox {
+    func yoloDescription(imgSize: CGSize? = nil) -> String? {
+        if let absBox = absoluteBox(relativeTo: imgSize) {
+            var description = "\(label) "
+            
+            if let confidence = confidence {
+                description += "\(confidence) "
+            }
+            
+            description += "\(absBox.midX) \(absBox.midY) \(absBox.width) \(absBox.height)"
+            
+            return description
+        } else {
+            return nil
+        }
+    }
+}

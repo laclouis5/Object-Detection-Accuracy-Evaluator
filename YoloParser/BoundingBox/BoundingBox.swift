@@ -39,4 +39,17 @@ struct BoundingBox {
     func iou(with bbox: BoundingBox) -> Double {
         return Double(box.iou(with: bbox.box))
     }
+    
+    func absoluteBox(relativeTo imgSize: CGSize? = nil) -> CGRect? {
+        if imgSize == nil && self.imgSize == nil {
+            return nil
+        }
+        if let imgSize = imgSize {
+            return box.absoluteBox(relativeTo: imgSize)
+        }
+        else if let imgSize = self.imgSize {
+            return box.absoluteBox(relativeTo: imgSize)
+            
+        } else { return nil }
+    }
 }
