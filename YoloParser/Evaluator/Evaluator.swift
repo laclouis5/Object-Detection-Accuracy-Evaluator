@@ -10,9 +10,9 @@ import Foundation
 
 // May be an extention of [String : Evaluation]
 class Evaluator {
+    
     //MARK: - Properties
-    var result = Evaluation()
-    var detail = [String: Evaluation]()
+    var evaluations = [String: Evaluation]()
     
     //MARK: - Methods
     func evaluate(on boxes: [Box], iouTresh: Double = 0.5) {
@@ -52,14 +52,14 @@ class Evaluator {
                 
                 // Find the gt box with greatest IoU
                 var maxIoU = 0.0
-                var index = 0
+                var index  = 0
                 
                 for (i, groundTruth) in associatedGts.enumerated() {
                     let iou = detection.computeIoU(with: groundTruth)
                     // Find the greatest IoU
                     if iou > maxIoU {
                         maxIoU = iou
-                        index = i
+                        index  = i
                     }
                 }
                 
@@ -84,13 +84,12 @@ class Evaluator {
             }
             
             // Save evaluation
-            detail[label] = evaluation
+            evaluations[label] = evaluation
         }
     }
     
     func reset() {
-        detail = [:]
-        result = Evaluation()
+        evaluations = [:]
     }
     
     private func computePrecRec(tp: Int, fp: Int, totalPositive: Int) -> (Double, Double) {
@@ -105,9 +104,9 @@ extension Evaluator: CustomStringConvertible {
     var description: String {
         var description = ""
         
-        for label in detail.keys.sorted() {
+        for label in evaluations.keys.sorted() {
             description += "\(label.uppercased())\n"
-            description += detail[label]!.description + "\n"
+            description += evaluations[label]!.description + "\n"
         }
         
         return description

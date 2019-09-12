@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		B902CAC823245CD700C2BB74 /* Evaluations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B902CAC723245CD700C2BB74 /* Evaluations.swift */; };
 		B902CACA2324651800C2BB74 /* DetectionResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B902CAC92324651800C2BB74 /* DetectionResult.swift */; };
+		B9126EE723281AA500D150DE /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4352323DC4B00AC087A /* TestData.swift */; };
 		B9685EFD23245A43007F68A8 /* YoloParserErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9685EFC23245A43007F68A8 /* YoloParserErrors.swift */; };
 		B9ABD4032323C68700AC087A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4022323C68700AC087A /* AppDelegate.swift */; };
 		B9ABD4072323C68B00AC087A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9ABD4062323C68B00AC087A /* Assets.xcassets */; };
@@ -17,7 +18,6 @@
 		B9ABD4212323C68C00AC087A /* ObjectDetectionEvaluatorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4202323C68C00AC087A /* ObjectDetectionEvaluatorUITests.swift */; };
 		B9ABD43D2323DC4B00AC087A /* Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4322323DC4B00AC087A /* Evaluator.swift */; };
 		B9ABD43F2323DC4B00AC087A /* YoloParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4342323DC4B00AC087A /* YoloParser.swift */; };
-		B9ABD4402323DC4B00AC087A /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4352323DC4B00AC087A /* TestData.swift */; };
 		B9ABD4412323DC4B00AC087A /* BoxTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4372323DC4B00AC087A /* BoxTypes.swift */; };
 		B9ABD4422323DC4B00AC087A /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4382323DC4B00AC087A /* Box.swift */; };
 		B9ABD4432323DC4B00AC087A /* BoundingBoxes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4392323DC4B00AC087A /* BoundingBoxes.swift */; };
@@ -315,7 +315,7 @@
 				B9ABD4032323C68700AC087A /* AppDelegate.swift in Sources */,
 				B9ABD4442323DC4B00AC087A /* BoxExtensions.swift in Sources */,
 				B902CAC823245CD700C2BB74 /* Evaluations.swift in Sources */,
-				B9ABD4402323DC4B00AC087A /* TestData.swift in Sources */,
+				B9126EE723281AA500D150DE /* TestData.swift in Sources */,
 				B9ABD43D2323DC4B00AC087A /* Evaluator.swift in Sources */,
 				B9ABD4422323DC4B00AC087A /* Box.swift in Sources */,
 				B9ABD4432323DC4B00AC087A /* BoundingBoxes.swift in Sources */,
@@ -488,7 +488,6 @@
 		B9ABD4262323C68C00AC087A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ObjectDetectionEvaluator/ObjectDetectionEvaluator.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -507,7 +506,6 @@
 		B9ABD4272323C68C00AC087A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ObjectDetectionEvaluator/ObjectDetectionEvaluator.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;

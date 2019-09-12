@@ -11,17 +11,32 @@ import XCTest
 
 class ObjectDetectionEvaluatorTests: XCTestCase {
 
+    let boxes = TestData().data
+    
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        
     }
 
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testPrecRec() {
+        let evaluator = Evaluator()
+        evaluator.evaluate(on: boxes, iouTresh: 0.5)
+        let detections = evaluator.evaluations["maize"]!.detections
+        let gtCount  = 4.0
+        let recalls    = [1/gtCount, 2/gtCount, 3/gtCount, 4/gtCount, 4/gtCount]
+        let precisions = [1.0, 1.0, 1.0, 1.0, 4/5.0]
+        
+        for (i, det) in detections.enumerated() {
+            let precision = det.precision
+            let recall    = det.recall
+            
+            XCTAssert(precision == precisions[i], "prec: \(precision), expected: \(precisions[i]), TP: \(det.TP), conf: \(det.confidence)")
+            
+            XCTAssert(recall == recalls[i], "rec: \(recall), expected: \(recalls[i]), TP: \(det.TP), conf: \(det.confidence)")
+        }
     }
 
     func testPerformanceExample() {
