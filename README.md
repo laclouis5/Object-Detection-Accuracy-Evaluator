@@ -2,7 +2,7 @@
 
 Swift 5 implementation of mAP computation for Yolo-style detections. The App shows stats about the database as well as evaluation stats (True Positive, ...).
 
-![App View](https://github.com/laclouis5/ObjectDetectionEvaluator/blob/master/app.png "Main View of the App")
+![App View](https://github.com/laclouis5/ObjectDetectionEvaluator/blob/master/App%20Image.png "Main View of the App")
 
 ## Data Format
 * Two TXT files for each image: one for ground truths and one for detections. Detection file name must match groundtruth file name, i.e detections for GT `im_0123.txt` are stored in a file with the same name: `im_0123.txt`.
@@ -35,7 +35,7 @@ Format for ground truths:
 ## TODO
 - [ ] Parallelize file reading in `YoloParser` for speedup
 - [ ] Add a selector for the input format (XYWH, XYX2Y2, relative, absolute)
-- [ ] Add methods for mAP computation
+- [x] Add methods for mAP computation
 - [ ] Logs for errors during reading
 - [x] Background queue for file reading and evaluation
 - [x] Graphical interface
