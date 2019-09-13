@@ -25,9 +25,9 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
         let evaluator = Evaluator()
         evaluator.evaluate(on: boxes, iouTresh: 0.5)
         let detections = evaluator.evaluations["maize"]!.detections
-        let gtCount  = 4.0
-        let recalls    = [1/gtCount, 2/gtCount, 3/gtCount, 4/gtCount, 4/gtCount]
-        let precisions = [1.0, 1.0, 1.0, 1.0, 4/5.0]
+        let gtCount    = 2.0
+        let recalls    = [1/gtCount, 2/gtCount]
+        let precisions = [1.0, 1.0]
         
         for (i, det) in detections.enumerated() {
             let precision = det.precision
