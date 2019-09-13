@@ -1,5 +1,5 @@
 //
-//  BoxTypes.swift
+//  BoundingBoxTypes.swift
 //  YoloParser
 //
 //  Created by Louis Lac on 07/09/2019.
@@ -7,10 +7,6 @@
 //
 
 import Foundation
-
-struct Size: Hashable {
-    let width, height: Int
-}
 
 enum CoordType {
     case XYWH

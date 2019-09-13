@@ -12,7 +12,7 @@ class MainViewController: NSViewController {
 
     // MARK: - Properties
     var yoloFolders: [URL]!
-    var boxes: [Box]!
+    var boxes: [BoundingBox]!
     var evaluator: Evaluator!
     
     // MARK: - Outlets

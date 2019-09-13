@@ -9,22 +9,17 @@
 import Foundation
 
 class TestData {
-    var data: [Box]
-    
+    var data: [BoundingBox]
+
     init() {
-        data = [Box]()
-        
+        data = [BoundingBox]()
+
         // Ground Truths
-        data.append(Box(name: "im_1.jpg", a: 0, b: 0, c: 10, d: 10, label: "maize", coordType: .XYX2Y2, coordSystem: .absolute))
-        data.append(Box(name: "im_2.jpg", a: 0, b: 0, c: 20, d: 20, label: "maize", coordType: .XYX2Y2, coordSystem: .absolute))
-        data.append(Box(name: "im_3.jpg", a: 0, b: 0, c: 30, d: 30, label: "maize", coordType: .XYX2Y2, coordSystem: .absolute))
-        data.append(Box(name: "im_4.jpg", a: 0, b: 0, c: 40, d: 40, label: "maize", coordType: .XYX2Y2, coordSystem: .absolute))
-        
+        data.append(BoundingBox(name: "im_1.jpg", box: CGRect(x: 0, y: 0, width: 10, height: 10), label: "maize", coordSystem: .absolute))
+        data.append(BoundingBox(name: "im_2.jpg", box: CGRect(x: 0, y: 0, width: 10, height: 10), label: "maize", coordSystem: .absolute))
+
         // Detections
-        data.append(Box(name: "im_4.jpg", a: 0, b: 0, c: 40, d: 40, label: "maize", coordType: .XYX2Y2, coordSystem: .absolute, confidence: 0.5))
-        data.append(Box(name: "im_1.jpg", a: 0, b: 0, c: 10, d: 10, label: "maize", coordType: .XYX2Y2, coordSystem: .absolute, confidence: 0.9))
-        data.append(Box(name: "im_2.jpg", a: 0, b: 0, c: 20, d: 20, label: "maize", coordType: .XYX2Y2, coordSystem: .absolute, confidence: 0.8))
-        data.append(Box(name: "im_3.jpg", a: 0, b: 0, c: 30, d: 30, label: "maize", coordType: .XYX2Y2, coordSystem: .absolute, confidence: 0.7))
-        data.append(Box(name: "im_4.jpg", a: 0, b: 0, c: 40, d: 40, label: "maize", coordType: .XYX2Y2, coordSystem: .absolute, confidence: 0.6))
+        data.append(BoundingBox(name: "im_1.jpg", box: CGRect(x: 0, y: 0, width: 10, height: 10), label: "maize", coordSystem: .absolute, confidence: 0.9))
+        data.append(BoundingBox(name: "im_2.jpg", box: CGRect(x: 0, y: 0, width: 10, height: 10), label: "maize", coordSystem: .absolute, confidence: 0.9))
     }
 }
