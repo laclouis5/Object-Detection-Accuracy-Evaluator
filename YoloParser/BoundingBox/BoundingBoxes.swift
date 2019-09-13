@@ -13,75 +13,76 @@ extension Array where Element == BoundingBox {
     var labels: Set<String> {
         return Set(self.map { $0.label })
     }
-    
+
     var imageNames: Set<String> {
         return Set(self.map { $0.name })
     }
-    
+
     var stats: String {
         let gtBoxes = self.getBoundingBoxesByDetectionMode(.groundTruth)
         let detBoxes = self.getBoundingBoxesByDetectionMode(.detection)
-        
+
         var description = "Global Stats\n".uppercased()
         description += "Ground Truth Count: \(gtBoxes.count)\n"
         description += "Detection Count:    \(detBoxes.count)\n"
         description += "Number of labels:   \(gtBoxes.labels.count)\n\n"
-    
+
         description += labelStats
-        
+
         return description
     }
-    
+
     var labelStats: String {
         let gtBoxes = self.getBoundingBoxesByDetectionMode(.groundTruth)
         var descr = ""
-        
+
         for label in gtBoxes.labels.sorted() {
             let labelBoxes = gtBoxes.getBoundingBoxesByLabel(label)
-            
+
             descr +=  "\(label.uppercased())\n"
             descr += "  Images:      \(labelBoxes.imageNames.count)\n"
             descr += "  Annotations: \(labelBoxes.count)\n\n"
         }
-        
+
         return descr
     }
-    
+
+    // MARK: - Methods
     func dispStats() {
         print(stats)
     }
-    
+
     // MARK: - Methods
     func getBoundingBoxesByLabel(_ label: String) -> [BoundingBox] {
         return self.filter { $0.label == label }
     }
-    
+
     func getBoundingBoxesByDetectionMode(_ detectionMode: DetectionMode) -> [BoundingBox] {
         return self.filter { $0.detectionMode == detectionMode }
     }
-    
+
     func getBoundingBoxesByName(_ name: String) -> [BoundingBox] {
         return self.filter { $0.name == name }
     }
-    
+
     func getBoxesDictByName() -> [String: [BoundingBox]] {
         return self.reduce(into: [:], { (dict, box) in
             dict[box.name, default: [box]].append(box)
         })
     }
-    
+
     func getBoxesDictByLabel() -> [String: [BoundingBox]] {
         return self.reduce(into: [:], { (dict, box) in
             dict[box.name, default: [box]].append(box)
         })
     }
-    
+
     mutating func mapLabels(with labels: [String: String]) {
         guard Set(labels.keys) == Set(self.labels) else {
             print("Error: new label keys must match old labels")
             return
         }
-            
+
         self = self.map {
             BoundingBox(name: $0.name,
                         box: $0.box,
