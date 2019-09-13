@@ -56,7 +56,7 @@ struct Evaluation {
 extension Evaluation: CustomStringConvertible {
     var description: String {
         var description = ""
-        description += "mAP: \(Double(Int(10_000 * mAP)) / 100) %\n"
+        description += "mAP: \(mAP) %\n"
         description += "  Total Positive: \(totalPositive)\n"
         description += "  True Positive:  \(detections.filter { $0.TP }.count)\n"
         description += "  False Positive: \(detections.count - detections.filter { $0.TP }.count)\n"
