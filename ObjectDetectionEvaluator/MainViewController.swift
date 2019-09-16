@@ -74,19 +74,24 @@ class MainViewController: NSViewController {
     
     func parseBoxes(from urls: [URL]) {
         let parser = Parser()
-        boxes = []
         
-        for url in urls {
+        boxes = urls.flatMap({ (url) -> [BoundingBox] in
             do {
-                boxes += try parser.parseYoloFolder(url)
+                return try parser.parseYoloFolder(url)
             } catch YoloParserError.folderNotListable(let folder) {
                 print("Error: Unable to read folder \(folder). Check permissions.")
+                return []
             } catch YoloParserError.unreadableAnnotation(let annotation) {
                 print("Error: Unable to read file \(annotation). Check permissions.")
+                return []
             } catch YoloParserError.invalidLineFormat(let file, let line) {
                 print("Error: Unable to read line \(line) of file \(file). Read the documentation to know more about Yolo annotation format.")
-            } catch {print("Unkwnown error")}
-        }
+                return []
+            } catch {
+                print("Unknown error.")
+                return []
+            }
+        })
     }
     
     // MARK: - Actions

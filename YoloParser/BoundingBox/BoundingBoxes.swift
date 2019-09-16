@@ -34,17 +34,14 @@ extension Array where Element == BoundingBox {
 
     var labelStats: String {
         let gtBoxes = self.getBoundingBoxesByDetectionMode(.groundTruth)
-        var descr = ""
-
-        for label in gtBoxes.labels.sorted() {
+        
+        return gtBoxes.labels.sorted().reduce(into: "", { (descr, label) in
             let labelBoxes = gtBoxes.getBoundingBoxesByLabel(label)
-
+            
             descr +=  "\(label.uppercased())\n"
             descr += "  Images:      \(labelBoxes.imageNames.count)\n"
             descr += "  Annotations: \(labelBoxes.count)\n\n"
-        }
-
-        return descr
+        })
     }
 
     // MARK: - Methods

@@ -10,14 +10,16 @@ import Foundation
 
 struct Parser {
     func parseYoloTxtFile(_ fileURL: URL, coordType: CoordType = .XYX2Y2, coordSystem: CoordinateSystem = .absolute) throws -> [BoundingBox] {
-        var boxes = [BoundingBox]()
+//        var boxes = [BoundingBox]()
         
         guard let content = try? String(contentsOf: fileURL, encoding: .utf8) else {
             throw YoloParserError.unreadableAnnotation(fileURL)
         }
         
-        for line in content.split(separator: "\n") {
-            let line = line.split(separator: " ", maxSplits: 5)
+        let lines = content.components(separatedBy: .newlines).filter { !$0.isEmpty }
+        
+        let boxes = try lines.map({ (line) -> BoundingBox in
+            let line  = line.components(separatedBy: .whitespaces).filter { !$0.isEmpty }
             let label = String(line[0])
             
             // Case Ground Truth
@@ -33,8 +35,8 @@ struct Parser {
                 case .XYX2Y2:
                     rect = CGRect(minX: x, minY: y, maxX: w, maxY: h)
                 }
-
-                boxes.append(BoundingBox(name: fileURL.lastPathComponent, box: rect, label: label, coordSystem: coordSystem))
+                
+                return BoundingBox(name: fileURL.lastPathComponent, box: rect, label: label, coordSystem: coordSystem)
                 
             // Case Detection
             } else if line.count == 6 {
@@ -50,18 +52,17 @@ struct Parser {
                     rect = CGRect(minX: x, minY: y, maxX: w, maxY: h)
                 }
                 
-                boxes.append(BoundingBox(name: fileURL.lastPathComponent, box: rect, label: label, coordSystem: coordSystem, confidence: confidence))
-            
+                return BoundingBox(name: fileURL.lastPathComponent, box: rect, label: label, coordSystem: coordSystem, confidence: confidence)
+                
             } else {
                 throw YoloParserError.invalidLineFormat(file: fileURL, line: line.map { String($0) })
             }
-        }
+        })
         
         return boxes
     }
 
     func parseYoloFolder(_ folder: URL, coordType: CoordType = .XYX2Y2, coordSystem: CoordinateSystem = .absolute) throws -> [BoundingBox] {
-        var boxes = [BoundingBox]()
         let fileManager = FileManager.default
         
         guard var files = try? fileManager.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil) else {
@@ -70,16 +71,15 @@ struct Parser {
         
         files = files.filter { $0.pathExtension == "txt" }
         
-        for file in files {
+        return try files.flatMap { (url) -> [BoundingBox] in
             do {
-                boxes.append(contentsOf: try parseYoloTxtFile(file, coordType: coordType, coordSystem: coordSystem))
+                let boxes = try parseYoloTxtFile(url, coordType: coordType, coordSystem: coordSystem)
+                return boxes
             } catch YoloParserError.unreadableAnnotation(let fileURL) {
                 throw YoloParserError.unreadableAnnotation(fileURL)
             } catch YoloParserError.invalidLineFormat(let fileURL, let line) {
                 throw YoloParserError.invalidLineFormat(file: fileURL, line: line)
             }
         }
-        
-        return boxes
     }
 }
