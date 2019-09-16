@@ -68,6 +68,7 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
         
         self.measure {
             evaluator.evaluate(on: boxes)
+            evaluator.evaluations.mAP
         }
     }
 }
