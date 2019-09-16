@@ -11,8 +11,10 @@ import XCTest
 
 class ObjectDetectionEvaluatorTests: XCTestCase {
 
-    let boxes = TestData().data
+    let boxes     = TestData().data
     let evaluator = Evaluator()
+    let urls      = [URL(string: "/Users/louislac/Downloads/detection-results")!,
+                     URL(string: "/Users/louislac/Downloads/ground-truth")!]
     
     override func setUp() {
         evaluator.evaluate(on: boxes, iouTresh: 0.5)
@@ -46,14 +48,26 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
         }
     }
 
-    func testPerformanceExample() {
+    func testYoloParserPerf() {
         // This is an example of a performance test case.
         let parser = Parser()
         self.measure {
             // Put the code you want to measure the time of here.
             _ = try! parser.parseYoloFolder(URL(string: "/Users/louislac/Downloads/detection-results")!)
-            
         }
     }
 
+    func testEvaluationPerf() {
+        let parser    = Parser()
+        let evaluator = Evaluator()
+        var boxes     = [BoundingBox]()
+       
+        for url in urls {
+            boxes += try! parser.parseYoloFolder(url)
+        }
+        
+        self.measure {
+            evaluator.evaluate(on: boxes)
+        }
+    }
 }

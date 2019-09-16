@@ -74,7 +74,6 @@ class Evaluator {
                     truePositiveNumber += 1
                 }
 
-                // Not sure about this line
                 let falsePositiveNumber = evaluation.detections.count+1 - truePositiveNumber
 
                 let (precision, recall) = computePrecRec(tp: truePositiveNumber, fp: falsePositiveNumber, totalPositive: evaluation.totalPositive)
