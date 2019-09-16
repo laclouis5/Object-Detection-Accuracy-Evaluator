@@ -106,8 +106,9 @@ class MainViewController: NSViewController {
             workingIndicator.isHidden = false
             workingIndicator.startAnimation(self)
             
-            DispatchQueue.global(qos: .background).async {
+            DispatchQueue.global(qos: .userInitiated).async {
                 self.parseBoxes(from: self.yoloFolders)
+                
                 DispatchQueue.main.async {
                     self.update()
                     self.workingIndicator.isHidden = true
@@ -124,7 +125,7 @@ class MainViewController: NSViewController {
         
         evaluator.reset()
         
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global(qos: .userInitiated).async {
             self.evaluator.evaluate(on: self.boxes)
             
             DispatchQueue.main.async {

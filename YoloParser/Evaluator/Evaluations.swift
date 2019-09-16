@@ -9,13 +9,13 @@
 import Foundation
 
 extension Dictionary where Value == Evaluation {
-//    var mAP: Double {
-//        let mAP = self.reduce(0.0, { (accumulator, evaluation) -> Double in
-//            return accumulator + evaluation.value.mAP
-//        }) / Double(self.count)
-//        
-//        return mAP
-//    }
+    var mAP: Double {
+        let mAP = self.reduce(0.0, { (accumulator, evaluation) -> Double in
+            return accumulator + evaluation.value.mAP
+        }) / Double(self.count)
+        
+        return mAP
+    }
     
     var totalPositive: Int {
         return self.reduce(0, { (total, evaluation) -> Int in

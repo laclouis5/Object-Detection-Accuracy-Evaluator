@@ -12,9 +12,10 @@ import XCTest
 class ObjectDetectionEvaluatorTests: XCTestCase {
 
     let boxes = TestData().data
+    let evaluator = Evaluator()
     
     override func setUp() {
-        
+        evaluator.evaluate(on: boxes, iouTresh: 0.5)
     }
 
     override func tearDown() {
@@ -22,8 +23,6 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
     }
 
     func testPrecRec() {
-        let evaluator = Evaluator()
-        evaluator.evaluate(on: boxes, iouTresh: 0.5)
         let detections = evaluator.evaluations["maize"]!.detections
         let gtCount    = 2.0
         let recalls    = [1/gtCount, 2/gtCount]
@@ -36,6 +35,14 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
             XCTAssert(precision == precisions[i], "prec: \(precision), expected: \(precisions[i]), TP: \(det.TP), conf: \(det.confidence)")
             
             XCTAssert(recall == recalls[i], "rec: \(recall), expected: \(recalls[i]), TP: \(det.TP), conf: \(det.confidence)")
+        }
+    }
+    
+    func testAP() {
+        for (_, evaluation) in evaluator.evaluations {
+            let mAP = evaluation.mAP
+            
+            XCTAssert(mAP == 1.0, "Got: \(mAP)")
         }
     }
 
