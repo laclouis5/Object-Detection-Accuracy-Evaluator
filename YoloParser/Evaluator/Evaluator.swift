@@ -36,7 +36,7 @@ class Evaluator {
 
             // Counter for already visited gts
             var counter = groundTruths.mapValues { [Bool](repeating: false, count: $0.count) }
-
+            
             // Init evaluation and store 'totalPositive'
             var evaluation = Evaluation(reservingCapacity: detections.count)
 
@@ -93,7 +93,11 @@ class Evaluator {
     
     private func computePrecRec(tp: Int, fp: Int, totalPositive: Int) -> (Double, Double) {
         let precision = Double(tp) / (Double(tp) + Double(fp))
-        let recall = Double(tp) / Double(totalPositive)
+        
+        var recall = 0.0
+        if totalPositive != .zero {
+            recall = Double(tp) / Double(totalPositive)
+        }
 
         return (precision, recall)
     }
