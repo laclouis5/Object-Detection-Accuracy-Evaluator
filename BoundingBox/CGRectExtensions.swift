@@ -62,6 +62,13 @@ extension CGRect {
         }
     }
     
+    func distance(with rect: CGRect) -> CGFloat {
+        let dx = self.midX - rect.midX
+        let dy = self.midY - rect.midY
+        
+        return sqrt(dx*dx + dy*dy)
+    }
+    
     func absoluteBox(relativeTo imgSize: CGSize) -> CGRect {
         let x = midX / imgSize.width
         let y = midY / imgSize.height

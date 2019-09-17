@@ -9,12 +9,12 @@
 import Foundation
 
 // May be an extention of [String : Evaluation]
-class Evaluator {
+struct Evaluator {
 
     //MARK: - Properties
     var evaluations = [String: Evaluation]()
     
-    func evaluateCoco(on boxes: [BoundingBox]) -> Double {
+    func evaluateCoco(on boxes: [BoundingBox], method: EvaluationMethod = .iou) -> Double {
         // Can be parallelized
         let iouThresholds = Array(0..<10).map { Double($0) / 10 + 0.05 }
         var mAP = [Double]()
@@ -27,7 +27,7 @@ class Evaluator {
             }
             
             for thresh in iouThresholds {
-                let truePositives         = calcTpFp(groundTruths: groundTruths, detections: detections, iouTresh: thresh)
+                let truePositives         = calcTpFp(groundTruths: groundTruths, detections: detections, method: method, thresh: thresh)
                 let (recalls, precisions) = calcRecPrec(truePositives: truePositives, nbGtPositives: nbGroundTruths)
                 let AP                    = calcAP(precisions: precisions, recalls: recalls)
             
@@ -38,7 +38,7 @@ class Evaluator {
         return mAP.reduce(0.0, +) / Double(mAP.count)
     }
     
-    func evaluate(on boxes: [BoundingBox], iouThresh: Double = 0.5) {
+    mutating func evaluate(on boxes: [BoundingBox], method: EvaluationMethod = .iou, thresh: Double = 0.5) {
         for (label, bboxes) in boxes.getBoxesDictByLabel() {
             let groundTruths   = bboxes.getBoundingBoxesByDetectionMode(.groundTruth).getBoxesDictByName()
             let nbGroundTruths = bboxes.getBoundingBoxesByDetectionMode(.groundTruth).count
@@ -46,7 +46,7 @@ class Evaluator {
                 $0.confidence! > $1.confidence!
             }
 
-            let truePositives         = calcTpFp(groundTruths: groundTruths, detections: detections, iouTresh: iouThresh)
+            let truePositives         = calcTpFp(groundTruths: groundTruths, detections: detections, method: method, thresh: thresh)
             let (recalls, precisions) = calcRecPrec(truePositives: truePositives, nbGtPositives: nbGroundTruths)
             let mAP                   = calcAP(precisions: precisions, recalls: recalls)
 
@@ -54,7 +54,7 @@ class Evaluator {
         }
     }
     
-    private func calcTpFp(groundTruths: [String: [BoundingBox]], detections: [BoundingBox], iouTresh: Double) -> [Bool] {
+    private func calcTpFp(groundTruths: [String: [BoundingBox]], detections: [BoundingBox], method: EvaluationMethod, thresh: Double) -> [Bool] {
         var counter       = groundTruths.mapValues { [Bool](repeating: false, count: $0.count) }
         var truePositives = [Bool]()
         truePositives.reserveCapacity(detections.count)
@@ -62,26 +62,51 @@ class Evaluator {
         for detection in detections {
             // Retreive gts in the same image, if there is
             let associatedGts = groundTruths[detection.name] ?? []
-            var maxIoU        = 0.0
-            var index         = 0
+            var maxThresh: Double
+            var index = 0
             
-            for (i, groundTruth) in associatedGts.enumerated() {
-                let iou = detection.iou(with: groundTruth)
-                // Find the greatest IoU
-                if iou > maxIoU {
-                    maxIoU = iou
-                    index  = i
+            switch method {
+            case .iou:
+                maxThresh = 0.0
+                for (i, groundTruth) in associatedGts.enumerated() {
+                    let iou = detection.distance(with: groundTruth)
+                
+                    // Find the greatest IoU
+                    if iou > maxThresh {
+                        maxThresh = iou
+                        index = i
+                    }
                 }
-            }
-            
-            let visited = counter[detection.name]?[index] ?? true
-            
-            if maxIoU >= iouTresh && !visited {
-                // Mark as TP
-                truePositives.append(true)
-                counter[detection.name]![index] = true
-            } else {
-                truePositives.append(false)
+                
+                let visited = counter[detection.name]?[index] ?? true
+                
+                if maxThresh >= thresh && !visited {
+                    // Mark as TP
+                    truePositives.append(true)
+                    counter[detection.name]![index] = true
+                } else {
+                    truePositives.append(false)
+                }
+                
+            case .center:
+                maxThresh = Double.infinity
+                for (i, groundTruth) in associatedGts.enumerated() {
+                    let distance = detection.distance(with: groundTruth)
+                    
+                    if distance < maxThresh {
+                        maxThresh = distance
+                        index = i
+                    }
+                }
+                let visited = counter[detection.name]?[index] ?? true
+                
+                if maxThresh <= thresh && !visited {
+                    // Mark as TP
+                    truePositives.append(true)
+                    counter[detection.name]![index] = true
+                } else {
+                    truePositives.append(false)
+                }
             }
         }
         
@@ -138,7 +163,7 @@ class Evaluator {
         return mAP
     }
     
-    func reset() {
+    mutating func reset() {
         evaluations = [:]
     }
 }

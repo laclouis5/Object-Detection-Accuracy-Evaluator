@@ -12,19 +12,20 @@ import XCTest
 class ObjectDetectionEvaluatorTests: XCTestCase {
 
     let boxes     = TestData().data
-    let evaluator = Evaluator()
+    var evaluator = Evaluator()
     let urls      = [URL(string: "/Users/louislac/Downloads/detection-results")!,
                      URL(string: "/Users/louislac/Downloads/ground-truth")!]
     
     override func setUp() {
-        evaluator.evaluate(on: boxes, iouThresh: 0.5)
-    }
-
-    override func tearDown() {
         evaluator.reset()
     }
 
+    override func tearDown() {
+    }
+
     func testPrecRec() {
+        evaluator.evaluate(on: boxes, iouThresh: 0.5)
+        
         let detection = evaluator.evaluations["maize"]!
         
         let tps        = [true, true]

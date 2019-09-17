@@ -8,7 +8,7 @@
 
 import Foundation
 
-class TestData {
+struct TestData {
     var data = [
         // Ground Truths
         BoundingBox(name: "im_1.jpg", label: "maize", box: CGRect(x: 0, y: 0, width: 10, height: 10), coordSystem: .absolute),

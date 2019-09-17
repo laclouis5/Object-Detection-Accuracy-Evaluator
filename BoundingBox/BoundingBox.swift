@@ -40,6 +40,10 @@ struct BoundingBox {
         return Double(box.iou(with: bbox.box))
     }
     
+    func distance(with bbox: BoundingBox) -> Double {
+        return Double(box.distance(with: bbox.box))
+    }
+    
     func absoluteBox(relativeTo imgSize: CGSize? = nil) -> CGRect? {
         if imgSize == nil && self.imgSize == nil {
             return nil
