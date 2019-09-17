@@ -33,7 +33,7 @@ Format for ground truths:
 * Launch the evaluation and see the results in the right panel
 
 ## TODO
-- [ ] Parallelize file reading in `YoloParser` for speedup
+- [x] Parallelize file reading in `YoloParser` for speedup
 - [ ] Add a selector for the input format (XYWH, XYX2Y2, relative, absolute)
 - [x] Add methods for mAP computation
 - [ ] Logs for errors during reading
