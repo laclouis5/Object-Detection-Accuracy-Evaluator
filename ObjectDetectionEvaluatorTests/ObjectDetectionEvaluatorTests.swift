@@ -17,58 +17,54 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
                      URL(string: "/Users/louislac/Downloads/ground-truth")!]
     
     override func setUp() {
-        evaluator.evaluate(on: boxes, iouTresh: 0.5)
+        evaluator.evaluate(on: boxes, iouThresh: 0.5)
     }
 
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        evaluator.reset()
     }
 
     func testPrecRec() {
-        let detections = evaluator.evaluations["maize"]!.detections
-        let gtCount    = 2.0
-        let recalls    = [1/gtCount, 2/gtCount]
-        let precisions = [1.0, 1.0]
+        let detection = evaluator.evaluations["maize"]!
         
-        for (i, det) in detections.enumerated() {
-            let precision = det.precision
-            let recall    = det.recall
+        let tps        = [true, true]
+        let precisions = [1.0, 1.0]
+        let recalls    = [0.5, 1.0]
+        
+        XCTAssert(detection.nbGtPositive == 2, "Expected: \(2), got: \(detection.nbGtPositive)")
+        
+        for i in 0..<detection.nbDetections {
+            let (tp, rec, prec) = detection[i]
             
-            XCTAssert(precision == precisions[i], "prec: \(precision), expected: \(precisions[i]), TP: \(det.TP), conf: \(det.confidence)")
-            
-            XCTAssert(recall == recalls[i], "rec: \(recall), expected: \(recalls[i]), TP: \(det.TP), conf: \(det.confidence)")
+            XCTAssert(tp == tps[i], "Expected: \(tps[i]), got: \(tp)")
+            XCTAssert(prec == precisions[i], "Expected: \(precisions[i]), got: \(prec)")
+            XCTAssert(rec == recalls[i], "Expected: \(recalls[i]), got: \(rec)")
         }
     }
     
-    func testAP() {
-        for (_, evaluation) in evaluator.evaluations {
-            let mAP = evaluation.mAP
-            
-            XCTAssert(mAP == 1.0, "Got: \(mAP)")
-        }
-    }
-
-    func testYoloParserPerf() {
-        // This is an example of a performance test case.
+    func testInferenceTime() {
+        var boxes  = [BoundingBox]()
         let parser = Parser()
+        
+        for url in urls {
+            boxes += try! parser.parseYoloFolder(url)
+        }
         self.measure {
-            // Put the code you want to measure the time of here.
-            _ = try! parser.parseYoloFolder(URL(string: "/Users/louislac/Downloads/detection-results")!)
+            evaluator.evaluate(on: boxes)
         }
     }
-
-    func testEvaluationPerf() {
-        let parser    = Parser()
-        let evaluator = Evaluator()
-        var boxes     = [BoundingBox]()
-       
+    
+    func testCocoAP() {
+        var boxes  = [BoundingBox]()
+        let parser = Parser()
+        
         for url in urls {
             boxes += try! parser.parseYoloFolder(url)
         }
         
         self.measure {
-            evaluator.evaluate(on: boxes)
-            evaluator.evaluations.mAP
+            let mAP = evaluator.evaluateCoco(on: boxes)
+            print(mAP)
         }
     }
 }

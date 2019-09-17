@@ -11,12 +11,12 @@ import Foundation
 struct BoundingBox {
     
     // MARK: - Properties
-    let name: String
-    let box: CGRect
-    let label: String
-    let imgSize: CGSize?
-    let confidence: Double?
-    let coordSystem: CoordinateSystem
+    var name: String
+    var label: String
+    var box: CGRect
+    var coordSystem: CoordinateSystem
+    var confidence: Double?
+    var imgSize: CGSize?
     var detectionMode: DetectionMode {
         if confidence != nil {
             return .detection
@@ -25,14 +25,14 @@ struct BoundingBox {
         }
     }
     
-    // MARK: - Initalizers
-    init(name: String, box: CGRect, label: String, coordSystem: CoordinateSystem = .absolute, confidence: Double? = nil, imgSize: CGSize? = nil) {
+    // Mark: - Initializers
+    init(name: String, label: String, box: CGRect, coordSystem: CoordinateSystem, confidence: Double? = nil, imgSize: CGSize? = nil) {
         self.name = name
-        self.box = box
         self.label = label
-        self.imgSize = imgSize
-        self.confidence = confidence
+        self.box = box
         self.coordSystem = coordSystem
+        self.confidence = confidence
+        self.imgSize = imgSize
     }
     
     // MARK: - Methods
