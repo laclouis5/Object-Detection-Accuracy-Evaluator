@@ -55,7 +55,8 @@ struct Evaluator {
     }
     
     private func calcTpFp(groundTruths: [String: [BoundingBox]], detections: [BoundingBox], method: EvaluationMethod, thresh: Double) -> [Bool] {
-        var counter       = groundTruths.mapValues { [Bool](repeating: false, count: $0.count) }
+        
+        var counter = groundTruths.mapValues { [Bool](repeating: false, count: $0.count) }
         var truePositives = [Bool]()
         truePositives.reserveCapacity(detections.count)
         
@@ -69,7 +70,7 @@ struct Evaluator {
             case .iou:
                 maxThresh = 0.0
                 for (i, groundTruth) in associatedGts.enumerated() {
-                    let iou = detection.distance(with: groundTruth)
+                    let iou = detection.iou(with: groundTruth)
                 
                     // Find the greatest IoU
                     if iou > maxThresh {

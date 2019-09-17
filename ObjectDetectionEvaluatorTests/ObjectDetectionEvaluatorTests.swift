@@ -24,7 +24,7 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
     }
 
     func testPrecRec() {
-        evaluator.evaluate(on: boxes, iouThresh: 0.5)
+        evaluator.evaluate(on: boxes)
         
         let detection = evaluator.evaluations["maize"]!
         
@@ -37,9 +37,9 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
         for i in 0..<detection.nbDetections {
             let (tp, rec, prec) = detection[i]
             
-            XCTAssert(tp == tps[i], "Expected: \(tps[i]), got: \(tp)")
-            XCTAssert(prec == precisions[i], "Expected: \(precisions[i]), got: \(prec)")
-            XCTAssert(rec == recalls[i], "Expected: \(recalls[i]), got: \(rec)")
+            XCTAssert(tp == tps[i], "Expected: \(tps[i]), got: \(tp), iter: \(i)")
+            XCTAssert(prec == precisions[i], "Expected: \(precisions[i]), got: \(prec), iter \(i)")
+            XCTAssert(rec == recalls[i], "Expected: \(recalls[i]), got: \(rec), iter\(i)")
         }
     }
     
