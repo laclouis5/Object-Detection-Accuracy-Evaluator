@@ -31,15 +31,3 @@ struct Evaluation {
         return (truePositives[i], recalls[i], precisions[i])
     }
 }
-
-extension Evaluation: CustomStringConvertible {
-    var description: String {
-        var description = ""
-        description += "mAP: \(Double(Int(10_000 * mAP)) / 100) %\n"
-        description += "  Total Positive: \(nbGtPositive)\n"
-        description += "  True Positive:  \(nbTP)\n"
-        description += "  False Positive: \(nbFP)\n"
-        
-        return description
-    }
-}

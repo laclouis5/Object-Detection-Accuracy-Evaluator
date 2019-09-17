@@ -142,16 +142,3 @@ class Evaluator {
         evaluations = [:]
     }
 }
-
-extension Evaluator: CustomStringConvertible {
-    var description: String {
-        var description = ""
-
-        for label in evaluations.keys.sorted() {
-            description += "\(label.uppercased())\n"
-            description += evaluations[label]!.description + "\n"
-        }
-
-        return description
-    }
-}
