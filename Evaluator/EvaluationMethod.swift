@@ -9,5 +9,6 @@
 import Foundation
 
 enum EvaluationMethod {
-    case iou, center
+    case iou
+    case center
 }

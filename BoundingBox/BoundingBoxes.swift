@@ -35,13 +35,13 @@ extension Array where Element == BoundingBox {
     var labelStats: String {
         let gtBoxes = self.getBoundingBoxesByDetectionMode(.groundTruth)
         
-        return gtBoxes.labels.sorted().reduce(into: "", { (descr, label) in
+        return gtBoxes.labels.sorted().reduce(into: "") { (descr, label) in
             let labelBoxes = gtBoxes.getBoundingBoxesByLabel(label)
             
             descr +=  "\(label.uppercased())\n"
             descr += "  Images:      \(labelBoxes.imageNames.count)\n"
             descr += "  Annotations: \(labelBoxes.count)\n\n"
-        })
+        }
     }
 
     // MARK: - Methods
@@ -63,15 +63,15 @@ extension Array where Element == BoundingBox {
     }
 
     func getBoxesDictByName() -> [String: [BoundingBox]] {
-        return self.reduce(into: [:], { (dict, box) in
+        return self.reduce(into: [:]) { (dict, box) in
             dict[box.name, default: []].append(box)
-        })
+        }
     }
 
     func getBoxesDictByLabel() -> [String: [BoundingBox]] {
-        return self.reduce(into: [:], { (dict, box) in
+        return self.reduce(into: [:]) { (dict, box) in
             dict[box.label, default: []].append(box)
-        })
+        }
     }
 
     mutating func mapLabels(with labels: [String: String]) {

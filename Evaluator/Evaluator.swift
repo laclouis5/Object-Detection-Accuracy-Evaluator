@@ -14,44 +14,59 @@ struct Evaluator {
     //MARK: - Properties
     var evaluations = [String: Evaluation]()
     
-    func evaluateCoco(on boxes: [BoundingBox], method: EvaluationMethod = .iou) -> Double {
-        // Can be parallelized
+    // MARK: - Methods
+    func evaluateAP(on boxes: [BoundingBox], thresh: Double = 0.5, method: EvaluationMethod = .iou) -> Double {
+        var mAP = [Double]()
+        
+        for (_, bboxes) in boxes.getBoxesDictByLabel() {
+            let AP = calcLabelAP(boxes: bboxes, thresh: thresh, method: method)
+            mAP.append(AP)
+        }
+        return mAP.mean
+    }
+    
+    func evaluateCocoAP(on boxes: [BoundingBox], method: EvaluationMethod = .iou) -> Double {
+        // Can be parallelized...
         let iouThresholds = Array(0..<10).map { Double($0) / 10 + 0.05 }
         var mAP = [Double]()
         
         for (_, bboxes) in boxes.getBoxesDictByLabel() {
-            let groundTruths   = bboxes.getBoundingBoxesByDetectionMode(.groundTruth).getBoxesDictByName()
-            let nbGroundTruths = bboxes.getBoundingBoxesByDetectionMode(.groundTruth).count
-            let detections     = bboxes.getBoundingBoxesByDetectionMode(.detection).sorted {
-                $0.confidence! > $1.confidence!
-            }
+            let (groundTruths, detections) = formatDetGT(boxes: bboxes)
             
             for thresh in iouThresholds {
-                let truePositives         = calcTpFp(groundTruths: groundTruths, detections: detections, method: method, thresh: thresh)
-                let (recalls, precisions) = calcRecPrec(truePositives: truePositives, nbGtPositives: nbGroundTruths)
-                let AP                    = calcAP(precisions: precisions, recalls: recalls)
+                let truePositives = calcTpFp(groundTruths: groundTruths, detections: detections, method: method, thresh: thresh)
+                let (recalls, precisions) = calcRecsPrecs(truePositives: truePositives, nbGtPositives: groundTruths.nbBoundingBoxes)
+                let AP = calcAP(precisions: precisions, recalls: recalls)
             
                 mAP.append(AP)
             }
         }
         
-        return mAP.reduce(0.0, +) / Double(mAP.count)
+        return mAP.mean
     }
     
     mutating func evaluate(on boxes: [BoundingBox], method: EvaluationMethod = .iou, thresh: Double = 0.5) {
         for (label, bboxes) in boxes.getBoxesDictByLabel() {
-            let groundTruths   = bboxes.getBoundingBoxesByDetectionMode(.groundTruth).getBoxesDictByName()
-            let nbGroundTruths = bboxes.getBoundingBoxesByDetectionMode(.groundTruth).count
-            let detections     = bboxes.getBoundingBoxesByDetectionMode(.detection).sorted {
-                $0.confidence! > $1.confidence!
-            }
+            let (groundTruths, detections) = formatDetGT(boxes: bboxes)
+            let truePositives = calcTpFp(groundTruths: groundTruths, detections: detections, method: method, thresh: thresh)
+            let (recalls, precisions) = calcRecsPrecs(truePositives: truePositives, nbGtPositives: groundTruths.nbBoundingBoxes)
+            let mAP = calcAP(precisions: precisions, recalls: recalls)
 
-            let truePositives         = calcTpFp(groundTruths: groundTruths, detections: detections, method: method, thresh: thresh)
-            let (recalls, precisions) = calcRecPrec(truePositives: truePositives, nbGtPositives: nbGroundTruths)
-            let mAP                   = calcAP(precisions: precisions, recalls: recalls)
-
-            evaluations[label] = Evaluation(nbGtPositive: nbGroundTruths, mAP: mAP, truePositives: truePositives, precisions: precisions, recalls: recalls)
+            evaluations[label] = Evaluation(nbGtPositive: groundTruths.nbBoundingBoxes, mAP: mAP, truePositives: truePositives, precisions: precisions, recalls: recalls)
         }
+    }
+    
+    mutating func reset() {
+        evaluations = [:]
+    }
+    
+    // MARK: - Private Methods
+    private func formatDetGT(boxes: [BoundingBox]) -> ([String: [BoundingBox]], [BoundingBox]) {
+        let groundTruths = boxes.getBoundingBoxesByDetectionMode(.groundTruth).getBoxesDictByName()
+        let detections = boxes.getBoundingBoxesByDetectionMode(.detection).sorted {
+            $0.confidence! > $1.confidence!
+        }
+        return (groundTruths, detections)
     }
     
     private func calcTpFp(groundTruths: [String: [BoundingBox]], detections: [BoundingBox], method: EvaluationMethod, thresh: Double) -> [Bool] {
@@ -114,7 +129,7 @@ struct Evaluator {
         return truePositives
     }
     
-    private func calcRecPrec(truePositives: [Bool], nbGtPositives: Int) -> ([Double], [Double]) {
+    private func calcRecsPrecs(truePositives: [Bool], nbGtPositives: Int) -> ([Double], [Double]) {
         var precisions = [Double]()
         var recalls    = [Double]()
         
@@ -124,7 +139,7 @@ struct Evaluator {
         let tpAcc = truePositives.cumSum
         
         for (i, tp) in tpAcc.enumerated() {
-            let (recall, precision) = recPrec(accTruePositives: tp, accDetections: i+1, nbGtPositives: nbGtPositives)
+            let (recall, precision) = calcRecPrec(accTruePositives: tp, accDetections: i+1, nbGtPositives: nbGtPositives)
             recalls.append(recall)
             precisions.append(precision)
         }
@@ -132,7 +147,7 @@ struct Evaluator {
         return (recalls, precisions)
     }
     
-    private func recPrec(accTruePositives: Int, accDetections: Int, nbGtPositives: Int) -> (Double, Double) {
+    private func calcRecPrec(accTruePositives: Int, accDetections: Int, nbGtPositives: Int) -> (Double, Double) {
         let precision = Double(accTruePositives) / Double(accDetections)
         let recall    = nbGtPositives != 0 ? Double(accTruePositives) / Double(nbGtPositives) : 0
         
@@ -164,7 +179,12 @@ struct Evaluator {
         return mAP
     }
     
-    mutating func reset() {
-        evaluations = [:]
+    private func calcLabelAP(boxes: [BoundingBox], thresh: Double = 0.5, method: EvaluationMethod = .iou) -> Double {
+        let (groundTruths, detections) = formatDetGT(boxes: boxes)
+        let truePositives = calcTpFp(groundTruths: groundTruths, detections: detections, method: .iou, thresh: thresh)
+        let (recalls, precisions) = calcRecsPrecs(truePositives: truePositives, nbGtPositives: groundTruths.nbBoundingBoxes)
+        let AP = calcAP(precisions: precisions, recalls: recalls)
+        
+        return AP
     }
 }

@@ -64,7 +64,7 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
         }
         
         self.measure {
-            let mAP = evaluator.evaluateCoco(on: boxes)
+            let mAP = evaluator.evaluateCocoAP(on: boxes)
             print(mAP)
         }
     }
