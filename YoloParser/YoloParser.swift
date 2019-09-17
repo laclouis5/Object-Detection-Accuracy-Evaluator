@@ -18,14 +18,14 @@ struct Parser {
         
         let lines = content.components(separatedBy: .newlines).filter { !$0.isEmpty }
         
-        let boxes = try lines.map({ (line) -> BoundingBox in
-            let line  = line.components(separatedBy: .whitespaces).filter { !$0.isEmpty }
+        let boxes = try lines.map({ (rawLine) -> BoundingBox in
+            let line  = rawLine.components(separatedBy: .whitespaces).filter { !$0.isEmpty }
             let label = String(line[0])
             
             // Case Ground Truth
             if line.count == 5 {
                 guard let x = Double(line[1]), let y = Double(line[2]), let w = Double(line[3]), let h = Double(line[4]) else {
-                    throw YoloParserError.invalidLineFormat(file: fileURL, line: line.map { String($0) })
+                    throw YoloParserError.invalidLineFormat(file: fileURL, line: rawLine)
                 }
                 
                 let rect: CGRect
@@ -36,12 +36,12 @@ struct Parser {
                     rect = CGRect(minX: x, minY: y, maxX: w, maxY: h)
                 }
                 
-                return BoundingBox(name: fileURL.lastPathComponent, box: rect, label: label, coordSystem: coordSystem)
+                return BoundingBox(name: fileURL.lastPathComponent, label: label, box: rect, coordSystem: coordSystem)
                 
             // Case Detection
             } else if line.count == 6 {
                 guard let confidence = Double(line[1]), let x = Double(line[2]), let y = Double(line[3]), let w = Double(line[4]), let h = Double(line[5]) else {
-                    throw YoloParserError.invalidLineFormat(file: fileURL, line: line.map { String($0) })
+                    throw YoloParserError.invalidLineFormat(file: fileURL, line: rawLine)
                 }
                 
                 let rect: CGRect
@@ -52,10 +52,10 @@ struct Parser {
                     rect = CGRect(minX: x, minY: y, maxX: w, maxY: h)
                 }
                 
-                return BoundingBox(name: fileURL.lastPathComponent, box: rect, label: label, coordSystem: coordSystem, confidence: confidence)
+                return BoundingBox(name: fileURL.lastPathComponent, label: label, box: rect, coordSystem: coordSystem, confidence: confidence)
                 
             } else {
-                throw YoloParserError.invalidLineFormat(file: fileURL, line: line.map { String($0) })
+                throw YoloParserError.invalidLineFormat(file: fileURL, line: rawLine)
             }
         })
         

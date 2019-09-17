@@ -9,48 +9,26 @@
 import Foundation
 
 struct Evaluation {
-    var totalPositive = 0
-    var detections    = [DetectionResult]()
+    var nbGtPositive  = 0
+    var mAP           = 0.0
+    var truePositives = [Bool]()
+    var precisions    = [Double]()
+    var recalls       = [Double]()
     
-    var precisions: [Double] {
-        return detections.map{ $0.precision }
+    var nbDetections: Int {
+        return truePositives.count
     }
     
-    var recalls: [Double] {
-        return detections.map{ $0.recall }
+    var nbTP: Int {
+        return truePositives.filter { $0 }.count
     }
     
-    init() { }
-    
-    // Reserve capacity to avoid copy overhead with large collections
-    init(reservingCapacity capacity: Int) {
-        detections.reserveCapacity(capacity)
+    var nbFP: Int {
+        return truePositives.filter { !$0 }.count
     }
     
-    // Base on VOC 2012 Matlab code
-    var mAP: Double {
-        var mAP = 0.0
-        
-        var precs = [0.0] + precisions + [0.0]
-        var recs  = [0.0] + recalls    + [1.0]
-        
-        for i in (0..<precs.count-1).reversed() {
-            precs[i] = max(precs[i], precs[i+1])
-        }
-        
-        var indexList = [Int]()
-        
-        for i in 1..<recs.count {
-            if recs[i] != recs[i-1] {
-                indexList.append(i)
-            }
-        }
-        
-        for i in indexList {
-            mAP += (recs[i] - recs[i-1]) * precs[i]
-        }
-        
-        return mAP
+    subscript(i: Int) -> (Bool, Double, Double) {
+        return (truePositives[i], recalls[i], precisions[i])
     }
 }
 
@@ -58,9 +36,9 @@ extension Evaluation: CustomStringConvertible {
     var description: String {
         var description = ""
         description += "mAP: \(Double(Int(10_000 * mAP)) / 100) %\n"
-        description += "  Total Positive: \(totalPositive)\n"
-        description += "  True Positive:  \(detections.filter { $0.TP }.count)\n"
-        description += "  False Positive: \(detections.count - detections.filter { $0.TP }.count)\n"
+        description += "  Total Positive: \(nbGtPositive)\n"
+        description += "  True Positive:  \(nbTP)\n"
+        description += "  False Positive: \(nbFP)\n"
         
         return description
     }

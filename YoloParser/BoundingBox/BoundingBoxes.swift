@@ -19,7 +19,7 @@ extension Array where Element == BoundingBox {
     }
 
     var stats: String {
-        let gtBoxes = self.getBoundingBoxesByDetectionMode(.groundTruth)
+        let gtBoxes  = self.getBoundingBoxesByDetectionMode(.groundTruth)
         let detBoxes = self.getBoundingBoxesByDetectionMode(.detection)
 
         var description = "Global Stats\n".uppercased()
@@ -64,13 +64,13 @@ extension Array where Element == BoundingBox {
 
     func getBoxesDictByName() -> [String: [BoundingBox]] {
         return self.reduce(into: [:], { (dict, box) in
-            dict[box.name, default: [box]].append(box)
+            dict[box.name, default: []].append(box)
         })
     }
 
     func getBoxesDictByLabel() -> [String: [BoundingBox]] {
         return self.reduce(into: [:], { (dict, box) in
-            dict[box.name, default: [box]].append(box)
+            dict[box.label, default: []].append(box)
         })
     }
 
@@ -81,12 +81,7 @@ extension Array where Element == BoundingBox {
         }
 
         self = self.map {
-            BoundingBox(name: $0.name,
-                        box: $0.box,
-                        label: labels[$0.label]!,
-                        coordSystem: .absolute,
-                        confidence: $0.confidence,
-                        imgSize: $0.imgSize)
+            BoundingBox(name: $0.name, label: labels[$0.label]!, box: $0.box, coordSystem: $0.coordSystem, confidence: $0.confidence, imgSize: $0.imgSize)
         }
     }
 }
