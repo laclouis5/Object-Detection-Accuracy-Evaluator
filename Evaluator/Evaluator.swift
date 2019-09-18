@@ -52,7 +52,7 @@ struct Evaluator {
             let (recalls, precisions) = calcRecsPrecs(truePositives: truePositives, nbGtPositives: groundTruths.nbBoundingBoxes)
             let mAP = calcAP(precisions: precisions, recalls: recalls)
 
-            evaluations[label] = Evaluation(nbGtPositive: groundTruths.nbBoundingBoxes, mAP: mAP, truePositives: truePositives, precisions: precisions, recalls: recalls)
+            evaluations[label] = Evaluation(nbGtPositive: groundTruths.nbBoundingBoxes, mAP: mAP, truePositives: truePositives, confidences: detections.map { $0.confidence! }, precisions: precisions, recalls: recalls)
         }
     }
     
@@ -186,5 +186,15 @@ struct Evaluator {
         let AP = calcAP(precisions: precisions, recalls: recalls)
         
         return AP
+    }
+    
+    private func calcFMesure(recall: Double, precision: Double) -> Double {
+        let sum = precision + recall
+        
+        if sum == 0 {
+            return 0
+        } else {
+            return 2 * recall * precision / sum
+        }
     }
 }

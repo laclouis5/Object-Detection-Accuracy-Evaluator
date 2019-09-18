@@ -10,7 +10,7 @@
 		B902CAC823245CD700C2BB74 /* Evaluations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B902CAC723245CD700C2BB74 /* Evaluations.swift */; };
 		B90C07EC2330F7780018BBE1 /* EvaluatorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C07EB2330F7780018BBE1 /* EvaluatorExtensions.swift */; };
 		B90C07EE2330F78A0018BBE1 /* EvaluationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C07ED2330F78A0018BBE1 /* EvaluationExtensions.swift */; };
-		B90C07F02330FD2C0018BBE1 /* EvaluationMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C07EF2330FD2C0018BBE1 /* EvaluationMethod.swift */; };
+		B90C07F02330FD2C0018BBE1 /* EvaluationTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C07EF2330FD2C0018BBE1 /* EvaluationTypes.swift */; };
 		B90C07F423312FC00018BBE1 /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4352323DC4B00AC087A /* TestData.swift */; };
 		B9618E9C23269F3600CD0823 /* CGRectExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9618E9B23269F3600CD0823 /* CGRectExtensions.swift */; };
 		B9685EFD23245A43007F68A8 /* YoloParserErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9685EFC23245A43007F68A8 /* YoloParserErrors.swift */; };
@@ -51,7 +51,7 @@
 		B902CAC723245CD700C2BB74 /* Evaluations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Evaluations.swift; sourceTree = "<group>"; };
 		B90C07EB2330F7780018BBE1 /* EvaluatorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluatorExtensions.swift; sourceTree = "<group>"; };
 		B90C07ED2330F78A0018BBE1 /* EvaluationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationExtensions.swift; sourceTree = "<group>"; };
-		B90C07EF2330FD2C0018BBE1 /* EvaluationMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationMethod.swift; sourceTree = "<group>"; };
+		B90C07EF2330FD2C0018BBE1 /* EvaluationTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationTypes.swift; sourceTree = "<group>"; };
 		B9618E9B23269F3600CD0823 /* CGRectExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRectExtensions.swift; sourceTree = "<group>"; };
 		B9685EFC23245A43007F68A8 /* YoloParserErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoloParserErrors.swift; sourceTree = "<group>"; };
 		B9ABD3FF2323C68700AC087A /* ObjectDetectionEvaluator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ObjectDetectionEvaluator.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -195,7 +195,7 @@
 				B90C07ED2330F78A0018BBE1 /* EvaluationExtensions.swift */,
 				B902CAC723245CD700C2BB74 /* Evaluations.swift */,
 				B9ABD4322323DC4B00AC087A /* Evaluator.swift */,
-				B90C07EF2330FD2C0018BBE1 /* EvaluationMethod.swift */,
+				B90C07EF2330FD2C0018BBE1 /* EvaluationTypes.swift */,
 				B90C07EB2330F7780018BBE1 /* EvaluatorExtensions.swift */,
 			);
 			path = Evaluator;
@@ -336,7 +336,7 @@
 				B9ABD4442323DC4B00AC087A /* BoundingBoxExtensions.swift in Sources */,
 				B902CAC823245CD700C2BB74 /* Evaluations.swift in Sources */,
 				B9ABD43D2323DC4B00AC087A /* Evaluator.swift in Sources */,
-				B90C07F02330FD2C0018BBE1 /* EvaluationMethod.swift in Sources */,
+				B90C07F02330FD2C0018BBE1 /* EvaluationTypes.swift in Sources */,
 				B9ABD4422323DC4B00AC087A /* BoundingBox.swift in Sources */,
 				B9618E9C23269F3600CD0823 /* CGRectExtensions.swift in Sources */,
 				B9ABD4432323DC4B00AC087A /* BoundingBoxes.swift in Sources */,

@@ -77,7 +77,7 @@ class MainViewController: NSViewController {
         
         boxes = urls.flatMap({ (url) -> [BoundingBox] in
             do {
-                return try parser.parseYoloFolder(url)
+                return try parser.parseYoloFolder(url, coordType: .XYWH, coordSystem: .relative)
             } catch YoloParserError.folderNotListable(let folder) {
                 print("Error: Unable to read folder \(folder). Check permissions.")
                 return []
@@ -131,7 +131,7 @@ class MainViewController: NSViewController {
         evaluator.reset()
         
         DispatchQueue.global(qos: .userInitiated).async {
-            self.evaluator.evaluate(on: self.boxes)
+            self.evaluator.evaluate(on: self.boxes, method: .center, thresh: 20/1536)
             
             DispatchQueue.main.async {
                 self.update()

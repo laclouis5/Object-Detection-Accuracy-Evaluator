@@ -24,32 +24,32 @@ struct Parser {
             
             // Case Ground Truth
             if line.count == 5 {
-                guard let x = Double(line[1]), let y = Double(line[2]), let w = Double(line[3]), let h = Double(line[4]) else {
+                guard let a = Double(line[1]), let b = Double(line[2]), let c = Double(line[3]), let d = Double(line[4]) else {
                     throw YoloParserError.invalidLineFormat(file: fileURL, line: rawLine)
                 }
                 
                 let rect: CGRect
                 switch coordType {
                 case .XYWH:
-                    rect = CGRect(midX: x, midY: y, width: w, height: h)
+                    rect = CGRect(midX: a, midY: b, width: c, height: d)
                 case .XYX2Y2:
-                    rect = CGRect(minX: x, minY: y, maxX: w, maxY: h)
+                    rect = CGRect(minX: a, minY: b, maxX: c, maxY: d)
                 }
                 
                 return BoundingBox(name: fileURL.lastPathComponent, label: label, box: rect, coordSystem: coordSystem)
                 
             // Case Detection
             } else if line.count == 6 {
-                guard let confidence = Double(line[1]), let x = Double(line[2]), let y = Double(line[3]), let w = Double(line[4]), let h = Double(line[5]) else {
+                guard let confidence = Double(line[1]), let a = Double(line[2]), let b = Double(line[3]), let c = Double(line[4]), let d = Double(line[5]) else {
                     throw YoloParserError.invalidLineFormat(file: fileURL, line: rawLine)
                 }
                 
                 let rect: CGRect
                 switch coordType {
                 case .XYWH:
-                    rect = CGRect(midX: x, midY: y, width: w, height: h)
+                    rect = CGRect(midX: a, midY: b, width: c, height: d)
                 case .XYX2Y2:
-                    rect = CGRect(minX: x, minY: y, maxX: w, maxY: h)
+                    rect = CGRect(minX: a, minY: b, maxX: c, maxY: d)
                 }
                 
                 return BoundingBox(name: fileURL.lastPathComponent, label: label, box: rect, coordSystem: coordSystem, confidence: confidence)

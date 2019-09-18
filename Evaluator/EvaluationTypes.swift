@@ -1,5 +1,5 @@
 //
-//  EvaluationMethod.swift
+//  EvaluationTypes.swift
 //  ObjectDetectionEvaluator
 //
 //  Created by Louis Lac on 17/09/2019.

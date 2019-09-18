@@ -12,6 +12,7 @@ struct Evaluation {
     var nbGtPositive  = 0
     var mAP           = 0.0
     var truePositives = [Bool]()
+    var confidences   = [Double]()
     var precisions    = [Double]()
     var recalls       = [Double]()
     
@@ -27,7 +28,7 @@ struct Evaluation {
         return truePositives.filter { !$0 }.count
     }
     
-    subscript(i: Int) -> (Bool, Double, Double) {
-        return (truePositives[i], recalls[i], precisions[i])
+    subscript(i: Int) -> (Bool, Double, Double, Double) {
+        return (truePositives[i], confidences[i], recalls[i], precisions[i])
     }
 }
