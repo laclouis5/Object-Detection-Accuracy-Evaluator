@@ -77,9 +77,10 @@ extension Array where Element == BoundingBox {
     mutating func mapLabels(with labels: [String: String]) {
         guard Set(labels.keys) == Set(self.labels) else {
             print("Error: new label keys must match old labels")
+            print("Old Labels: \(self.labels)")
+            print("Given labels: \(labels.keys)")
             return
         }
-
         self = self.map {
             BoundingBox(name: $0.name, label: labels[$0.label]!, box: $0.box, coordSystem: $0.coordSystem, confidence: $0.confidence, imgSize: $0.imgSize)
         }

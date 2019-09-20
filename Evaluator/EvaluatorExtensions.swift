@@ -16,7 +16,6 @@ extension Evaluator: CustomStringConvertible {
             description += "\(label.uppercased())\n"
             description += evaluations[label]!.description + "\n"
         }
-        
         return description
     }
 }

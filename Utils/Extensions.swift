@@ -32,7 +32,7 @@ extension Array where Element == Double {
 extension Dictionary where Value == [BoundingBox] {
     var nbBoundingBoxes: Int {
         return self.reduce(0) { (nbBBoxes, element) -> Int in
-            return nbBBoxes + element.value.count
+            nbBBoxes + element.value.count
         }
     }
 }

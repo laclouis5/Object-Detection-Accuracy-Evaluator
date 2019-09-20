@@ -52,14 +52,13 @@ extension CGRect {
     }
     
     func iou(with rect: CGRect) -> CGFloat {
-        if self.intersects(rect) {
-            let intersection = self.intersection(rect).area
-            let union        = self.area + rect.area - intersection
-            
-            return intersection / (union + CGFloat.leastNonzeroMagnitude)
-        } else {
+        guard self.intersects(rect) else {
             return 0.0
         }
+        let intersection = self.intersection(rect).area
+        let union = self.area + rect.area - intersection
+        
+        return intersection / (union + CGFloat.leastNonzeroMagnitude)
     }
     
     func distance(with rect: CGRect) -> CGFloat {

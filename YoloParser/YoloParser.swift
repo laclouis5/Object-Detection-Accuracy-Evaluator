@@ -9,7 +9,7 @@
 import Foundation
 
 struct Parser {
-    func parseYoloTxtFile(_ fileURL: URL, coordType: CoordType = .XYX2Y2, coordSystem: CoordinateSystem = .absolute) throws -> [BoundingBox] {
+    static func parseYoloTxtFile(_ fileURL: URL, coordType: CoordType = .XYX2Y2, coordSystem: CoordinateSystem = .absolute) throws -> [BoundingBox] {
 //        var boxes = [BoundingBox]()
         
         guard let content = try? String(contentsOf: fileURL, encoding: .utf8) else {
@@ -18,7 +18,7 @@ struct Parser {
         
         let lines = content.components(separatedBy: .newlines).filter { !$0.isEmpty }
         
-        let boxes = try lines.map({ (rawLine) -> BoundingBox in
+        let boxes = try lines.map({ rawLine -> BoundingBox in
             let line  = rawLine.components(separatedBy: .whitespaces).filter { !$0.isEmpty }
             let label = String(line[0])
             
@@ -58,28 +58,19 @@ struct Parser {
                 throw YoloParserError.invalidLineFormat(file: fileURL, line: rawLine)
             }
         })
-        
         return boxes
     }
 
-    func parseYoloFolder(_ folder: URL, coordType: CoordType = .XYX2Y2, coordSystem: CoordinateSystem = .absolute) throws -> [BoundingBox] {
+    static func parseYoloFolder(_ folder: URL, coordType: CoordType = .XYX2Y2, coordSystem: CoordinateSystem = .absolute) throws -> [BoundingBox] {
         let fileManager = FileManager.default
         
         guard var files = try? fileManager.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil) else {
             throw YoloParserError.folderNotListable(folder)
         }
-        
         files = files.filter { $0.pathExtension == "txt" }
         
-        return try files.flatMap { (url) -> [BoundingBox] in
-            do {
-                let boxes = try parseYoloTxtFile(url, coordType: coordType, coordSystem: coordSystem)
-                return boxes
-            } catch YoloParserError.unreadableAnnotation(let fileURL) {
-                throw YoloParserError.unreadableAnnotation(fileURL)
-            } catch YoloParserError.invalidLineFormat(let fileURL, let line) {
-                throw YoloParserError.invalidLineFormat(file: fileURL, line: line)
-            }
+        return try files.flatMap { url -> [BoundingBox] in
+            try parseYoloTxtFile(url, coordType: coordType, coordSystem: coordSystem)
         }
     }
 }

@@ -10,7 +10,6 @@ import Foundation
 
 // May be an extention of [String : Evaluation]
 struct Evaluator {
-
     //MARK: - Properties
     var evaluations = [String: Evaluation]()
     
@@ -27,21 +26,19 @@ struct Evaluator {
     
     func evaluateCocoAP(on boxes: [BoundingBox], method: EvaluationMethod = .iou) -> Double {
         // Can be parallelized...
-        let iouThresholds = Array(0..<10).map { Double($0) / 10 + 0.05 }
+        let iouThresholds = stride(from: 0.05, to: 1, by: 0.10)
         var mAP = [Double]()
         
         for (_, bboxes) in boxes.getBoxesDictByLabel() {
             let (groundTruths, detections) = formatDetGT(boxes: bboxes)
-            
             for thresh in iouThresholds {
                 let truePositives = calcTpFp(groundTruths: groundTruths, detections: detections, method: method, thresh: thresh)
                 let (recalls, precisions) = calcRecsPrecs(truePositives: truePositives, nbGtPositives: groundTruths.nbBoundingBoxes)
                 let AP = calcAP(precisions: precisions, recalls: recalls)
-            
+                
                 mAP.append(AP)
             }
         }
-        
         return mAP.mean
     }
     
@@ -93,7 +90,6 @@ struct Evaluator {
                         index = i
                     }
                 }
-                
                 let visited = counter[detection.name]?[index] ?? true
                 
                 if maxThresh >= thresh && !visited {
@@ -125,13 +121,12 @@ struct Evaluator {
                 }
             }
         }
-        
         return truePositives
     }
     
     private func calcRecsPrecs(truePositives: [Bool], nbGtPositives: Int) -> ([Double], [Double]) {
         var precisions = [Double]()
-        var recalls    = [Double]()
+        var recalls = [Double]()
         
         precisions.reserveCapacity(truePositives.count)
         recalls.reserveCapacity(truePositives.count)
@@ -140,16 +135,16 @@ struct Evaluator {
         
         for (i, tp) in tpAcc.enumerated() {
             let (recall, precision) = calcRecPrec(accTruePositives: tp, accDetections: i+1, nbGtPositives: nbGtPositives)
+            
             recalls.append(recall)
             precisions.append(precision)
         }
-        
         return (recalls, precisions)
     }
     
     private func calcRecPrec(accTruePositives: Int, accDetections: Int, nbGtPositives: Int) -> (Double, Double) {
         let precision = Double(accTruePositives) / Double(accDetections)
-        let recall    = nbGtPositives != 0 ? Double(accTruePositives) / Double(nbGtPositives) : 0
+        let recall = nbGtPositives != 0 ? Double(accTruePositives) / Double(nbGtPositives) : 0
         
         return (recall, precision)
     }
@@ -158,12 +153,11 @@ struct Evaluator {
         var mAP = 0.0
         
         var precs = [0.0] + precisions + [0.0]
-        var recs  = [0.0] + recalls    + [1.0]
+        var recs = [0.0] + recalls    + [1.0]
         
         for i in (0..<precs.count-1).reversed() {
             precs[i] = max(precs[i], precs[i+1])
         }
-        
         var indexList = [Int]()
         
         for i in 1..<recs.count {
@@ -171,11 +165,9 @@ struct Evaluator {
                 indexList.append(i)
             }
         }
-        
         for i in indexList {
             mAP += (recs[i] - recs[i-1]) * precs[i]
         }
-        
         return mAP
     }
     
@@ -189,12 +181,7 @@ struct Evaluator {
     }
     
     private func calcFMesure(recall: Double, precision: Double) -> Double {
-        let sum = precision + recall
-        
-        if sum == 0 {
-            return 0
-        } else {
-            return 2 * recall * precision / sum
-        }
+        guard precision + recall == 0 else { return 0 }
+        return 2 * recall * precision / (precision + recall)
     }
 }

@@ -27,25 +27,21 @@ extension BoundingBox: CustomStringConvertible {
         case .detection:
             description += ", detection with confidence \(confidence!)"
         }
-        
         return description
     }
 }
 
 extension BoundingBox {
     func yoloDescription(imgSize: CGSize? = nil) -> String? {
-        if let absBox = absoluteBox(relativeTo: imgSize) {
-            var description = "\(label) "
-            
-            if let confidence = confidence {
-                description += "\(confidence) "
-            }
-            
-            description += "\(absBox.midX) \(absBox.midY) \(absBox.width) \(absBox.height)"
-            
-            return description
-        } else {
-            return nil
+        guard let absBox = absoluteBox(relativeTo: imgSize) else { return nil }
+        
+        var description = "\(label) "
+        
+        if let confidence = confidence {
+            description += "\(confidence) "
         }
+        description += "\(absBox.midX) \(absBox.midY) \(absBox.width) \(absBox.height)"
+        
+        return description
     }
 }

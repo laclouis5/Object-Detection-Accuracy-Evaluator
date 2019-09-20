@@ -9,12 +9,12 @@
 import Foundation
 
 struct Evaluation {
-    var nbGtPositive  = 0
-    var mAP           = 0.0
+    var nbGtPositive = 0
+    var mAP = 0.0
     var truePositives = [Bool]()
-    var confidences   = [Double]()
-    var precisions    = [Double]()
-    var recalls       = [Double]()
+    var confidences = [Double]()
+    var precisions = [Double]()
+    var recalls = [Double]()
     
     var nbDetections: Int {
         return truePositives.count

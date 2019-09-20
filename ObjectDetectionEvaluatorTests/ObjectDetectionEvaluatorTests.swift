@@ -11,10 +11,10 @@ import XCTest
 
 class ObjectDetectionEvaluatorTests: XCTestCase {
 
-    let boxes     = TestData().data
+    let boxes = TestData.data
     var evaluator = Evaluator()
-    let urls      = [URL(string: "/Users/louislac/Downloads/detection-results")!,
-                     URL(string: "/Users/louislac/Downloads/ground-truth")!]
+    let urls = [URL(string: "/Users/louislac/Downloads/detection-results")!,
+                URL(string: "/Users/louislac/Downloads/ground-truth")!]
     
     override func setUp() {
         evaluator.reset()
@@ -28,14 +28,14 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
         
         let detection = evaluator.evaluations["maize"]!
         
-        let tps        = [true, true]
+        let tps = [true, true]
         let precisions = [1.0, 1.0]
-        let recalls    = [0.5, 1.0]
+        let recalls = [0.5, 1.0]
         
         XCTAssert(detection.nbGtPositive == 2, "Expected: \(2), got: \(detection.nbGtPositive)")
         
         for i in 0..<detection.nbDetections {
-            let (tp, rec, prec) = detection[i]
+            let (tp, _, rec, prec) = detection[i]
             
             XCTAssert(tp == tps[i], "Expected: \(tps[i]), got: \(tp), iter: \(i)")
             XCTAssert(prec == precisions[i], "Expected: \(precisions[i]), got: \(prec), iter \(i)")
@@ -44,11 +44,10 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
     }
     
     func testInferenceTime() {
-        var boxes  = [BoundingBox]()
-        let parser = Parser()
+        var boxes = [BoundingBox]()
         
         for url in urls {
-            boxes += try! parser.parseYoloFolder(url)
+            boxes += try! Parser.parseYoloFolder(url)
         }
         self.measure {
             evaluator.evaluate(on: boxes)
@@ -56,11 +55,10 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
     }
     
     func testCocoAP() {
-        var boxes  = [BoundingBox]()
-        let parser = Parser()
+        var boxes = [BoundingBox]()
         
         for url in urls {
-            boxes += try! parser.parseYoloFolder(url)
+            boxes += try! Parser.parseYoloFolder(url)
         }
         
         self.measure {
