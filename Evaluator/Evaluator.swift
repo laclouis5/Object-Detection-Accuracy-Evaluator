@@ -25,7 +25,6 @@ struct Evaluator {
     }
     
     func evaluateCocoAP(on boxes: [BoundingBox], method: EvaluationMethod = .iou) -> Double {
-        // Can be parallelized...
         let iouThresholds = stride(from: 0.05, to: 1, by: 0.10)
         var mAP = [Double]()
         
@@ -160,10 +159,8 @@ struct Evaluator {
         }
         var indexList = [Int]()
         
-        for i in 1..<recs.count {
-            if recs[i] != recs[i-1] {
-                indexList.append(i)
-            }
+        for i in 1..<recs.count where recs[i] != recs[i-1] {
+            indexList.append(i)
         }
         for i in indexList {
             mAP += (recs[i] - recs[i-1]) * precs[i]

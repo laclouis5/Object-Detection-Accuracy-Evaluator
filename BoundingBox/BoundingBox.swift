@@ -49,7 +49,7 @@ struct BoundingBox {
             return nil
         }
         if let imgSize = imgSize {
-            return box.absoluteBox(relativeTo: imgSize) // Descr
+            return box.absoluteBox(relativeTo: imgSize)
         }
         else if let imgSize = self.imgSize {
             return box.absoluteBox(relativeTo: imgSize)

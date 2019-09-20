@@ -59,8 +59,6 @@ class MainViewController: NSViewController {
         
         // Detection result
         boxesStats.string = boxes?.labelStats ?? ""
-//        let mAP = "\(Double(Int(10_000 * evaluator.evaluations.mAP)) / 100)"
-//        totalMAP.stringValue = "\(mAP) %"
         
         // Detail of Evaluation
         switch boxes?.count {
@@ -70,6 +68,7 @@ class MainViewController: NSViewController {
             runEvaluationButton.isEnabled = true
         }
         evalutationStats.string = evaluator.description
+        totalMAP.stringValue = "\(Double(Int(10_000 * evaluator.evaluations.mAP)) / 100) %"
     }
     
     func parseBoxes(from urls: [URL]) {
@@ -86,8 +85,8 @@ class MainViewController: NSViewController {
         } catch YoloParserError.invalidLineFormat(file: let url, line: let line) {
             print("Error: Line '\(line)' of file '\(url)' not readable")
             boxes = nil
-        } catch {
-            print("Error while reading annotations")
+        } catch let error {
+            print("Error while reading annotations: \(error)")
             boxes = nil
         }
     }

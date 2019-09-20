@@ -15,49 +15,48 @@ struct Parser {
         guard let content = try? String(contentsOf: fileURL, encoding: .utf8) else {
             throw YoloParserError.unreadableAnnotation(fileURL)
         }
-        
         let lines = content.components(separatedBy: .newlines).filter { !$0.isEmpty }
         
-        let boxes = try lines.map({ rawLine -> BoundingBox in
+        let boxes = try lines.map { rawLine -> BoundingBox in
             let line  = rawLine.components(separatedBy: .whitespaces).filter { !$0.isEmpty }
             let label = String(line[0])
             
             // Case Ground Truth
-            if line.count == 5 {
+            switch line.count {
+            case 5:
                 guard let a = Double(line[1]), let b = Double(line[2]), let c = Double(line[3]), let d = Double(line[4]) else {
                     throw YoloParserError.invalidLineFormat(file: fileURL, line: rawLine)
                 }
-                
                 let rect: CGRect
+                
                 switch coordType {
                 case .XYWH:
                     rect = CGRect(midX: a, midY: b, width: c, height: d)
                 case .XYX2Y2:
                     rect = CGRect(minX: a, minY: b, maxX: c, maxY: d)
                 }
-                
                 return BoundingBox(name: fileURL.lastPathComponent, label: label, box: rect, coordSystem: coordSystem)
                 
             // Case Detection
-            } else if line.count == 6 {
+            case 6:
                 guard let confidence = Double(line[1]), let a = Double(line[2]), let b = Double(line[3]), let c = Double(line[4]), let d = Double(line[5]) else {
                     throw YoloParserError.invalidLineFormat(file: fileURL, line: rawLine)
                 }
-                
                 let rect: CGRect
+                
                 switch coordType {
                 case .XYWH:
                     rect = CGRect(midX: a, midY: b, width: c, height: d)
                 case .XYX2Y2:
                     rect = CGRect(minX: a, minY: b, maxX: c, maxY: d)
                 }
-                
                 return BoundingBox(name: fileURL.lastPathComponent, label: label, box: rect, coordSystem: coordSystem, confidence: confidence)
-                
-            } else {
+            
+            // Case wrong annotation
+            default:
                 throw YoloParserError.invalidLineFormat(file: fileURL, line: rawLine)
             }
-        })
+        }
         return boxes
     }
 
