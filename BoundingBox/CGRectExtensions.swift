@@ -9,6 +9,7 @@
 import Foundation
 
 extension CGRect {
+    // MARK: - Properties
     var center: CGPoint {
         get {
             return CGPoint(x: self.midX, y: self.midY)
@@ -23,6 +24,7 @@ extension CGRect {
         return self.width * self.height
     }
     
+    // MARK: - Initializers
     init(midX: CGFloat, midY: CGFloat, width: CGFloat, height: CGFloat) {
         let minX = midX - width/2.0
         let minY = midY - height/2.0
@@ -51,6 +53,7 @@ extension CGRect {
         self.init(minX: CGFloat(minX), minY: CGFloat(minY), maxX: CGFloat(maxX), maxY: CGFloat(maxY))
     }
     
+    // MARK: - Methods
     func iou(with rect: CGRect) -> CGFloat {
         guard self.intersects(rect) else {
             return 0.0

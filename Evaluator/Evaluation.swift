@@ -9,6 +9,7 @@
 import Foundation
 
 struct Evaluation {
+    //MARK: - Properties
     var nbGtPositive = 0
     var mAP = 0.0
     var truePositives = [Bool]()
@@ -19,15 +20,14 @@ struct Evaluation {
     var nbDetections: Int {
         return truePositives.count
     }
-    
     var nbTP: Int {
         return truePositives.filter { $0 }.count
     }
-    
     var nbFP: Int {
         return truePositives.filter { !$0 }.count
     }
     
+    // MARK: - Subscripts
     subscript(i: Int) -> (Bool, Double, Double, Double) {
         return (truePositives[i], confidences[i], recalls[i], precisions[i])
     }

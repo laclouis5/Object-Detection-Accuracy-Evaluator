@@ -9,9 +9,8 @@
 import Foundation
 
 struct Parser {
+    // MARK: - Methods
     static func parseYoloTxtFile(_ fileURL: URL, coordType: CoordType = .XYX2Y2, coordSystem: CoordinateSystem = .absolute) throws -> [BoundingBox] {
-//        var boxes = [BoundingBox]()
-        
         guard let content = try? String(contentsOf: fileURL, encoding: .utf8) else {
             throw YoloParserError.unreadableAnnotation(fileURL)
         }

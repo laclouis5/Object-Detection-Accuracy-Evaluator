@@ -13,7 +13,7 @@ struct Evaluator {
     //MARK: - Properties
     var evaluations = [String: Evaluation]()
     
-    // MARK: - Methods
+    //MARK: - Methods
     func evaluateAP(on boxes: [BoundingBox], thresh: Double = 0.5, method: EvaluationMethod = .iou) -> Double {
         var mAP = [Double]()
         
@@ -152,7 +152,7 @@ struct Evaluator {
         var mAP = 0.0
         
         var precs = [0.0] + precisions + [0.0]
-        var recs = [0.0] + recalls    + [1.0]
+        let recs = [0.0] + recalls    + [1.0]
         
         for i in (0..<precs.count-1).reversed() {
             precs[i] = max(precs[i], precs[i+1])

@@ -9,7 +9,6 @@
 import Foundation
 
 struct BoundingBox {
-    
     // MARK: - Properties
     var name: String
     var label: String
@@ -17,6 +16,7 @@ struct BoundingBox {
     var coordSystem: CoordinateSystem
     var confidence: Double?
     var imgSize: CGSize?
+    
     var detectionMode: DetectionMode {
         if confidence != nil {
             return .detection
@@ -25,7 +25,7 @@ struct BoundingBox {
         }
     }
     
-    // Mark: - Initializers
+    // MARK: - Initializers
     init(name: String, label: String, box: CGRect, coordSystem: CoordinateSystem, confidence: Double? = nil, imgSize: CGSize? = nil) {
         self.name = name
         self.label = label

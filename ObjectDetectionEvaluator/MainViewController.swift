@@ -29,6 +29,7 @@ class MainViewController: NSViewController {
     @IBOutlet weak var evalutationIndicator: NSProgressIndicator!
     @IBOutlet weak var totalMAP: NSTextField!
     
+    // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         evaluator = Evaluator()
@@ -39,8 +40,7 @@ class MainViewController: NSViewController {
         
         update()
     }
-    
-    // MARK: - Methods
+
     func update() {
         // Folder
         switch yoloFolders?.count {
@@ -102,12 +102,12 @@ class MainViewController: NSViewController {
         dialog.allowsMultipleSelection = true
         
         if (dialog.runModal() == NSApplication.ModalResponse.OK) {
-            // Check if folders have changed
             yoloFolders = dialog.urls
             update()
             
             guard let folders = yoloFolders else { return }
             
+           // Check if folders have changed
             if Set(folders) != Set(dialog.urls) {
                 evaluator.reset()
             }
@@ -145,7 +145,8 @@ class MainViewController: NSViewController {
         evaluator.reset()
         
         DispatchQueue.global(qos: .userInitiated).async {
-            self.evaluator.evaluate(on: boxes, method: .center, thresh: 20/1536)
+            self.evaluator.evaluate(on: boxes, method: .iou, thresh: 0.5)
+//            self.evaluator.evaluate(on: boxes, method: .center, thresh: 20/1536)
             
             DispatchQueue.main.async {
                 self.update()

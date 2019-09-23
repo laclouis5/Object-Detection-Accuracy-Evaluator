@@ -48,8 +48,7 @@ extension Array where Element == BoundingBox {
     func dispStats() {
         print(stats)
     }
-
-    // MARK: - Methods
+    
     func getBoundingBoxesByLabel(_ label: String) -> [BoundingBox] {
         return self.filter { $0.label == label }
     }
