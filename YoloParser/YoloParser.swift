@@ -10,6 +10,10 @@ import Foundation
 
 struct Parser {
     // MARK: - Methods
+    /// Parses a txt file that represents the bounding boxes associated to an image, either detection or ground truth. Returns a BoundingBox array. Each line of the text file must represent a unique box with a label and an optional confidence.
+    /// - Parameter fileURL: Absolute path to the txt file.
+    /// - Parameter coordType: The reference coordinates used to describe rectangular boxes.
+    /// - Parameter coordSystem: The coordinate system (absolute or relative) fro bounding boxes.
     static func parseYoloTxtFile(_ fileURL: URL, coordType: CoordType = .XYX2Y2, coordSystem: CoordinateSystem = .absolute) throws -> [BoundingBox] {
         guard let content = try? String(contentsOf: fileURL, encoding: .utf8) else {
             throw YoloParserError.unreadableAnnotation(fileURL)
@@ -58,7 +62,11 @@ struct Parser {
         }
         return boxes
     }
-
+    
+    /// Parses an entire folder containing txt files each representing the detections associated with one image. Returns an array of BoundingBox objects.
+    /// - Parameter folder: Absolute path to the folder.
+    /// - Parameter coordType: The reference coordinates used to describe rectangular boxes.
+    /// - Parameter coordSystem: The coordinate system (absolute or relative) fro bounding boxes.
     static func parseYoloFolder(_ folder: URL, coordType: CoordType = .XYX2Y2, coordSystem: CoordinateSystem = .absolute) throws -> [BoundingBox] {
         let fileManager = FileManager.default
         

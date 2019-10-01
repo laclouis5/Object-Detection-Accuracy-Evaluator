@@ -40,10 +40,13 @@ struct BoundingBox {
         return Double(box.iou(with: bbox.box))
     }
     
+    /// Returns the distance between the center of two boxes.
     func distance(with bbox: BoundingBox) -> Double {
         return Double(box.distance(with: bbox.box))
     }
     
+    /// Returns the 4 coordinates describing the bounding box as a CGRect
+    /// - Parameter imgSize: The size
     func absoluteBox(relativeTo imgSize: CGSize? = nil) -> CGRect? {
         if imgSize == nil && self.imgSize == nil {
             return nil

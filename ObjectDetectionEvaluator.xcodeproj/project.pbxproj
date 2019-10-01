@@ -14,6 +14,8 @@
 		B90C07F423312FC00018BBE1 /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4352323DC4B00AC087A /* TestData.swift */; };
 		B9618E9C23269F3600CD0823 /* CGRectExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9618E9B23269F3600CD0823 /* CGRectExtensions.swift */; };
 		B9685EFD23245A43007F68A8 /* YoloParserErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9685EFC23245A43007F68A8 /* YoloParserErrors.swift */; };
+		B9A8CE892338F626002EE363 /* NMS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A8CE882338F626002EE363 /* NMS.swift */; };
+		B9A8CE8B2338FE81002EE363 /* NMSErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A8CE8A2338FE81002EE363 /* NMSErrors.swift */; };
 		B9ABD4032323C68700AC087A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4022323C68700AC087A /* AppDelegate.swift */; };
 		B9ABD4072323C68B00AC087A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9ABD4062323C68B00AC087A /* Assets.xcassets */; };
 		B9ABD40A2323C68B00AC087A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9ABD4082323C68B00AC087A /* Main.storyboard */; };
@@ -54,6 +56,8 @@
 		B90C07EF2330FD2C0018BBE1 /* EvaluationTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationTypes.swift; sourceTree = "<group>"; };
 		B9618E9B23269F3600CD0823 /* CGRectExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRectExtensions.swift; sourceTree = "<group>"; };
 		B9685EFC23245A43007F68A8 /* YoloParserErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoloParserErrors.swift; sourceTree = "<group>"; };
+		B9A8CE882338F626002EE363 /* NMS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NMS.swift; sourceTree = "<group>"; };
+		B9A8CE8A2338FE81002EE363 /* NMSErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NMSErrors.swift; sourceTree = "<group>"; };
 		B9ABD3FF2323C68700AC087A /* ObjectDetectionEvaluator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ObjectDetectionEvaluator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9ABD4022323C68700AC087A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B9ABD4062323C68B00AC087A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -112,6 +116,15 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		B9A8CE872338F605002EE363 /* NMS */ = {
+			isa = PBXGroup;
+			children = (
+				B9A8CE882338F626002EE363 /* NMS.swift */,
+				B9A8CE8A2338FE81002EE363 /* NMSErrors.swift */,
+			);
+			path = NMS;
+			sourceTree = "<group>";
+		};
 		B9ABD3F62323C68700AC087A = {
 			isa = PBXGroup;
 			children = (
@@ -119,6 +132,7 @@
 				B9ABD4312323DC4B00AC087A /* YoloParser */,
 				B9ABD4472323DD0200AC087A /* BoundingBox */,
 				B9ABD4482323DD0B00AC087A /* Evaluator */,
+				B9A8CE872338F605002EE363 /* NMS */,
 				B90C07EA2330F7090018BBE1 /* Utils */,
 				B9ABD4142323C68C00AC087A /* ObjectDetectionEvaluatorTests */,
 				B9ABD41F2323C68C00AC087A /* ObjectDetectionEvaluatorUITests */,
@@ -264,7 +278,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1030;
-				LastUpgradeCheck = 1030;
+				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = "Louis Lac";
 				TargetAttributes = {
 					B9ABD3FE2323C68700AC087A = {
@@ -340,11 +354,13 @@
 				B9ABD4422323DC4B00AC087A /* BoundingBox.swift in Sources */,
 				B9618E9C23269F3600CD0823 /* CGRectExtensions.swift in Sources */,
 				B9ABD4432323DC4B00AC087A /* BoundingBoxes.swift in Sources */,
+				B9A8CE8B2338FE81002EE363 /* NMSErrors.swift in Sources */,
 				B90C07F423312FC00018BBE1 /* TestData.swift in Sources */,
 				B9ABD43F2323DC4B00AC087A /* YoloParser.swift in Sources */,
 				B9ABD4452323DC4B00AC087A /* Evaluation.swift in Sources */,
 				B9ABD4412323DC4B00AC087A /* BoundingBoxTypes.swift in Sources */,
 				B9ABD44A2323DEDE00AC087A /* MainViewController.swift in Sources */,
+				B9A8CE892338F626002EE363 /* NMS.swift in Sources */,
 				B90C07EE2330F78A0018BBE1 /* EvaluationExtensions.swift in Sources */,
 				B90C07EC2330F7780018BBE1 /* EvaluatorExtensions.swift in Sources */,
 				B9ADA2B32330111800747D33 /* Extensions.swift in Sources */,
@@ -513,6 +529,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = ObjectDetectionEvaluator/ObjectDetectionEvaluator.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 9BR37CM74X;
@@ -531,6 +548,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = ObjectDetectionEvaluator/ObjectDetectionEvaluator.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 9BR37CM74X;
