@@ -8,27 +8,34 @@
 
 import Foundation
 
-// May be an extention of [String : Evaluation]
+/// Evaluator object to evaluate mAP on a list on detection and ground truth bounding boxes.
 struct Evaluator {
     //MARK: - Properties
     var evaluations = [String: Evaluation]()
     
     //MARK: - Methods
+    /// Returns the total mAP at the specified threshold and evaluation method.
+    /// - Parameter boxes: Detection and ground truth boxes to be evaluated.
+    /// - Parameter thresh: IoU threshold or distance threshold depending on the specified method.
+    /// - Parameter method: The method to evaluate true positive boxes.
     func evaluateAP(on boxes: [BoundingBox], thresh: Double = 0.5, method: EvaluationMethod = .iou) -> Double {
         var mAP = [Double]()
         
-        for (_, bboxes) in boxes.getBoxesDictByLabel() {
+        for (_, bboxes) in boxes.boxesByLabel {
             let AP = calcLabelAP(boxes: bboxes, thresh: thresh, method: method)
             mAP.append(AP)
         }
         return mAP.mean
     }
     
+    /// Returns Coco mAP @ [0.05...0.95]
+    /// - Parameter boxes: Detection and ground truth boxes to be evaluated.
+    /// - Parameter method: The method to evaluate true positive boxes.
     func evaluateCocoAP(on boxes: [BoundingBox], method: EvaluationMethod = .iou) -> Double {
-        let iouThresholds = stride(from: 0.05, to: 1, by: 0.10)
+        let iouThresholds = stride(from: 0.5, to: 1, by: 0.05)
         var mAP = [Double]()
         
-        for (_, bboxes) in boxes.getBoxesDictByLabel() {
+        for (_, bboxes) in boxes.boxesByLabel {
             let (groundTruths, detections) = formatDetGT(boxes: bboxes)
             for thresh in iouThresholds {
                 let truePositives = calcTpFp(groundTruths: groundTruths, detections: detections, method: method, thresh: thresh)
@@ -41,8 +48,14 @@ struct Evaluator {
         return mAP.mean
     }
     
-    mutating func evaluate(on boxes: [BoundingBox], method: EvaluationMethod = .iou, thresh: Double = 0.5) {
-        for (label, bboxes) in boxes.getBoxesDictByLabel() {
+    /// Returns the detail of mAP per class.
+    /// - Parameter boxes: Detection and ground truth boxes to be evaluated.
+    /// - Parameter thresh: IoU threshold or distance threshold depending on the specified method.
+    /// - Parameter method: The method to evaluate true positive boxes.
+    mutating func evaluate(on boxes: [BoundingBox], thresh: Double = 0.5, method: EvaluationMethod = .iou) {
+        reset()
+        
+        for (label, bboxes) in boxes.boxesByLabel {
             let (groundTruths, detections) = formatDetGT(boxes: bboxes)
             let truePositives = calcTpFp(groundTruths: groundTruths, detections: detections, method: method, thresh: thresh)
             let (recalls, precisions) = calcRecsPrecs(truePositives: truePositives, nbGtPositives: groundTruths.nbBoundingBoxes)
@@ -52,14 +65,15 @@ struct Evaluator {
         }
     }
     
+    /// Resets evaluations.
     mutating func reset() {
-        evaluations = [:]
+        evaluations.removeAll()
     }
     
     // MARK: - Private Methods
     private func formatDetGT(boxes: [BoundingBox]) -> ([String: [BoundingBox]], [BoundingBox]) {
-        let groundTruths = boxes.getBoundingBoxesByDetectionMode(.groundTruth).getBoxesDictByName()
-        let detections = boxes.getBoundingBoxesByDetectionMode(.detection).sorted {
+        let groundTruths = boxes.groundTruths.boxesByImgName
+        let detections = boxes.detections.sorted {
             $0.confidence! > $1.confidence!
         }
         return (groundTruths, detections)

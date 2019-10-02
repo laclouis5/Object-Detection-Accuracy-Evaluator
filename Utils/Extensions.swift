@@ -10,14 +10,15 @@ import Foundation
 
 extension Array where Element == Bool {
     var cumSum: [Int] {
-        return self.reduce(into: [Int]()) { (cumSum, bool) in
-            cumSum.append((cumSum.last ?? 0) + (bool ? 1 : 0))}
+        reduce(into: [Int]()) { (cumSum, bool) in
+            cumSum.append((cumSum.last ?? 0) + (bool ? 1 : 0))
+        }
     }
 }
 
 extension Array where Element == Int {
     var cumSum: [Int] {
-        return self.reduce(into: [Int]()) { (cumSum, element) in
+        reduce(into: [Int]()) { (cumSum, element) in
             cumSum.append((cumSum.last ?? 0) + element)
         }
     }
@@ -25,13 +26,13 @@ extension Array where Element == Int {
 
 extension Array where Element == Double {
     var mean: Double {
-        return self.reduce(0.0, +) / Double(self.count)
+        reduce(0.0, +) / Double(count)
     }
 }
 
 extension Dictionary where Value == [BoundingBox] {
     var nbBoundingBoxes: Int {
-        return self.reduce(0) { (nbBBoxes, element) -> Int in
+        reduce(0) { (nbBBoxes, element) -> Int in
             nbBBoxes + element.value.count
         }
     }

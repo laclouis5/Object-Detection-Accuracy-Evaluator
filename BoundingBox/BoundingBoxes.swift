@@ -11,21 +11,38 @@ import Foundation
 extension Array where Element == BoundingBox {
     // MARK: - Computed Properties
     var labels: Set<String> {
-        return Set(self.map { $0.label })
+        Set(map { $0.label })
     }
 
     var imageNames: Set<String> {
-        return Set(self.map { $0.name })
+        Set(map { $0.name })
+    }
+    
+    var detections: [BoundingBox] {
+        filter { $0.detectionMode == .detection }
+    }
+    
+    var groundTruths: [BoundingBox] {
+        filter { $0.detectionMode == .groundTruth }
+    }
+    
+    var boxesByImgName: [String: [BoundingBox]] {
+        reduce(into: [:]) { (dict, box) in
+            dict[box.name, default: []].append(box)
+        }
+    }
+
+    var boxesByLabel: [String: [BoundingBox]] {
+        reduce(into: [:]) { (dict, box) in
+            dict[box.label, default: []].append(box)
+        }
     }
 
     var stats: String {
-        let gtBoxes  = self.getBoundingBoxesByDetectionMode(.groundTruth)
-        let detBoxes = self.getBoundingBoxesByDetectionMode(.detection)
-
         var description = "Global Stats\n".uppercased()
-        description += "Ground Truth Count: \(gtBoxes.count)\n"
-        description += "Detection Count:    \(detBoxes.count)\n"
-        description += "Number of labels:   \(gtBoxes.labels.count)\n\n"
+        description += "Ground Truth Count: \(detections.count)\n"
+        description += "Detection Count:    \(groundTruths.count)\n"
+        description += "Number of labels:   \(groundTruths.labels.count)\n\n"
 
         description += labelStats
 
@@ -33,46 +50,14 @@ extension Array where Element == BoundingBox {
     }
 
     var labelStats: String {
-        let gtBoxes = self.getBoundingBoxesByDetectionMode(.groundTruth)
-        
-        return gtBoxes.labels.sorted().reduce(into: "") { (descr, label) in
-            let labelBoxes = gtBoxes.getBoundingBoxesByLabel(label)
-            
-            descr +=  "\(label.uppercased())\n"
-            descr += "  Images:      \(labelBoxes.imageNames.count)\n"
-            descr += "  Annotations: \(labelBoxes.count)\n\n"
+        boxesByLabel.keys.sorted().reduce(into: "") { (description, label) in
+            description += label.uppercased() + "\n"
+            description += "  Images:      \(boxesByLabel[label]!.imageNames.count)\n"
+            description += "  Annotations: \(boxesByLabel[label]!.count)\n\n"
         }
     }
 
     // MARK: - Methods
-    func dispStats() {
-        print(stats)
-    }
-    
-    func getBoundingBoxesByLabel(_ label: String) -> [BoundingBox] {
-        return self.filter { $0.label == label }
-    }
-
-    func getBoundingBoxesByDetectionMode(_ detectionMode: DetectionMode) -> [BoundingBox] {
-        return self.filter { $0.detectionMode == detectionMode }
-    }
-
-    func getBoundingBoxesByName(_ name: String) -> [BoundingBox] {
-        return self.filter { $0.name == name }
-    }
-
-    func getBoxesDictByName() -> [String: [BoundingBox]] {
-        return self.reduce(into: [:]) { (dict, box) in
-            dict[box.name, default: []].append(box)
-        }
-    }
-
-    func getBoxesDictByLabel() -> [String: [BoundingBox]] {
-        return self.reduce(into: [:]) { (dict, box) in
-            dict[box.label, default: []].append(box)
-        }
-    }
-
     mutating func mapLabels(with labels: [String: String]) {
         guard Set(labels.keys) == Set(self.labels) else {
             print("Error: new label keys must match old labels")
@@ -80,8 +65,8 @@ extension Array where Element == BoundingBox {
             print("Given labels: \(labels.keys)")
             return
         }
-        self = self.map {
-            BoundingBox(name: $0.name, label: labels[$0.label]!, box: $0.box, coordSystem: $0.coordSystem, confidence: $0.confidence, imgSize: $0.imgSize)
+        self = map {
+            BoundingBox(imgName: $0.name, label: labels[$0.label]!, box: $0.box, coordSystem: $0.coordSystem, confidence: $0.confidence, imgSize: $0.imgSize)
         }
     }
 }

@@ -18,17 +18,17 @@ struct Evaluation {
     var recalls = [Double]()
     
     var nbDetections: Int {
-        return truePositives.count
+        truePositives.count
     }
     var nbTP: Int {
-        return truePositives.filter { $0 }.count
+        truePositives.filter { $0 }.count
     }
     var nbFP: Int {
-        return truePositives.filter { !$0 }.count
+        truePositives.filter { !$0 }.count
     }
     
     // MARK: - Subscripts
     subscript(i: Int) -> (Bool, Double, Double, Double) {
-        return (truePositives[i], confidences[i], recalls[i], precisions[i])
+        (truePositives[i], confidences[i], recalls[i], precisions[i])
     }
 }

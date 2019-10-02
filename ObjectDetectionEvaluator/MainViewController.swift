@@ -10,9 +10,9 @@ import Cocoa
 
 class MainViewController: NSViewController {
     // MARK: - Properties
-    var yoloFolders: [URL]?
-    var boxes: [BoundingBox]?
-    var evaluator: Evaluator!
+    var folders = [URL]()
+    var boxes = [BoundingBox]()
+    var evaluator = Evaluator()
     
     // MARK: - Outlets
     @IBOutlet weak var folderPath: NSTextField!
@@ -32,8 +32,6 @@ class MainViewController: NSViewController {
     // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        evaluator = Evaluator()
-        
         workingIndicator.isHidden = true
         evalutationIndicator.isHidden = true
         runEvaluationButton.isEnabled = false
@@ -43,29 +41,32 @@ class MainViewController: NSViewController {
 
     func update() {
         // Folder
-        switch yoloFolders?.count {
-        case nil, 0:
+        switch folders.count {
+        case 0:
             folderPath.stringValue = "No folder selected..."
         case 1:
             folderPath.stringValue = "1 folder selected"
-        case let count?:
+        case let count:
             folderPath.stringValue = "\(count) folders selected"
         }
         
         // General Stats
-        nbGroundTruths.stringValue = String(boxes?.getBoundingBoxesByDetectionMode(.groundTruth).count ?? 0)
-        nbDetections.stringValue = String(boxes?.getBoundingBoxesByDetectionMode(.detection).count ?? 0)
-        nbLabels.stringValue = String(boxes?.labels.count ?? 0)
+        nbGroundTruths.stringValue = String(boxes.groundTruths.count)
+        nbDetections.stringValue = String(boxes.detections.count)
+        nbLabels.stringValue = String(boxes.labels.count)
         
         // Detection result
-        boxesStats.string = boxes?.labelStats ?? ""
+        boxesStats.string = boxes.labelStats
         
         // Detail of Evaluation
-        switch boxes?.count {
-        case nil, 0:
+        switch boxes.count {
+        case 0:
             runEvaluationButton.isEnabled = false
-        default:
+        case 1...:
             runEvaluationButton.isEnabled = true
+        default:
+            runEvaluationButton.isEnabled = false
+            print("Error: boxes not initialized.")
         }
         evalutationStats.string = evaluator.description
         totalMAP.stringValue = "\(Double(Int(10_000 * evaluator.evaluations.mAP)) / 100) %"
@@ -78,16 +79,15 @@ class MainViewController: NSViewController {
             }
         } catch YoloParserError.folderNotListable(let url) {
             print("Error: folder '\(url)' not listable")
-            boxes = nil
+            boxes = []
         } catch YoloParserError.unreadableAnnotation(let url) {
             print("Error: annotation '\(url)' not readable")
-            boxes = nil
+            boxes = []
         } catch YoloParserError.invalidLineFormat(file: let url, line: let line) {
             print("Error: Line '\(line)' of file '\(url)' not readable")
-            boxes = nil
         } catch let error {
             print("Error while reading annotations: \(error)")
-            boxes = nil
+            boxes = []
         }
     }
     
@@ -101,22 +101,16 @@ class MainViewController: NSViewController {
         dialog.canCreateDirectories = false
         dialog.allowsMultipleSelection = true
         
-        if (dialog.runModal() == NSApplication.ModalResponse.OK) {
-            yoloFolders = dialog.urls
+        if (dialog.runModal() == .OK) {
+            folders = dialog.urls
+            evaluator.reset()
             update()
-            
-            guard let folders = yoloFolders else { return }
-            
-           // Check if folders have changed
-            if Set(folders) != Set(dialog.urls) {
-                evaluator.reset()
-            }
             
             workingIndicator.isHidden = false
             workingIndicator.startAnimation(self)
             
             DispatchQueue.global(qos: .userInitiated).async {
-                self.parseBoxes(from: folders)
+                self.parseBoxes(from: self.folders)
                 let newlabels = ["0": "Maize",
                                  "1": "Bean",
                                  "2": "Leek",
@@ -124,7 +118,7 @@ class MainViewController: NSViewController {
                                  "4": "Stem Bean",
                                  "5": "Stem Leek"]
                 
-                self.boxes?.mapLabels(with: newlabels)
+                self.boxes.mapLabels(with: newlabels)
                 
                 DispatchQueue.main.async {
                     self.update()
@@ -136,21 +130,16 @@ class MainViewController: NSViewController {
     }
     
     @IBAction func runEvaluation(_ sender: Any) {
-        guard let boxes = self.boxes else { return }
-        
         evalutationIndicator.isHidden = false
         evalutationIndicator.startAnimation(self)
         runEvaluationButton.isEnabled = false
         
-        evaluator.reset()
-        
         DispatchQueue.global(qos: .userInitiated).async {
-            self.evaluator.evaluate(on: boxes, method: .iou, thresh: 0.5)
-//            self.evaluator.evaluate(on: boxes, method: .center, thresh: 20/1536)
+            self.evaluator.evaluate(on: self.boxes, thresh: 0.5, method: .iou)
+//            self.evaluator.evaluate(on: self.boxes, method: .center, thresh: 20/1536)
             
             DispatchQueue.main.async {
                 self.update()
-                
                 self.evalutationIndicator.isHidden = true
                 self.evalutationIndicator.stopAnimation(self)
                 self.runEvaluationButton.isEnabled = true

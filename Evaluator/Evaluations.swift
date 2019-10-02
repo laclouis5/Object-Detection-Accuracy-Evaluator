@@ -10,12 +10,8 @@ import Foundation
 
 extension Dictionary where Value == Evaluation {
     var mAP: Double {
-        guard self.count != 0 else { return 0.0 }
-        
-        let mAP = self.reduce(0.0) { (accumulator, evaluation) -> Double in
-            return accumulator + evaluation.value.mAP
-        } / Double(self.count)
-        
-        return mAP
+        reduce(0.0) { (accumulator, evaluation) -> Double in
+            accumulator + evaluation.value.mAP
+            } / (Double(count) + Double.leastNonzeroMagnitude)
     }
 }

@@ -26,8 +26,8 @@ struct BoundingBox {
     }
     
     // MARK: - Initializers
-    init(name: String, label: String, box: CGRect, coordSystem: CoordinateSystem, confidence: Double? = nil, imgSize: CGSize? = nil) {
-        self.name = name
+    init(imgName: String, label: String, box: CGRect, coordSystem: CoordinateSystem, confidence: Double? = nil, imgSize: CGSize? = nil) {
+        self.name = imgName
         self.label = label
         self.box = box
         self.coordSystem = coordSystem
@@ -36,17 +36,18 @@ struct BoundingBox {
     }
     
     // MARK: - Methods
+    /// Returns the Intersection over Union of two bounding boxes.
     func iou(with bbox: BoundingBox) -> Double {
-        return Double(box.iou(with: bbox.box))
+        Double(box.iou(with: bbox.box))
     }
     
     /// Returns the distance between the center of two boxes.
     func distance(with bbox: BoundingBox) -> Double {
-        return Double(box.distance(with: bbox.box))
+        Double(box.distance(with: bbox.box))
     }
     
-    /// Returns the 4 coordinates describing the bounding box as a CGRect
-    /// - Parameter imgSize: The size
+    /// Returns the 4 coordinates describing the bounding box as a CGRect.
+    /// - Parameter imgSize: Image size in pixels.
     func absoluteBox(relativeTo imgSize: CGSize? = nil) -> CGRect? {
         if imgSize == nil && self.imgSize == nil {
             return nil

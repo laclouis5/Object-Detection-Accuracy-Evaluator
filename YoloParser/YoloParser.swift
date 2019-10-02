@@ -21,7 +21,7 @@ struct Parser {
         let lines = content.components(separatedBy: .newlines).filter { !$0.isEmpty }
         
         let boxes = try lines.map { rawLine -> BoundingBox in
-            let line  = rawLine.components(separatedBy: .whitespaces).filter { !$0.isEmpty }
+            let line = rawLine.components(separatedBy: .whitespaces).filter { !$0.isEmpty }
             let label = String(line[0])
             
             // Case Ground Truth
@@ -38,7 +38,7 @@ struct Parser {
                 case .XYX2Y2:
                     rect = CGRect(minX: a, minY: b, maxX: c, maxY: d)
                 }
-                return BoundingBox(name: fileURL.lastPathComponent, label: label, box: rect, coordSystem: coordSystem)
+                return BoundingBox(imgName: fileURL.lastPathComponent, label: label, box: rect, coordSystem: coordSystem)
                 
             // Case Detection
             case 6:
@@ -53,7 +53,7 @@ struct Parser {
                 case .XYX2Y2:
                     rect = CGRect(minX: a, minY: b, maxX: c, maxY: d)
                 }
-                return BoundingBox(name: fileURL.lastPathComponent, label: label, box: rect, coordSystem: coordSystem, confidence: confidence)
+                return BoundingBox(imgName: fileURL.lastPathComponent, label: label, box: rect, coordSystem: coordSystem, confidence: confidence)
             
             // Case wrong annotation
             default:

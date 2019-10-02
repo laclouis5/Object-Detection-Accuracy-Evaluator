@@ -12,16 +12,17 @@ extension CGRect {
     // MARK: - Properties
     var center: CGPoint {
         get {
-            return CGPoint(x: self.midX, y: self.midY)
+            CGPoint(x: self.midX, y: self.midY)
         } set {
             let newX = newValue.x - self.width/2.0
             let newY = newValue.y - self.height/2.0
+            
             origin = CGPoint(x: newX, y: newY)
         }
     }
     
     var area: CGFloat {
-        return self.width * self.height
+        self.width * self.height
     }
     
     // MARK: - Initializers
@@ -54,8 +55,9 @@ extension CGRect {
     }
     
     // MARK: - Methods
+    /// Returns the Intersection over Union of two CGrect.
     func iou(with rect: CGRect) -> CGFloat {
-        guard self.intersects(rect) else {
+        guard intersects(rect) else {
             return 0.0
         }
         let intersection = self.intersection(rect).area
@@ -64,6 +66,7 @@ extension CGRect {
         return intersection / (union + CGFloat.leastNonzeroMagnitude)
     }
     
+    /// Returns the distance between the center of two CGrect.
     func distance(with rect: CGRect) -> CGFloat {
         let dx = self.midX - rect.midX
         let dy = self.midY - rect.midY
@@ -71,6 +74,8 @@ extension CGRect {
         return sqrt(dx*dx + dy*dy)
     }
     
+    /// Returns the 4 coordinates describing the bounding box as a CGRect.
+    /// - Parameter imgSize: Image size in pixels.
     func absoluteBox(relativeTo imgSize: CGSize) -> CGRect {
         let x = midX / imgSize.width
         let y = midY / imgSize.height
