@@ -50,7 +50,10 @@ extension Array where Element == BoundingBox {
     }
 
     var labelStats: String {
-        boxesByLabel.keys.sorted().reduce(into: "") { (description, label) in
+        boxesByLabel
+            .keys
+            .sorted()
+            .reduce(into: "") { (description, label) in
             description += label.uppercased() + "\n"
             description += "  Images:      \(boxesByLabel[label]!.imageNames.count)\n"
             description += "  Annotations: \(boxesByLabel[label]!.count)\n\n"
