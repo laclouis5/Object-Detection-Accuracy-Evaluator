@@ -43,17 +43,13 @@ extension Array where Element == BoundingBox {
         description += "Ground Truth Count: \(detections.count)\n"
         description += "Detection Count:    \(groundTruths.count)\n"
         description += "Number of labels:   \(groundTruths.labels.count)\n\n"
-
         description += labelStats
 
         return description
     }
 
     var labelStats: String {
-        boxesByLabel
-            .keys
-            .sorted()
-            .reduce(into: "") { (description, label) in
+        boxesByLabel.keys.sorted().reduce(into: "") { (description, label) in
             description += label.uppercased() + "\n"
             description += "  Images:      \(boxesByLabel[label]!.imageNames.count)\n"
             description += "  Annotations: \(boxesByLabel[label]!.count)\n\n"

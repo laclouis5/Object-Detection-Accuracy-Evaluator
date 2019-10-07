@@ -19,12 +19,11 @@ struct Parser {
         guard let content = try? String(contentsOf: fileURL, encoding: .utf8) else {
             throw YoloParserError.unreadableAnnotation(fileURL)
         }
-        let lines = content
-            .components(separatedBy: .newlines)
-            .filter { !$0.isEmpty }
+        let lines = content.components(separatedBy: .newlines).filter { !$0.isEmpty }
         
         let boxes = try lines.map { rawLine -> BoundingBox in
             let line = rawLine.components(separatedBy: .whitespaces).filter { !$0.isEmpty }
+            
             let label = String(line[0])
             
             // Case Ground Truth

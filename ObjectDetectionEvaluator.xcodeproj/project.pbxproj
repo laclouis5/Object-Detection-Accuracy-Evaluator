@@ -30,6 +30,7 @@
 		B9ABD4452323DC4B00AC087A /* Evaluation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD43B2323DC4B00AC087A /* Evaluation.swift */; };
 		B9ABD44A2323DEDE00AC087A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4492323DEDE00AC087A /* MainViewController.swift */; };
 		B9ADA2B32330111800747D33 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ADA2B22330111800747D33 /* Extensions.swift */; };
+		B9FA49F92348FF8200DDC86E /* YoloParser2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FA49F82348FF8200DDC86E /* YoloParser2.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		B9ABD43B2323DC4B00AC087A /* Evaluation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Evaluation.swift; sourceTree = "<group>"; };
 		B9ABD4492323DEDE00AC087A /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		B9ADA2B22330111800747D33 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		B9FA49F82348FF8200DDC86E /* YoloParser2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoloParser2.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				B9ABD4342323DC4B00AC087A /* YoloParser.swift */,
+				B9FA49F82348FF8200DDC86E /* YoloParser2.swift */,
 				B9685EFC23245A43007F68A8 /* YoloParserErrors.swift */,
 			);
 			path = YoloParser;
@@ -231,6 +234,8 @@
 			dependencies = (
 			);
 			name = ObjectDetectionEvaluator;
+			packageProductDependencies = (
+			);
 			productName = ObjectDetectionEvaluator;
 			productReference = B9ABD3FF2323C68700AC087A /* ObjectDetectionEvaluator.app */;
 			productType = "com.apple.product-type.application";
@@ -303,6 +308,8 @@
 				Base,
 			);
 			mainGroup = B9ABD3F62323C68700AC087A;
+			packageReferences = (
+			);
 			productRefGroup = B9ABD4002323C68700AC087A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -347,6 +354,7 @@
 			files = (
 				B9685EFD23245A43007F68A8 /* YoloParserErrors.swift in Sources */,
 				B9ABD4032323C68700AC087A /* AppDelegate.swift in Sources */,
+				B9FA49F92348FF8200DDC86E /* YoloParser2.swift in Sources */,
 				B9ABD4442323DC4B00AC087A /* BoundingBoxExtensions.swift in Sources */,
 				B902CAC823245CD700C2BB74 /* Evaluations.swift in Sources */,
 				B9ABD43D2323DC4B00AC087A /* Evaluator.swift in Sources */,

@@ -20,8 +20,7 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
         evaluator.reset()
     }
 
-    override func tearDown() {
-    }
+    override func tearDown() { }
 
     func testPrecRec() {
         evaluator.evaluate(on: boxes)
@@ -64,6 +63,24 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
         self.measure {
             let mAP = evaluator.evaluateCocoAP(on: boxes)
             print(mAP)
+        }
+    }
+    
+    func testParser1() {
+        self.measure {
+            var boxes = [BoundingBox]()
+            for url in urls {
+                boxes += try! Parser.parseYoloFolder(url)
+            }
+        }
+    }
+    
+    func testParser2() {
+        self.measure {
+            var boxes = [BoundingBox?]()
+            for url in urls {
+                boxes += Parser2.parseFolder(url, coordType: .XYWH, coordSystem: .relative)
+            }
         }
     }
 }

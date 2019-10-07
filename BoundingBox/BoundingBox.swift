@@ -18,15 +18,16 @@ struct BoundingBox {
     var imgSize: CGSize?
     
     var detectionMode: DetectionMode {
-        if confidence != nil {
-            return .detection
-        } else {
+        if confidence == nil {
             return .groundTruth
+        } else {
+            return .detection
         }
     }
     
     // MARK: - Initializers
     init(imgName: String, label: String, box: CGRect, coordSystem: CoordinateSystem, confidence: Double? = nil, imgSize: CGSize? = nil) {
+        
         self.name = imgName
         self.label = label
         self.box = box

@@ -111,12 +111,14 @@ class MainViewController: NSViewController {
             
             DispatchQueue.global(qos: .userInitiated).async {
                 self.parseBoxes(from: self.folders)
-                let newlabels = ["0": "Maize",
-                                 "1": "Bean",
-                                 "2": "Leek",
-                                 "3": "Stem Maize",
-                                 "4": "Stem Bean",
-                                 "5": "Stem Leek"]
+                let newlabels = [
+                    "0": "Maize",
+                    "1": "Bean",
+                    "2": "Leek",
+                    "3": "Stem Maize",
+                    "4": "Stem Bean",
+                    "5": "Stem Leek"
+                ]
                 
                 self.boxes.mapLabels(with: newlabels)
                 

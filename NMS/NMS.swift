@@ -12,7 +12,6 @@ import Foundation
 /// - Parameter boxes: Detection boxes to filter.
 /// - Parameter nmsThresh: Threshold on Intersection over Union used to merge boxes. Must be between 0 and 1.
 func performNMS(on boxes: [BoundingBox], nmsThresh: Double) throws -> [BoundingBox] {
-    
     guard boxes.allSatisfy({ (box) -> Bool in
         box.detectionMode == .detection
     }) else { throw NMSErrors.areNotDetectionBoxes }
