@@ -8,14 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		B902CAC823245CD700C2BB74 /* Evaluations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B902CAC723245CD700C2BB74 /* Evaluations.swift */; };
-		B90C07EC2330F7780018BBE1 /* EvaluatorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C07EB2330F7780018BBE1 /* EvaluatorExtensions.swift */; };
-		B90C07EE2330F78A0018BBE1 /* EvaluationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C07ED2330F78A0018BBE1 /* EvaluationExtensions.swift */; };
-		B90C07F02330FD2C0018BBE1 /* EvaluationTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C07EF2330FD2C0018BBE1 /* EvaluationTypes.swift */; };
+		B90C07EC2330F7780018BBE1 /* Evaluator+Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C07EB2330F7780018BBE1 /* Evaluator+Description.swift */; };
+		B90C07EE2330F78A0018BBE1 /* Evaluation+Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C07ED2330F78A0018BBE1 /* Evaluation+Description.swift */; };
+		B90C07F02330FD2C0018BBE1 /* Evaluation+Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C07EF2330FD2C0018BBE1 /* Evaluation+Types.swift */; };
 		B90C07F423312FC00018BBE1 /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4352323DC4B00AC087A /* TestData.swift */; };
-		B9618E9C23269F3600CD0823 /* CGRectExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9618E9B23269F3600CD0823 /* CGRectExtensions.swift */; };
-		B9685EFD23245A43007F68A8 /* YoloParserErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9685EFC23245A43007F68A8 /* YoloParserErrors.swift */; };
+		B9618E9C23269F3600CD0823 /* CGRect+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9618E9B23269F3600CD0823 /* CGRect+Extensions.swift */; };
+		B9685EFD23245A43007F68A8 /* YoloParser+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9685EFC23245A43007F68A8 /* YoloParser+Error.swift */; };
 		B9A8CE892338F626002EE363 /* NMS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A8CE882338F626002EE363 /* NMS.swift */; };
-		B9A8CE8B2338FE81002EE363 /* NMSErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A8CE8A2338FE81002EE363 /* NMSErrors.swift */; };
+		B9A8CE8B2338FE81002EE363 /* NMS+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A8CE8A2338FE81002EE363 /* NMS+Error.swift */; };
 		B9ABD4032323C68700AC087A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4022323C68700AC087A /* AppDelegate.swift */; };
 		B9ABD4072323C68B00AC087A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9ABD4062323C68B00AC087A /* Assets.xcassets */; };
 		B9ABD40A2323C68B00AC087A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9ABD4082323C68B00AC087A /* Main.storyboard */; };
@@ -23,10 +23,10 @@
 		B9ABD4212323C68C00AC087A /* ObjectDetectionEvaluatorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4202323C68C00AC087A /* ObjectDetectionEvaluatorUITests.swift */; };
 		B9ABD43D2323DC4B00AC087A /* Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4322323DC4B00AC087A /* Evaluator.swift */; };
 		B9ABD43F2323DC4B00AC087A /* YoloParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4342323DC4B00AC087A /* YoloParser.swift */; };
-		B9ABD4412323DC4B00AC087A /* BoundingBoxTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4372323DC4B00AC087A /* BoundingBoxTypes.swift */; };
+		B9ABD4412323DC4B00AC087A /* BoundingBox+Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4372323DC4B00AC087A /* BoundingBox+Types.swift */; };
 		B9ABD4422323DC4B00AC087A /* BoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4382323DC4B00AC087A /* BoundingBox.swift */; };
 		B9ABD4432323DC4B00AC087A /* BoundingBoxes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4392323DC4B00AC087A /* BoundingBoxes.swift */; };
-		B9ABD4442323DC4B00AC087A /* BoundingBoxExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD43A2323DC4B00AC087A /* BoundingBoxExtensions.swift */; };
+		B9ABD4442323DC4B00AC087A /* BoundingBox+Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD43A2323DC4B00AC087A /* BoundingBox+Description.swift */; };
 		B9ABD4452323DC4B00AC087A /* Evaluation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD43B2323DC4B00AC087A /* Evaluation.swift */; };
 		B9ABD44A2323DEDE00AC087A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4492323DEDE00AC087A /* MainViewController.swift */; };
 		B9ADA2B32330111800747D33 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ADA2B22330111800747D33 /* Extensions.swift */; };
@@ -52,13 +52,13 @@
 
 /* Begin PBXFileReference section */
 		B902CAC723245CD700C2BB74 /* Evaluations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Evaluations.swift; sourceTree = "<group>"; };
-		B90C07EB2330F7780018BBE1 /* EvaluatorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluatorExtensions.swift; sourceTree = "<group>"; };
-		B90C07ED2330F78A0018BBE1 /* EvaluationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationExtensions.swift; sourceTree = "<group>"; };
-		B90C07EF2330FD2C0018BBE1 /* EvaluationTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationTypes.swift; sourceTree = "<group>"; };
-		B9618E9B23269F3600CD0823 /* CGRectExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRectExtensions.swift; sourceTree = "<group>"; };
-		B9685EFC23245A43007F68A8 /* YoloParserErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoloParserErrors.swift; sourceTree = "<group>"; };
+		B90C07EB2330F7780018BBE1 /* Evaluator+Description.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Evaluator+Description.swift"; sourceTree = "<group>"; };
+		B90C07ED2330F78A0018BBE1 /* Evaluation+Description.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Evaluation+Description.swift"; sourceTree = "<group>"; };
+		B90C07EF2330FD2C0018BBE1 /* Evaluation+Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Evaluation+Types.swift"; sourceTree = "<group>"; };
+		B9618E9B23269F3600CD0823 /* CGRect+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGRect+Extensions.swift"; sourceTree = "<group>"; };
+		B9685EFC23245A43007F68A8 /* YoloParser+Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YoloParser+Error.swift"; sourceTree = "<group>"; };
 		B9A8CE882338F626002EE363 /* NMS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NMS.swift; sourceTree = "<group>"; };
-		B9A8CE8A2338FE81002EE363 /* NMSErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NMSErrors.swift; sourceTree = "<group>"; };
+		B9A8CE8A2338FE81002EE363 /* NMS+Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NMS+Error.swift"; sourceTree = "<group>"; };
 		B9ABD3FF2323C68700AC087A /* ObjectDetectionEvaluator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ObjectDetectionEvaluator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9ABD4022323C68700AC087A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B9ABD4062323C68B00AC087A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -74,10 +74,10 @@
 		B9ABD4322323DC4B00AC087A /* Evaluator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Evaluator.swift; sourceTree = "<group>"; };
 		B9ABD4342323DC4B00AC087A /* YoloParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoloParser.swift; sourceTree = "<group>"; };
 		B9ABD4352323DC4B00AC087A /* TestData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
-		B9ABD4372323DC4B00AC087A /* BoundingBoxTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoundingBoxTypes.swift; sourceTree = "<group>"; };
+		B9ABD4372323DC4B00AC087A /* BoundingBox+Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BoundingBox+Types.swift"; sourceTree = "<group>"; };
 		B9ABD4382323DC4B00AC087A /* BoundingBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoundingBox.swift; sourceTree = "<group>"; };
 		B9ABD4392323DC4B00AC087A /* BoundingBoxes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoundingBoxes.swift; sourceTree = "<group>"; };
-		B9ABD43A2323DC4B00AC087A /* BoundingBoxExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoundingBoxExtensions.swift; sourceTree = "<group>"; };
+		B9ABD43A2323DC4B00AC087A /* BoundingBox+Description.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BoundingBox+Description.swift"; sourceTree = "<group>"; };
 		B9ABD43B2323DC4B00AC087A /* Evaluation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Evaluation.swift; sourceTree = "<group>"; };
 		B9ABD4492323DEDE00AC087A /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		B9ADA2B22330111800747D33 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -122,7 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				B9A8CE882338F626002EE363 /* NMS.swift */,
-				B9A8CE8A2338FE81002EE363 /* NMSErrors.swift */,
+				B9A8CE8A2338FE81002EE363 /* NMS+Error.swift */,
 			);
 			path = NMS;
 			sourceTree = "<group>";
@@ -188,7 +188,7 @@
 			children = (
 				B9ABD4342323DC4B00AC087A /* YoloParser.swift */,
 				B9FA49F82348FF8200DDC86E /* YoloParser2.swift */,
-				B9685EFC23245A43007F68A8 /* YoloParserErrors.swift */,
+				B9685EFC23245A43007F68A8 /* YoloParser+Error.swift */,
 			);
 			path = YoloParser;
 			sourceTree = "<group>";
@@ -197,10 +197,10 @@
 			isa = PBXGroup;
 			children = (
 				B9ABD4382323DC4B00AC087A /* BoundingBox.swift */,
-				B9ABD4372323DC4B00AC087A /* BoundingBoxTypes.swift */,
-				B9ABD43A2323DC4B00AC087A /* BoundingBoxExtensions.swift */,
+				B9ABD4372323DC4B00AC087A /* BoundingBox+Types.swift */,
+				B9ABD43A2323DC4B00AC087A /* BoundingBox+Description.swift */,
 				B9ABD4392323DC4B00AC087A /* BoundingBoxes.swift */,
-				B9618E9B23269F3600CD0823 /* CGRectExtensions.swift */,
+				B9618E9B23269F3600CD0823 /* CGRect+Extensions.swift */,
 			);
 			path = BoundingBox;
 			sourceTree = "<group>";
@@ -209,11 +209,11 @@
 			isa = PBXGroup;
 			children = (
 				B9ABD43B2323DC4B00AC087A /* Evaluation.swift */,
-				B90C07ED2330F78A0018BBE1 /* EvaluationExtensions.swift */,
+				B90C07EF2330FD2C0018BBE1 /* Evaluation+Types.swift */,
+				B90C07ED2330F78A0018BBE1 /* Evaluation+Description.swift */,
 				B902CAC723245CD700C2BB74 /* Evaluations.swift */,
 				B9ABD4322323DC4B00AC087A /* Evaluator.swift */,
-				B90C07EF2330FD2C0018BBE1 /* EvaluationTypes.swift */,
-				B90C07EB2330F7780018BBE1 /* EvaluatorExtensions.swift */,
+				B90C07EB2330F7780018BBE1 /* Evaluator+Description.swift */,
 			);
 			path = Evaluator;
 			sourceTree = "<group>";
@@ -352,25 +352,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B9685EFD23245A43007F68A8 /* YoloParserErrors.swift in Sources */,
+				B9685EFD23245A43007F68A8 /* YoloParser+Error.swift in Sources */,
 				B9ABD4032323C68700AC087A /* AppDelegate.swift in Sources */,
 				B9FA49F92348FF8200DDC86E /* YoloParser2.swift in Sources */,
-				B9ABD4442323DC4B00AC087A /* BoundingBoxExtensions.swift in Sources */,
+				B9ABD4442323DC4B00AC087A /* BoundingBox+Description.swift in Sources */,
 				B902CAC823245CD700C2BB74 /* Evaluations.swift in Sources */,
 				B9ABD43D2323DC4B00AC087A /* Evaluator.swift in Sources */,
-				B90C07F02330FD2C0018BBE1 /* EvaluationTypes.swift in Sources */,
+				B90C07F02330FD2C0018BBE1 /* Evaluation+Types.swift in Sources */,
 				B9ABD4422323DC4B00AC087A /* BoundingBox.swift in Sources */,
-				B9618E9C23269F3600CD0823 /* CGRectExtensions.swift in Sources */,
+				B9618E9C23269F3600CD0823 /* CGRect+Extensions.swift in Sources */,
 				B9ABD4432323DC4B00AC087A /* BoundingBoxes.swift in Sources */,
-				B9A8CE8B2338FE81002EE363 /* NMSErrors.swift in Sources */,
+				B9A8CE8B2338FE81002EE363 /* NMS+Error.swift in Sources */,
 				B90C07F423312FC00018BBE1 /* TestData.swift in Sources */,
 				B9ABD43F2323DC4B00AC087A /* YoloParser.swift in Sources */,
 				B9ABD4452323DC4B00AC087A /* Evaluation.swift in Sources */,
-				B9ABD4412323DC4B00AC087A /* BoundingBoxTypes.swift in Sources */,
+				B9ABD4412323DC4B00AC087A /* BoundingBox+Types.swift in Sources */,
 				B9ABD44A2323DEDE00AC087A /* MainViewController.swift in Sources */,
 				B9A8CE892338F626002EE363 /* NMS.swift in Sources */,
-				B90C07EE2330F78A0018BBE1 /* EvaluationExtensions.swift in Sources */,
-				B90C07EC2330F7780018BBE1 /* EvaluatorExtensions.swift in Sources */,
+				B90C07EE2330F78A0018BBE1 /* Evaluation+Description.swift in Sources */,
+				B90C07EC2330F7780018BBE1 /* Evaluator+Description.swift in Sources */,
 				B9ADA2B32330111800747D33 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -469,7 +469,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -524,7 +524,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -546,6 +546,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = louislac.ObjectDetectionEvaluator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -565,6 +566,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = louislac.ObjectDetectionEvaluator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

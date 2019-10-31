@@ -8,10 +8,11 @@
 
 import Foundation
 
-/// Evaluator object to evaluate mAP on a list on detection and ground truth bounding boxes.
+/// Object to evaluate mAP on a list on detection and ground truth bounding boxes.
 struct Evaluator {
     //MARK: - Properties
     var evaluations = [String: Evaluation]()
+    var cocoAP = 0.0
     
     //MARK: - Methods
     /// Returns the total mAP at the specified threshold and evaluation method.
@@ -28,24 +29,20 @@ struct Evaluator {
         return mAP.mean
     }
     
-    /// Returns Coco mAP @ [0.05...0.95]
+    /// Returns Coco mAP @ `[0.05...0.95]`
     /// - Parameter boxes: Detection and ground truth boxes to be evaluated.
     /// - Parameter method: The method to evaluate true positive boxes.
-    func evaluateCocoAP(on boxes: [BoundingBox], method: EvaluationMethod = .iou) -> Double {
+    mutating func evaluateCocoAP(on boxes: [BoundingBox], method: EvaluationMethod = .iou) {
         let iouThresholds = stride(from: 0.5, to: 1, by: 0.05)
         var mAP = [Double]()
         
         for (_, bboxes) in boxes.boxesByLabel {
-            let (groundTruths, detections) = formatDetGT(boxes: bboxes)
             for thresh in iouThresholds {
-                let truePositives = calcTpFp(groundTruths: groundTruths, detections: detections, method: method, thresh: thresh)
-                let (recalls, precisions) = calcRecsPrecs(truePositives: truePositives, nbGtPositives: groundTruths.nbBoundingBoxes)
-                let AP = calcAP(precisions: precisions, recalls: recalls)
-                
+                let AP = evaluateAP(on: bboxes, thresh: thresh, method: method)
                 mAP.append(AP)
             }
         }
-        return mAP.mean
+        cocoAP = mAP.mean
     }
     
     /// Returns the detail of mAP per class.
@@ -166,7 +163,7 @@ struct Evaluator {
         var mAP = 0.0
         
         var precs = [0.0] + precisions + [0.0]
-        let recs = [0.0] + recalls    + [1.0]
+        let recs = [0.0] + recalls + [1.0]
         
         for i in (0..<precs.count-1).reversed() {
             precs[i] = max(precs[i], precs[i+1])

@@ -11,10 +11,11 @@ import Foundation
 extension Evaluation: CustomStringConvertible {
     var description: String {
         var description = ""
-        description += "mAP: \(Double(Int(10_000 * mAP)) / 100) %\n"
-        description += "  Total Positive: \(nbGtPositive)\n"
-        description += "  True Positive:  \(nbTP)\n"
-        description += "  False Positive: \(nbFP)\n"
+        description += mAP.percent() + "\n"
+        // The Following formatting could be improved with new StringRepresentable protocols
+        description += "  Total Positive: \(nbGtPositive.decimal())\n"
+        description += "  True Positive:  \(nbTP.decimal())\n"
+        description += "  False Positive: \(nbFP.decimal())\n"
         
         return description
     }

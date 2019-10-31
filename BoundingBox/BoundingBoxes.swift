@@ -40,9 +40,9 @@ extension Array where Element == BoundingBox {
 
     var stats: String {
         var description = "Global Stats\n".uppercased()
-        description += "Ground Truth Count: \(detections.count)\n"
-        description += "Detection Count:    \(groundTruths.count)\n"
-        description += "Number of labels:   \(groundTruths.labels.count)\n\n"
+        description += "Ground Truth Count: \(detections.count.decimal())\n"
+        description += "Detection Count:    \(groundTruths.count.decimal())\n"
+        description += "Number of labels:   \(groundTruths.labels.count.decimal())\n\n"
         description += labelStats
 
         return description
@@ -51,8 +51,8 @@ extension Array where Element == BoundingBox {
     var labelStats: String {
         boxesByLabel.keys.sorted().reduce(into: "") { (description, label) in
             description += label.uppercased() + "\n"
-            description += "  Images:      \(boxesByLabel[label]!.imageNames.count)\n"
-            description += "  Annotations: \(boxesByLabel[label]!.count)\n\n"
+            description += "  Images:      \(boxesByLabel[label]!.imageNames.count.decimal())\n"
+            description += "  Annotations: \(boxesByLabel[label]!.count.decimal())\n\n"
         }
     }
 

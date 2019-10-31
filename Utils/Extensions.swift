@@ -37,3 +37,22 @@ extension Dictionary where Value == [BoundingBox] {
         }
     }
 }
+
+extension Double {
+    func percent(upToDigits digits: Int = 2) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .percent
+        formatter.roundingMode = .halfUp
+        formatter.maximumFractionDigits = digits
+        
+        return formatter.string(from: self as NSNumber)!
+    }
+}
+
+extension Int {
+    func decimal() -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter.string(from: self as NSNumber)!
+    }
+}

@@ -14,10 +14,14 @@ struct Parser {
     /// - Parameter fileURL: Absolute path to the txt file.
     /// - Parameter coordType: The reference coordinates used to describe rectangular boxes.
     /// - Parameter coordSystem: The coordinate system (absolute or relative) fro bounding boxes.
-    static func parseYoloTxtFile(_ fileURL: URL, coordType: CoordType = .XYX2Y2, coordSystem: CoordinateSystem = .absolute) throws -> [BoundingBox] {
-        
+    static func parseYoloTxtFile(
+        _ fileURL: URL,
+        coordType: CoordType = .XYX2Y2,
+        coordSystem: CoordinateSystem = .absolute
+    ) throws -> [BoundingBox] {
         guard let content = try? String(contentsOf: fileURL, encoding: .utf8) else {
-            throw YoloParserError.unreadableAnnotation(fileURL)
+            throw Error.unreadableAnnotation(fileURL)
+            
         }
         let lines = content.components(separatedBy: .newlines).filter { !$0.isEmpty }
         
@@ -29,11 +33,13 @@ struct Parser {
             // Case Ground Truth
             switch line.count {
             case 5:
-                guard let a = Double(line[1]),
+                guard
+                    let a = Double(line[1]),
                     let b = Double(line[2]),
                     let c = Double(line[3]),
-                    let d = Double(line[4]) else {
-                    throw YoloParserError.invalidLineFormat(file: fileURL, line: rawLine)
+                    let d = Double(line[4])
+                else {
+                    throw Error.invalidLineFormat(file: fileURL, line: rawLine)
                 }
                 let rect: CGRect
                 
@@ -41,18 +47,25 @@ struct Parser {
                 case .XYWH:
                     rect = CGRect(midX: a, midY: b, width: c, height: d)
                 case .XYX2Y2:
-                    rect = CGRect(minX: a, minY: b, maxX: c, maxY: d)
+                    switch coordSystem {
+                    case .relative:
+                        rect = CGRect(minX: a, minY: b, maxX: c, maxY: d)
+                    case .absolute:
+                        rect = CGRect(minX: a, minY: b, maxX: c, maxY: d)
+                    }
                 }
                 return BoundingBox(imgName: fileURL.lastPathComponent, label: label, box: rect, coordSystem: coordSystem)
                 
             // Case Detection
             case 6:
-                guard let confidence = Double(line[1]),
+                guard
+                    let confidence = Double(line[1]),
                     let a = Double(line[2]),
                     let b = Double(line[3]),
                     let c = Double(line[4]),
-                    let d = Double(line[5]) else {
-                    throw YoloParserError.invalidLineFormat(file: fileURL, line: rawLine)
+                    let d = Double(line[5])
+                else {
+                    throw Error.invalidLineFormat(file: fileURL, line: rawLine)
                 }
                 let rect: CGRect
                 
@@ -66,7 +79,7 @@ struct Parser {
             
             // Case wrong annotation
             default:
-                throw YoloParserError.invalidLineFormat(file: fileURL, line: rawLine)
+                throw Error.invalidLineFormat(file: fileURL, line: rawLine)
             }
         }
         return boxes
@@ -76,12 +89,16 @@ struct Parser {
     /// - Parameter folder: Absolute path to the folder.
     /// - Parameter coordType: The reference coordinates used to describe rectangular boxes.
     /// - Parameter coordSystem: The coordinate system (absolute or relative) fro bounding boxes.
-    static func parseYoloFolder(_ folder: URL, coordType: CoordType = .XYX2Y2, coordSystem: CoordinateSystem = .absolute) throws -> [BoundingBox] {
-        
+    static func parseYoloFolder(
+        _ folder: URL,
+        coordType: CoordType = .XYX2Y2,
+        coordSystem: CoordinateSystem = .absolute
+    ) throws -> [BoundingBox] {
         let fileManager = FileManager.default
         
-        guard var files = try? fileManager.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil) else {
-            throw YoloParserError.folderNotListable(folder)
+        guard var files = try? fileManager.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)
+        else {
+            throw Error.folderNotListable(folder)
         }
         files = files.filter { $0.pathExtension == "txt" }
         

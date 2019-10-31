@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// XYWH case represents a bounding box by its center coordinates and box size while XYX2Y2 represents it by its top-left and bottom-right coordinates.
+/// `XYWH` case represents a bounding box by its center coordinates and box size while `XYX2Y2` represents it by its top-left and bottom-right coordinates.
 enum CoordType {
     case XYWH
     case XYX2Y2

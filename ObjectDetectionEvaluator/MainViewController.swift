@@ -28,6 +28,7 @@ class MainViewController: NSViewController {
     @IBOutlet weak var runEvaluationButton: NSButton!
     @IBOutlet weak var evalutationIndicator: NSProgressIndicator!
     @IBOutlet weak var totalMAP: NSTextField!
+    @IBOutlet weak var cocoAP: NSTextField!
     
     // MARK: - Methods
     override func viewDidLoad() {
@@ -47,13 +48,13 @@ class MainViewController: NSViewController {
         case 1:
             folderPath.stringValue = "1 folder selected"
         case let count:
-            folderPath.stringValue = "\(count) folders selected"
+            folderPath.stringValue = "\(count.decimal()) folders selected"
         }
         
         // General Stats
-        nbGroundTruths.stringValue = String(boxes.groundTruths.count)
-        nbDetections.stringValue = String(boxes.detections.count)
-        nbLabels.stringValue = String(boxes.labels.count)
+        nbGroundTruths.stringValue = boxes.groundTruths.count.decimal()
+        nbDetections.stringValue = boxes.detections.count.decimal()
+        nbLabels.stringValue = boxes.labels.count.decimal()
         
         // Detection result
         boxesStats.string = boxes.labelStats
@@ -69,7 +70,8 @@ class MainViewController: NSViewController {
             print("Error: boxes not initialized.")
         }
         evalutationStats.string = evaluator.description
-        totalMAP.stringValue = "\(Double(Int(10_000 * evaluator.evaluations.mAP)) / 100) %"
+        totalMAP.stringValue = evaluator.evaluations.mAP.percent()
+        cocoAP.stringValue = evaluator.cocoAP.percent()
     }
     
     func parseBoxes(from urls: [URL]) {
@@ -77,13 +79,13 @@ class MainViewController: NSViewController {
             boxes = try urls.flatMap { url -> [BoundingBox] in
                 try Parser.parseYoloFolder(url, coordType: .XYWH, coordSystem: .relative)
             }
-        } catch YoloParserError.folderNotListable(let url) {
+        } catch Parser.Error.folderNotListable(let url) {
             print("Error: folder '\(url)' not listable")
             boxes = []
-        } catch YoloParserError.unreadableAnnotation(let url) {
+        } catch Parser.Error.unreadableAnnotation(let url) {
             print("Error: annotation '\(url)' not readable")
             boxes = []
-        } catch YoloParserError.invalidLineFormat(file: let url, line: let line) {
+        } catch Parser.Error.invalidLineFormat(file: let url, line: let line) {
             print("Error: Line '\(line)' of file '\(url)' not readable")
         } catch let error {
             print("Error while reading annotations: \(error)")
@@ -111,17 +113,7 @@ class MainViewController: NSViewController {
             
             DispatchQueue.global(qos: .userInitiated).async {
                 self.parseBoxes(from: self.folders)
-                let newlabels = [
-                    "0": "Maize",
-                    "1": "Bean",
-                    "2": "Leek",
-                    "3": "Stem Maize",
-                    "4": "Stem Bean",
-                    "5": "Stem Leek"
-                ]
-                
-                self.boxes.mapLabels(with: newlabels)
-                
+
                 DispatchQueue.main.async {
                     self.update()
                     self.workingIndicator.isHidden = true
@@ -138,6 +130,8 @@ class MainViewController: NSViewController {
         
         DispatchQueue.global(qos: .userInitiated).async {
             self.evaluator.evaluate(on: self.boxes, thresh: 0.5, method: .iou)
+            self.evaluator.evaluateCocoAP(on: self.boxes)
+            
 //            self.evaluator.evaluate(on: self.boxes, method: .center, thresh: 20/1536)
             
             DispatchQueue.main.async {

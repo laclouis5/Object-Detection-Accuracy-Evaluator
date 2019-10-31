@@ -13,8 +13,9 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
 
     let boxes = TestData.data
     var evaluator = Evaluator()
-    let urls = [URL(string: "/Users/louislac/Downloads/detection-results")!,
-                URL(string: "/Users/louislac/Downloads/ground-truth")!]
+    let urls = [URL(string: "/Users/louislac/Desktop/data/detections")!,
+                URL(string: "/Users/louislac/Desktop/data/gt")!
+    ]
     
     override func setUp() {
         evaluator.reset()
@@ -61,8 +62,7 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
         }
         
         self.measure {
-            let mAP = evaluator.evaluateCocoAP(on: boxes)
-            print(mAP)
+            evaluator.evaluateCocoAP(on: boxes)
         }
     }
     

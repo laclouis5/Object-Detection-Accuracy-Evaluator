@@ -8,6 +8,6 @@
 
 import Foundation
 
-enum NMSErrors: Error {
+enum NMSError: Swift.Error {
     case areNotDetectionBoxes
 }
