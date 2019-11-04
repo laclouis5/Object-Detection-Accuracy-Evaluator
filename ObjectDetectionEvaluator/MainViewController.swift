@@ -17,6 +17,7 @@ class MainViewController: NSViewController {
     // MARK: - Outlets
     @IBOutlet weak var folderPath: NSTextField!
     @IBOutlet weak var workingIndicator: NSProgressIndicator!
+    @IBOutlet weak var chooseFolderButton: NSButtonCell!
     
     @IBOutlet weak var nbGroundTruths: NSTextField!
     @IBOutlet weak var nbDetections: NSTextField!
@@ -36,6 +37,7 @@ class MainViewController: NSViewController {
         workingIndicator.isHidden = true
         evalutationIndicator.isHidden = true
         runEvaluationButton.isEnabled = false
+        chooseFolderButton.isEnabled = true
         
         update()
     }
@@ -110,6 +112,7 @@ class MainViewController: NSViewController {
             
             workingIndicator.isHidden = false
             workingIndicator.startAnimation(self)
+            runEvaluationButton.isEnabled = false
             
             DispatchQueue.global(qos: .userInitiated).async {
                 self.parseBoxes(from: self.folders)
@@ -118,6 +121,7 @@ class MainViewController: NSViewController {
                     self.update()
                     self.workingIndicator.isHidden = true
                     self.workingIndicator.stopAnimation(self)
+                    self.runEvaluationButton.isEnabled = true
                 }
             }
         }
@@ -127,6 +131,8 @@ class MainViewController: NSViewController {
         evalutationIndicator.isHidden = false
         evalutationIndicator.startAnimation(self)
         runEvaluationButton.isEnabled = false
+        chooseFolderButton.isEnabled = false
+        
         
         DispatchQueue.global(qos: .userInitiated).async {
             self.evaluator.evaluate(on: self.boxes, thresh: 0.5, method: .iou)
@@ -139,6 +145,7 @@ class MainViewController: NSViewController {
                 self.evalutationIndicator.isHidden = true
                 self.evalutationIndicator.stopAnimation(self)
                 self.runEvaluationButton.isEnabled = true
+                self.chooseFolderButton.isEnabled = true
             }
         }
     }

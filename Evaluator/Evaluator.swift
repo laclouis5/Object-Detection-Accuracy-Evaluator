@@ -65,6 +65,7 @@ struct Evaluator {
     /// Resets evaluations.
     mutating func reset() {
         evaluations.removeAll()
+        cocoAP = 0.0
     }
     
     // MARK: - Private Methods
