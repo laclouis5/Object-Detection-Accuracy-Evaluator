@@ -10,8 +10,6 @@ import Foundation
 
 extension Dictionary where Value == Evaluation {
     var mAP: Double {
-        reduce(0.0) { (accumulator, evaluation) -> Double in
-            accumulator + evaluation.value.mAP
-            } / (Double(count) + Double.leastNonzeroMagnitude)
+        map { $0.value.mAP }.mean
     }
 }

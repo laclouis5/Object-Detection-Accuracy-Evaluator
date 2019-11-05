@@ -26,7 +26,7 @@ extension Array where Element == BoundingBox {
         filter { $0.detectionMode == .groundTruth }
     }
     
-    var boxesByImgName: [String: [BoundingBox]] {
+    var boxesByImageName: [String: [BoundingBox]] {
         reduce(into: [:]) { (dict, box) in
             dict[box.name, default: []].append(box)
         }

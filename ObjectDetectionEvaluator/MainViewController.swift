@@ -14,6 +14,8 @@ class MainViewController: NSViewController {
     var boxes = [BoundingBox]()
     var evaluator = Evaluator()
     
+    // TODO: Implement state and observers
+    
     // MARK: - Outlets
     @IBOutlet weak var folderPath: NSTextField!
     @IBOutlet weak var workingIndicator: NSProgressIndicator!
@@ -135,8 +137,7 @@ class MainViewController: NSViewController {
         
         
         DispatchQueue.global(qos: .userInitiated).async {
-            self.evaluator.evaluate(on: self.boxes, thresh: 0.5, method: .iou)
-            self.evaluator.evaluateCocoAP(on: self.boxes)
+            self.evaluator.CocoAP(self.boxes, method: .iou)
             
 //            self.evaluator.evaluate(on: self.boxes, method: .center, thresh: 20/1536)
             
