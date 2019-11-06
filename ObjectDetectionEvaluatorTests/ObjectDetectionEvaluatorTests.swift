@@ -10,11 +10,10 @@ import XCTest
 @testable import ObjectDetectionEvaluator
 
 class ObjectDetectionEvaluatorTests: XCTestCase {
-
     let boxes = TestData.data
     var evaluator = Evaluator()
-    let urls = [URL(string: "/Users/louislac/Desktop/data/detections")!,
-                URL(string: "/Users/louislac/Desktop/data/gt")!
+    let urls = [URL(string: "~/Desktop/Yolo_V3_Tiny_Pan_Mixup_1/detections/")!,
+                URL(string: "~/Desktop/Yolo_V3_Tiny_Pan_Mixup_1/gts/")!
     ]
     
     override func setUp() {
@@ -24,7 +23,7 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
     override func tearDown() { }
 
     func testPrecRec() {
-        evaluator.evaluate(on: boxes)
+//        evaluator.evaluate(on: boxes)
         
         let detection = evaluator.evaluations["maize"]!
         
@@ -50,7 +49,7 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
             boxes += try! Parser.parseYoloFolder(url)
         }
         self.measure {
-            evaluator.evaluate(on: boxes)
+//            evaluator.evaluate(on: boxes)
         }
     }
     
@@ -58,11 +57,11 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
         var boxes = [BoundingBox]()
         
         for url in urls {
-            boxes += try! Parser.parseYoloFolder(url)
+            boxes += try! Parser.parseYoloFolder(url, coordType: .XYWH, coordSystem: .relative)
         }
         
         self.measure {
-            evaluator.evaluateCocoAP(on: boxes)
+            evaluator.CocoAP(boxes)
         }
     }
     

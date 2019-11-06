@@ -16,8 +16,11 @@ struct Parser2 {
         var confidence: Double?
     }
     
-    static func parseFolder(_ url: URL, coordType: CoordType, coordSystem: CoordinateSystem) -> [BoundingBox?] {
-        
+    static func parseFolder(
+        _ url: URL,
+        coordType: BoundingBox.CoordType,
+        coordSystem: BoundingBox.CoordinateSystem
+    ) -> [BoundingBox?] {
         let fileManager = FileManager.default
         
         guard let files = try? fileManager.contentsOfDirectory(at: url, includingPropertiesForKeys: nil) else {
@@ -29,8 +32,11 @@ struct Parser2 {
                 parseFile(url, coordType: coordType, coordSystem: coordSystem) }
     }
     
-    static func parseFile(_ url: URL, coordType: CoordType, coordSystem: CoordinateSystem) -> [BoundingBox?] {
-        
+    static func parseFile(
+        _ url: URL,
+        coordType: BoundingBox.CoordType,
+        coordSystem: BoundingBox.CoordinateSystem
+    ) -> [BoundingBox?] {
         guard let content = try? String(contentsOf: url, encoding: .utf8) else {
             return [BoundingBox?]()
         }
@@ -57,7 +63,7 @@ struct Parser2 {
             default:
                 box = CGRect(minX: line.x, minY: line.y, maxX: line.w, maxY: line.h)
             }
-            boxes.append(BoundingBox(imgName: url.absoluteString, label: line.label, box: box, coordSystem: coordSystem, confidence: line.confidence, imgSize: nil))
+            boxes.append(BoundingBox(name: url.absoluteString, label: line.label, box: box, coordSystem: coordSystem, confidence: line.confidence, imgSize: nil))
         }
         return boxes
     }

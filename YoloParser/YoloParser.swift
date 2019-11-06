@@ -16,8 +16,8 @@ struct Parser {
     /// - Parameter coordSystem: The coordinate system (absolute or relative) fro bounding boxes.
     static func parseYoloTxtFile(
         _ fileURL: URL,
-        coordType: CoordType = .XYX2Y2,
-        coordSystem: CoordinateSystem = .absolute
+        coordType: BoundingBox.CoordType = .XYX2Y2,
+        coordSystem: BoundingBox.CoordinateSystem = .absolute
     ) throws -> [BoundingBox] {
         guard let content = try? String(contentsOf: fileURL, encoding: .utf8) else {
             throw Error.unreadableAnnotation(fileURL)
@@ -54,7 +54,7 @@ struct Parser {
                         rect = CGRect(minX: a, minY: b, maxX: c, maxY: d)
                     }
                 }
-                return BoundingBox(imgName: fileURL.lastPathComponent, label: label, box: rect, coordSystem: coordSystem)
+                return BoundingBox(name: fileURL.lastPathComponent, label: label, box: rect, coordSystem: coordSystem)
                 
             // Case Detection
             case 6:
@@ -75,7 +75,7 @@ struct Parser {
                 case .XYX2Y2:
                     rect = CGRect(minX: a, minY: b, maxX: c, maxY: d)
                 }
-                return BoundingBox(imgName: fileURL.lastPathComponent, label: label, box: rect, coordSystem: coordSystem, confidence: confidence)
+                return BoundingBox(name: fileURL.lastPathComponent, label: label, box: rect, coordSystem: coordSystem, confidence: confidence)
             
             // Case wrong annotation
             default:
@@ -91,8 +91,8 @@ struct Parser {
     /// - Parameter coordSystem: The coordinate system (absolute or relative) fro bounding boxes.
     static func parseYoloFolder(
         _ folder: URL,
-        coordType: CoordType = .XYX2Y2,
-        coordSystem: CoordinateSystem = .absolute
+        coordType: BoundingBox.CoordType = .XYX2Y2,
+        coordSystem: BoundingBox.CoordinateSystem = .absolute
     ) throws -> [BoundingBox] {
         let fileManager = FileManager.default
         

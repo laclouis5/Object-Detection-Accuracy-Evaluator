@@ -81,7 +81,7 @@ class MainViewController: NSViewController {
     func parseBoxes(from urls: [URL]) {
         do {
             boxes = try urls.flatMap { url -> [BoundingBox] in
-                try Parser.parseYoloFolder(url, coordType: .XYWH, coordSystem: .relative)
+                try Parser.parseYoloFolder(url, coordType: .XYX2Y2, coordSystem: .absolute)
             }
         } catch Parser.Error.folderNotListable(let url) {
             print("Error: folder '\(url)' not listable")

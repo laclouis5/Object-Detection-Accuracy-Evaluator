@@ -11,11 +11,11 @@ import Foundation
 struct TestData {
     static var data = [
         // Ground Truths
-        BoundingBox(imgName: "im_1.jpg", label: "maize", box: CGRect(x: 0, y: 0, width: 10, height: 10), coordSystem: .absolute),
-        BoundingBox(imgName: "im_2.jpg", label: "maize", box: CGRect(x: 0, y: 0, width: 20, height: 20), coordSystem: .absolute),
-        
+        BoundingBox(name: "im_1.jpg", label: "maize", box: CGRect(x: 0, y: 0, width: 10, height: 10), coordSystem: .absolute),
+        BoundingBox(name: "im_2.jpg", label: "maize", box: CGRect(x: 0, y: 0, width: 20, height: 20), coordSystem: .absolute),
+
         //Detections
-        BoundingBox(imgName: "im_1.jpg", label: "maize", box: CGRect(x: 0, y: 0, width: 10, height: 10), coordSystem: .absolute, confidence: 0.9),
-        BoundingBox(imgName: "im_2.jpg", label: "maize", box: CGRect(x: 0, y: 0, width: 20, height: 20), coordSystem: .absolute, confidence: 0.8)
+        BoundingBox(name: "im_1.jpg", label: "maize", box: CGRect(x: 0, y: 0, width: 10, height: 10), coordSystem: .absolute, confidence: 0.9),
+        BoundingBox(name: "im_2.jpg", label: "maize", box: CGRect(x: 0, y: 0, width: 20, height: 20), coordSystem: .absolute, confidence: 0.8),
     ]
 }

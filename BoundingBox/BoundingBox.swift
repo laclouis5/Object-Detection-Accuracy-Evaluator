@@ -14,8 +14,8 @@ struct BoundingBox {
     var label: String
     var box: CGRect
     var coordSystem: CoordinateSystem
-    var confidence: Double?
-    var imgSize: CGSize?
+    var confidence: Double? = nil
+    var imgSize: CGSize? = nil
     
     var detectionMode: DetectionMode {
         if confidence == nil {
@@ -23,17 +23,6 @@ struct BoundingBox {
         } else {
             return .detection
         }
-    }
-    
-    // MARK: - Initializers
-    init(imgName: String, label: String, box: CGRect, coordSystem: CoordinateSystem, confidence: Double? = nil, imgSize: CGSize? = nil) {
-        
-        self.name = imgName
-        self.label = label
-        self.box = box
-        self.coordSystem = coordSystem
-        self.confidence = confidence
-        self.imgSize = imgSize
     }
     
     // MARK: - Methods

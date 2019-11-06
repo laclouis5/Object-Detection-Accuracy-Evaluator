@@ -65,7 +65,7 @@ extension Array where Element == BoundingBox {
             return
         }
         self = map {
-            BoundingBox(imgName: $0.name, label: labels[$0.label]!, box: $0.box, coordSystem: $0.coordSystem, confidence: $0.confidence, imgSize: $0.imgSize)
+            BoundingBox(name: $0.name, label: labels[$0.label]!, box: $0.box, coordSystem: $0.coordSystem, confidence: $0.confidence, imgSize: $0.imgSize)
         }
     }
 }
