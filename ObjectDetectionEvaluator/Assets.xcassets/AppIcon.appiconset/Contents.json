@@ -3,61 +3,61 @@
     {
       "size" : "16x16",
       "idiom" : "mac",
-      "filename" : "mAPLogo16.png",
+      "filename" : "mAPAppLogo16.png",
       "scale" : "1x"
     },
     {
       "size" : "16x16",
       "idiom" : "mac",
-      "filename" : "mAPLogo32-1.png",
+      "filename" : "mAPAppLogo32-1.png",
       "scale" : "2x"
     },
     {
       "size" : "32x32",
       "idiom" : "mac",
-      "filename" : "mAPLogo32.png",
+      "filename" : "mAPAppLogo32.png",
       "scale" : "1x"
     },
     {
       "size" : "32x32",
       "idiom" : "mac",
-      "filename" : "mAPLogo64.png",
+      "filename" : "mAPAppLogo64.png",
       "scale" : "2x"
     },
     {
       "size" : "128x128",
       "idiom" : "mac",
-      "filename" : "mAPLogo128.png",
+      "filename" : "mAPAppLogo128.png",
       "scale" : "1x"
     },
     {
       "size" : "128x128",
       "idiom" : "mac",
-      "filename" : "mAPLogo256-1.png",
+      "filename" : "mAPAppLogo256-1.png",
       "scale" : "2x"
     },
     {
       "size" : "256x256",
       "idiom" : "mac",
-      "filename" : "mAPLogo256.png",
+      "filename" : "mAPAppLogo256.png",
       "scale" : "1x"
     },
     {
       "size" : "256x256",
       "idiom" : "mac",
-      "filename" : "mAPLogo512-1.png",
+      "filename" : "mAPAppLogo512-1.png",
       "scale" : "2x"
     },
     {
       "size" : "512x512",
       "idiom" : "mac",
-      "filename" : "mAPLogo512.png",
+      "filename" : "mAPAppLogo512.png",
       "scale" : "1x"
     },
     {
       "size" : "512x512",
       "idiom" : "mac",
-      "filename" : "mAPLogo1024.png",
+      "filename" : "mAPAppLogo1024.png",
       "scale" : "2x"
     }
   ],
