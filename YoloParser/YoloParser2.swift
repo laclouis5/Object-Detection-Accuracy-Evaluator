@@ -9,8 +9,7 @@
 import Foundation
 
 struct Parser2 {
-    
-    fileprivate struct Line {
+    struct Line {
         var label: String
         var x, y, w, h: Double
         var confidence: Double?
@@ -87,7 +86,7 @@ struct Parser2 {
     }
 }
 
-extension Scanner {
+fileprivate extension Scanner {
     func scanUpToCharacters(_ set: CharacterSet) -> String? {
         var result: NSString?
         return scanUpToCharacters(from: set, into: &result) ? (result as String?) : nil

@@ -56,8 +56,8 @@ class MainViewController: NSViewController {
         }
         
         // General Stats
-        nbGroundTruths.stringValue = boxes.groundTruths.count.decimal()
-        nbDetections.stringValue = boxes.detections.count.decimal()
+        nbGroundTruths.stringValue = boxes.groundTruths().count.decimal()
+        nbDetections.stringValue = boxes.detections().count.decimal()
         nbLabels.stringValue = boxes.labels.count.decimal()
         
         // Detection result
@@ -135,9 +135,8 @@ class MainViewController: NSViewController {
         runEvaluationButton.isEnabled = false
         chooseFolderButton.isEnabled = false
         
-        
         DispatchQueue.global(qos: .userInitiated).async {
-            self.evaluator.CocoAP(self.boxes, method: .iou)
+            self.evaluator.evaluate(self.boxes)
             
 //            self.evaluator.evaluate(on: self.boxes, method: .center, thresh: 20/1536)
             

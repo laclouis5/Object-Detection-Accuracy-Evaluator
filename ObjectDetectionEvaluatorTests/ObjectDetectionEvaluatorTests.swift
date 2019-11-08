@@ -12,9 +12,16 @@ import XCTest
 class ObjectDetectionEvaluatorTests: XCTestCase {
     let boxes = TestData.data
     var evaluator = Evaluator()
-    let urls = [URL(string: "~/Desktop/Yolo_V3_Tiny_Pan_Mixup_1/detections/")!,
-                URL(string: "~/Desktop/Yolo_V3_Tiny_Pan_Mixup_1/gts/")!
+
+    let folders = [
+        "Yolo_V3_Tiny_Pan_Mixup_1/detections/",
+        "Yolo_V3_Tiny_Pan_Mixup_1/gts/",
     ]
+    
+    var urls: [URL] {
+        let desktopURL = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask)[0]
+        return folders.map { desktopURL.appendingPathComponent($0) }
+    }
     
     override func setUp() {
         evaluator.reset()
@@ -42,26 +49,20 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
         }
     }
     
-    func testInferenceTime() {
-        var boxes = [BoundingBox]()
-        
-        for url in urls {
-            boxes += try! Parser.parseYoloFolder(url)
-        }
+    func testBoxesParsing() {
         self.measure {
-//            evaluator.evaluate(on: boxes)
+            let _ = urls.flatMap {
+                try! Parser.parseYoloFolder($0)
+            }
         }
     }
     
-    func testCocoAP() {
-        var boxes = [BoundingBox]()
-        
-        for url in urls {
-            boxes += try! Parser.parseYoloFolder(url, coordType: .XYWH, coordSystem: .relative)
+    func testEvaluation() {
+        let boxes = urls.flatMap {
+            try! Parser.parseYoloFolder($0)
         }
-        
         self.measure {
-            evaluator.CocoAP(boxes)
+            evaluator.evaluate(boxes)
         }
     }
     

@@ -11,43 +11,64 @@ import Foundation
 /// Object to evaluate mAP on a list on detection and ground truth bounding boxes.
 struct Evaluator {
     //MARK: - Properties
-    var evaluations = [String: Evaluation]()
-    var cocoAP = 0.0
+    typealias Evaluations = [String: Evaluation]
+    
+    private(set) var evaluations = [String: Evaluation]()
+    private(set) var cocoAP = 0.0
     
     //MARK: - Methods
+    mutating func evaluate(_ boxes: [BoundingBox], method: EvaluationMethod = .iou) {
+        let cocoEvaluations = cocoAP(boxes, method: method)
+        cocoAP = cocoEvaluations.mean(for: \.mAP)
+        evaluations = cocoEvaluations[9]
+    }
+    
     /// Returns Coco mAP @ `[0.05...0.95]`
     /// - Parameter boxes: Detection and ground truth boxes to be evaluated.
     /// - Parameter method: The method to evaluate true positive boxes.
-    @discardableResult
-    mutating func CocoAP(_ boxes: [BoundingBox], method: EvaluationMethod = .iou) -> Double {
-        var cocoEvaluations = [[String: Evaluation]]()
+    func cocoAP(_ boxes: [BoundingBox], method: EvaluationMethod = .iou) -> [Evaluations] {
+        var cocoEvaluations = [Evaluations]()
+        let group = DispatchGroup()
+        let queue = DispatchQueue(label: "cocoAPConcurentQueue", qos: .userInitiated, attributes: .concurrent)
         
         for thresh in stride(from: 0.05, through: 0.95, count: 18) {
-            AP(boxes, thresh: thresh, method: method)
-            cocoEvaluations.append(evaluations)
+            group.enter()
+            queue.async {
+                let evaluation = self.AP(boxes, thresh: thresh, method: method)
+                cocoEvaluations.append(evaluation)
+                group.leave()
+            }
         }
-        self.evaluations = cocoEvaluations[9]
-        self.cocoAP = (cocoEvaluations.map { $0.mAP }).mean
+        group.wait()
         
-        return cocoAP
+        return cocoEvaluations
     }
     
     /// Returns the total mAP at the specified threshold and evaluation method.
     /// - Parameter boxes: Detection and ground truth boxes to be evaluated.
     /// - Parameter thresh: IoU threshold or distance threshold depending on the specified method.
     /// - Parameter method: The method to evaluate true positive boxes.
-    @discardableResult
-    mutating func AP(_ boxes: [BoundingBox], thresh: Double = 0.5, method: EvaluationMethod = .iou) -> Double {
-        reset()
+    func AP(_ boxes: [BoundingBox], thresh: Double = 0.5, method: EvaluationMethod = .iou) -> Evaluations {
+        var evaluations = Evaluations()
+        let group = DispatchGroup()
+        let queue = DispatchQueue(label: "APConcurentQueue", qos: .userInitiated, attributes: .concurrent)
+        
         for (label, bboxes) in boxes.boxesByLabel {
-            let (groundTruths, detections) = formatDetGT(boxes: bboxes)
-            let truePositives = calcTpFp(groundTruths: groundTruths, detections: detections, method: method, thresh: thresh)
-            let (recalls, precisions) = calcRecsPrecs(truePositives: truePositives, nbGtPositives: groundTruths.nbBoundingBoxes)
-            let mAP = calcAP(precisions: precisions, recalls: recalls)
+            group.enter()
+            queue.async {
+                let (groundTruths, detections) = self.formatDetGT(boxes: bboxes)
+                let truePositives = self.calcTpFp(groundTruths: groundTruths, detections: detections, method: method, thresh: thresh)
+                let (recalls, precisions) = self.calcRecsPrecs(truePositives: truePositives, nbGtPositives: groundTruths.nbBoundingBoxes)
+                let mAP = self.calcAP(precisions: precisions, recalls: recalls)
 
-            evaluations[label] = Evaluation(nbGtPositive: groundTruths.nbBoundingBoxes, mAP: mAP, truePositives: truePositives, confidences: detections.map { $0.confidence! }, precisions: precisions, recalls: recalls)
+                evaluations[label] = Evaluation(nbGtPositive: groundTruths.nbBoundingBoxes, mAP: mAP, truePositives: truePositives, confidences: detections.map { $0.confidence! }, precisions: precisions, recalls: recalls)
+                
+                group.leave()
+            }
         }
-        return evaluations.mAP
+        group.wait()
+        
+        return evaluations
     }
     
     /// Resets evaluations.
@@ -58,8 +79,8 @@ struct Evaluator {
     
     // MARK: - Private Methods
     private func formatDetGT(boxes: [BoundingBox]) -> ([String: [BoundingBox]], [BoundingBox]) {
-        let groundTruths = boxes.groundTruths.boxesByImageName
-        let detections = boxes.detections.sorted {
+        let groundTruths = boxes.groundTruths().boxesByImageName
+        let detections = boxes.detections().sorted {
             $0.confidence! > $1.confidence!
         }
         return (groundTruths, detections)

@@ -11,18 +11,18 @@ import Foundation
 extension Array where Element == BoundingBox {
     // MARK: - Computed Properties
     var labels: Set<String> {
-        Set(map { $0.label })
+        Set(map(\.label))
     }
 
     var imageNames: Set<String> {
-        Set(map { $0.name })
+        Set(map(\.name))
     }
     
-    var detections: [BoundingBox] {
+    func detections() -> [BoundingBox] {
         filter { $0.detectionMode == .detection }
     }
     
-    var groundTruths: [BoundingBox] {
+    func groundTruths() -> [BoundingBox] {
         filter { $0.detectionMode == .groundTruth }
     }
     
@@ -40,9 +40,9 @@ extension Array where Element == BoundingBox {
 
     var stats: String {
         var description = "Global Stats\n".uppercased()
-        description += "Ground Truth Count: \(detections.count.decimal())\n"
-        description += "Detection Count:    \(groundTruths.count.decimal())\n"
-        description += "Number of labels:   \(groundTruths.labels.count.decimal())\n\n"
+        description += "Ground Truth Count: \(detections().count.decimal())\n"
+        description += "Detection Count:    \(groundTruths().count.decimal())\n"
+        description += "Number of labels:   \(groundTruths().labels.count.decimal())\n\n"
         description += labelStats
 
         return description

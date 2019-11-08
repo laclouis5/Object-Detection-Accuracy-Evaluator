@@ -21,10 +21,11 @@ struct Evaluation {
         truePositives.count
     }
     var nbTP: Int {
-        truePositives.filter { $0 }.count
+        truePositives.count(where: { $0 == true })
     }
+    
     var nbFP: Int {
-        truePositives.filter { !$0 }.count
+        truePositives.count(where: { $0 == false })
     }
     
     // MARK: - Subscripts
