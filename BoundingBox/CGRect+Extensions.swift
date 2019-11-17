@@ -14,8 +14,8 @@ extension CGRect {
         get {
             CGPoint(x: self.midX, y: self.midY)
         } set {
-            let newX = newValue.x - self.width/2.0
-            let newY = newValue.y - self.height/2.0
+            let newX = newValue.x - self.width / 2.0
+            let newY = newValue.y - self.height / 2.0
             
             origin = CGPoint(x: newX, y: newY)
         }
@@ -27,8 +27,8 @@ extension CGRect {
     
     // MARK: - Initializers
     init(midX: CGFloat, midY: CGFloat, width: CGFloat, height: CGFloat) {
-        let minX = midX - width/2.0
-        let minY = midY - height/2.0
+        let minX = midX - width / 2.0
+        let minY = midY - height / 2.0
         self.init(x: minX, y: minY, width: width, height: height)
     }
     

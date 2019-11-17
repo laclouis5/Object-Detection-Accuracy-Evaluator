@@ -10,7 +10,7 @@ import XCTest
 @testable import ObjectDetectionEvaluator
 
 class ObjectDetectionEvaluatorTests: XCTestCase {
-    let boxes = TestData.data
+    let boxes = [BoundingBox].stub()
     var evaluator = Evaluator()
 
     let folders = [
@@ -68,18 +68,16 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
     
     func testParser1() {
         self.measure {
-            var boxes = [BoundingBox]()
-            for url in urls {
-                boxes += try! Parser.parseYoloFolder(url)
+            let _ = urls.flatMap {
+                try! Parser.parseYoloFolder($0)
             }
         }
     }
     
     func testParser2() {
         self.measure {
-            var boxes = [BoundingBox?]()
-            for url in urls {
-                boxes += Parser2.parseFolder(url, coordType: .XYWH, coordSystem: .relative)
+            let _ = urls.flatMap {
+                try! Parser2.parseFolder($0)
             }
         }
     }

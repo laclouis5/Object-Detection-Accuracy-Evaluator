@@ -68,4 +68,19 @@ extension Array where Element == BoundingBox {
             BoundingBox(name: $0.name, label: labels[$0.label]!, box: $0.box, coordSystem: $0.coordSystem, confidence: $0.confidence, imgSize: $0.imgSize)
         }
     }
+    
+    // MARK: - Stubs
+    static func stub() -> [BoundingBox] {
+        var boxes = [BoundingBox]()
+        
+        for i in 0..<10 {
+            let name = "im_\(i).jpg"
+            let label = i < 5 ? "maize" : "bean"
+            let gtBox = BoundingBox(name: name, label: label, box: CGRect(midX: 100 * (1 + i), midY: 100 * (1 + i), width: 50, height: 50), coordSystem: .absolute)
+            let detBox = BoundingBox(name: name, label: label, box: CGRect(midX: 100 * (1 + i), midY: 100 * (1 + i), width: 50, height: 50), coordSystem: .absolute, confidence: 0.9)
+            boxes.append(gtBox)
+            boxes.append(detBox)
+        }
+        return boxes
+    }
 }

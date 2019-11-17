@@ -715,14 +715,40 @@
                                     <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2EE-Si-l95" userLabel="Folder Path Stack View">
                                         <rect key="frame" x="0.0" y="427" width="600" height="21"/>
                                         <subviews>
-                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="tYH-F7-Av2">
-                                                <rect key="frame" x="0.0" y="0.0" width="435" height="21"/>
+                                            <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tYH-F7-Av2">
+                                                <rect key="frame" x="0.0" y="0.0" width="141" height="21"/>
                                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="No folder selected..." placeholderString="/path/to/folder/..." drawsBackground="YES" usesSingleLineMode="YES" id="QE5-6X-B9u">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
+                                            <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="T4t-ST-zFd">
+                                                <rect key="frame" x="147" y="-2" width="137" height="24"/>
+                                                <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="9pZ-E3-Cgi">
+                                                    <font key="font" metaFont="system"/>
+                                                    <segments>
+                                                        <segment label="XYWH" selected="YES"/>
+                                                        <segment label="XYX2Y2" tag="1"/>
+                                                    </segments>
+                                                </segmentedCell>
+                                                <connections>
+                                                    <action selector="coordTypeDidChange:" target="dDs-6t-GoO" id="gYA-Qk-64a"/>
+                                                </connections>
+                                            </segmentedControl>
+                                            <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Edm-Jq-d1K">
+                                                <rect key="frame" x="288" y="-2" width="149" height="24"/>
+                                                <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="Luf-r1-dBI">
+                                                    <font key="font" metaFont="system"/>
+                                                    <segments>
+                                                        <segment label="Relative" selected="YES"/>
+                                                        <segment label="Absolute" tag="1"/>
+                                                    </segments>
+                                                    <connections>
+                                                        <action selector="coordTypeDidChange:" target="dDs-6t-GoO" id="IQ5-ON-tbV"/>
+                                                    </connections>
+                                                </segmentedCell>
+                                            </segmentedControl>
                                             <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="wPO-tx-CXL">
                                                 <rect key="frame" x="443" y="3" width="16" height="16"/>
                                             </progressIndicator>
@@ -741,8 +767,12 @@
                                             <integer value="1000"/>
                                             <integer value="1000"/>
                                             <integer value="1000"/>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
                                         </visibilityPriorities>
                                         <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
@@ -920,7 +950,7 @@
                                                     <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5aG-lv-Hbb" userLabel="Eval &amp; Button Stack View">
                                                         <rect key="frame" x="0.0" y="329" width="296" height="16"/>
                                                         <subviews>
-                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cjc-ae-ef2" userLabel="Evaluation Label">
+                                                            <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cjc-ae-ef2" userLabel="Evaluation Label">
                                                                 <rect key="frame" x="-2" y="0.0" width="150" height="16"/>
                                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Evaluation:" id="yYo-8X-VcO">
                                                                     <font key="font" usesAppearanceFont="YES"/>
@@ -934,7 +964,7 @@
                                                                     <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="TBn-Lx-dgE">
                                                                         <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
                                                                     </progressIndicator>
-                                                                    <button horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rBt-7x-Dg1" userLabel="Run Evaluation Button">
+                                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rBt-7x-Dg1" userLabel="Run Evaluation Button">
                                                                         <rect key="frame" x="18" y="-7" width="130" height="27"/>
                                                                         <buttonCell key="cell" type="push" title="Run Evaluation" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Whi-Ti-Zw5">
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1130,6 +1160,8 @@
                         <outlet property="boxesStats" destination="PB7-BH-j3l" id="3ru-a2-nIk"/>
                         <outlet property="chooseFolderButton" destination="Cgd-hh-Bgr" id="ihv-6v-Fkm"/>
                         <outlet property="cocoAP" destination="nra-NX-o7B" id="qAZ-2k-2Lo"/>
+                        <outlet property="coordSystemSegmentedControl" destination="Edm-Jq-d1K" id="EMR-ls-1Y7"/>
+                        <outlet property="coordTypeSegmentedControl" destination="T4t-ST-zFd" id="HNn-x9-e8u"/>
                         <outlet property="evalutationIndicator" destination="TBn-Lx-dgE" id="njH-Ay-dRp"/>
                         <outlet property="evalutationStats" destination="8hY-Xd-Oe1" id="g2r-1k-FE6"/>
                         <outlet property="folderPath" destination="tYH-F7-Av2" id="PWT-Kd-dQb"/>

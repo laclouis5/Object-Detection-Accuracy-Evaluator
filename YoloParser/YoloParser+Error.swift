@@ -15,3 +15,11 @@ extension Parser {
         case invalidLineFormat(file: URL, line: String)
     }
 }
+
+extension Parser2 {
+    enum Error: Swift.Error {
+        case folderNotListable(_ folder: URL)
+        case unreadableAnnotation(_ file: URL)
+        case invalidLineFormat(file: URL, line: String)
+    }
+}

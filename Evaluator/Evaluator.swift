@@ -13,34 +13,26 @@ struct Evaluator {
     //MARK: - Properties
     typealias Evaluations = [String: Evaluation]
     
-    private(set) var evaluations = [String: Evaluation]()
+    private(set) var evaluations = Evaluations()
     private(set) var cocoAP = 0.0
     
     //MARK: - Methods
     mutating func evaluate(_ boxes: [BoundingBox], method: EvaluationMethod = .iou) {
         let cocoEvaluations = cocoAP(boxes, method: method)
         cocoAP = cocoEvaluations.mean(for: \.mAP)
-        evaluations = cocoEvaluations[9]
+        evaluations = cocoEvaluations[0]
     }
     
-    /// Returns Coco mAP @ `[0.05...0.95]`
+    /// Returns Coco mAP @ `[0.5...0.95]`
     /// - Parameter boxes: Detection and ground truth boxes to be evaluated.
     /// - Parameter method: The method to evaluate true positive boxes.
     func cocoAP(_ boxes: [BoundingBox], method: EvaluationMethod = .iou) -> [Evaluations] {
         var cocoEvaluations = [Evaluations]()
-        let group = DispatchGroup()
-        let queue = DispatchQueue(label: "cocoAPConcurentQueue", qos: .userInitiated, attributes: .concurrent)
-        
-        for thresh in stride(from: 0.05, through: 0.95, count: 18) {
-            group.enter()
-            queue.async {
-                let evaluation = self.AP(boxes, thresh: thresh, method: method)
-                cocoEvaluations.append(evaluation)
-                group.leave()
-            }
+        for thresh in stride(from: 50, through: 95, by: 5) {
+            let thresh = Double(thresh) / 100
+            let evaluation = self.AP(boxes, thresh: thresh, method: method)
+            cocoEvaluations.append(evaluation)
         }
-        group.wait()
-        
         return cocoEvaluations
     }
     
@@ -50,24 +42,14 @@ struct Evaluator {
     /// - Parameter method: The method to evaluate true positive boxes.
     func AP(_ boxes: [BoundingBox], thresh: Double = 0.5, method: EvaluationMethod = .iou) -> Evaluations {
         var evaluations = Evaluations()
-        let group = DispatchGroup()
-        let queue = DispatchQueue(label: "APConcurentQueue", qos: .userInitiated, attributes: .concurrent)
-        
         for (label, bboxes) in boxes.boxesByLabel {
-            group.enter()
-            queue.async {
-                let (groundTruths, detections) = self.formatDetGT(boxes: bboxes)
-                let truePositives = self.calcTpFp(groundTruths: groundTruths, detections: detections, method: method, thresh: thresh)
-                let (recalls, precisions) = self.calcRecsPrecs(truePositives: truePositives, nbGtPositives: groundTruths.nbBoundingBoxes)
-                let mAP = self.calcAP(precisions: precisions, recalls: recalls)
+            let (groundTruths, detections) = formatDetGT(boxes: bboxes)
+            let truePositives = calcTpFp(groundTruths: groundTruths, detections: detections, method: method, thresh: thresh)
+            let (recalls, precisions) = calcRecsPrecs(truePositives: truePositives, nbGtPositives: groundTruths.nbBoundingBoxes)
+            let mAP = calcAP(precisions: precisions, recalls: recalls)
 
-                evaluations[label] = Evaluation(nbGtPositive: groundTruths.nbBoundingBoxes, mAP: mAP, truePositives: truePositives, confidences: detections.map { $0.confidence! }, precisions: precisions, recalls: recalls)
-                
-                group.leave()
-            }
+            evaluations[label] = Evaluation(nbGtPositive: groundTruths.nbBoundingBoxes, mAP: mAP, truePositives: truePositives, confidences: detections.map(\.confidence!), precisions: precisions, recalls: recalls)
         }
-        group.wait()
-        
         return evaluations
     }
     

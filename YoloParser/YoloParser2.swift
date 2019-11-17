@@ -17,43 +17,46 @@ struct Parser2 {
     
     static func parseFolder(
         _ url: URL,
-        coordType: BoundingBox.CoordType,
-        coordSystem: BoundingBox.CoordinateSystem
-    ) -> [BoundingBox?] {
+        coordType: CoordType = .XYWH,
+        coordSystem: CoordinateSystem = .relative
+    ) throws -> [BoundingBox] {
         let fileManager = FileManager.default
         
         guard let files = try? fileManager.contentsOfDirectory(at: url, includingPropertiesForKeys: nil) else {
-            return [BoundingBox?]()
+            throw Error.folderNotListable(url)
         }
-        return files
-            .filter { $0.pathExtension == "txt" }
-            .flatMap { (url) -> [BoundingBox?] in
-                parseFile(url, coordType: coordType, coordSystem: coordSystem) }
+        let txtFiles = files.filter { $0.pathExtension == "txt" }
+
+        do {
+            let boxes = try txtFiles.flatMap {
+                try parseFile($0, coordType: coordType, coordSystem: coordSystem)
+            }
+            return boxes
+        } catch {
+            throw error
+        }
     }
     
     static func parseFile(
         _ url: URL,
-        coordType: BoundingBox.CoordType,
-        coordSystem: BoundingBox.CoordinateSystem
-    ) -> [BoundingBox?] {
+        coordType: CoordType = .XYWH,
+        coordSystem: CoordinateSystem = .relative
+    ) throws -> [BoundingBox] {
         guard let content = try? String(contentsOf: url, encoding: .utf8) else {
-            return [BoundingBox?]()
+            throw Error.unreadableAnnotation(url)
         }
-        var boxes = [BoundingBox?]()
+        var boxes = [BoundingBox]()
         
         let fileScanner = Scanner(string: content)
         let newLine = CharacterSet(charactersIn: "\n")
         fileScanner.charactersToBeSkipped = newLine
         
         while !fileScanner.isAtEnd {
-            guard let string = fileScanner.scanUpToCharacters(newLine) else {
-                boxes.append(nil)
-                continue
+            guard let string = fileScanner.scanUpToCharacters(from: newLine) else {
+                throw Error.unreadableAnnotation(url)
             }
-            
             guard let line = parseLine(string) else {
-                boxes.append(nil)
-                continue
+                throw Error.invalidLineFormat(file: url, line: string)
             }
             var box: CGRect
             switch coordType {
@@ -72,11 +75,13 @@ struct Parser2 {
         let whiteSpace = CharacterSet(charactersIn: " ")
         scanner.charactersToBeSkipped = whiteSpace
         
-        guard let a = scanner.scanUpToCharacters(whiteSpace),
+        guard let a = scanner.scanUpToCharacters(from: whiteSpace),
             let b = scanner.scanDouble(),
             let c = scanner.scanDouble(),
             let d = scanner.scanDouble(),
-            let e = scanner.scanDouble() else { return nil }
+            let e = scanner.scanDouble() else {
+                return nil
+        }
         
         if let f = scanner.scanDouble() {
             return Line(label: a, x: c, y: d, w: e, h: f, confidence: b)
@@ -87,7 +92,7 @@ struct Parser2 {
 }
 
 fileprivate extension Scanner {
-    func scanUpToCharacters(_ set: CharacterSet) -> String? {
+    func scanUpToCharacters(from set: CharacterSet) -> String? {
         var result: NSString?
         return scanUpToCharacters(from: set, into: &result) ? (result as String?) : nil
     }

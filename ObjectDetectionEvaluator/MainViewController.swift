@@ -14,10 +14,33 @@ class MainViewController: NSViewController {
     var boxes = [BoundingBox]()
     var evaluator = Evaluator()
     
+    var coordType: CoordType {
+        switch coordTypeSegmentedControl.selectedSegment {
+        case 0:
+            return .XYWH
+        case 1:
+            return .XYX2Y2
+        default:
+            fatalError()
+        }
+    }
+    var coordSystem: CoordinateSystem {
+        switch coordSystemSegmentedControl.selectedSegment {
+        case 0:
+            return .relative
+        case 1:
+            return .absolute
+        default:
+            fatalError()
+        }
+    }
+    
     // TODO: Implement state and observers
     
     // MARK: - Outlets
     @IBOutlet weak var folderPath: NSTextField!
+    @IBOutlet weak var coordTypeSegmentedControl: NSSegmentedControl!
+    @IBOutlet weak var coordSystemSegmentedControl: NSSegmentedControl!
     @IBOutlet weak var workingIndicator: NSProgressIndicator!
     @IBOutlet weak var chooseFolderButton: NSButtonCell!
     
@@ -78,10 +101,10 @@ class MainViewController: NSViewController {
         cocoAP.stringValue = evaluator.cocoAP.percent()
     }
     
-    func parseBoxes(from urls: [URL]) {
+    func parseBoxes(from urls: [URL], coordType: CoordType, coordSystem: CoordinateSystem) {
         do {
             boxes = try urls.flatMap { url -> [BoundingBox] in
-                try Parser.parseYoloFolder(url, coordType: .XYX2Y2, coordSystem: .absolute)
+                try Parser.parseYoloFolder(url, coordType: coordType, coordSystem: coordSystem)
             }
         } catch Parser.Error.folderNotListable(let url) {
             print("Error: folder '\(url)' not listable")
@@ -116,8 +139,10 @@ class MainViewController: NSViewController {
             workingIndicator.startAnimation(self)
             runEvaluationButton.isEnabled = false
             
+            let coordType = self.coordType
+            let coordSystem = self.coordSystem
             DispatchQueue.global(qos: .userInitiated).async {
-                self.parseBoxes(from: self.folders)
+                self.parseBoxes(from: self.folders, coordType: coordType, coordSystem: coordSystem)
 
                 DispatchQueue.main.async {
                     self.update()
@@ -146,6 +171,29 @@ class MainViewController: NSViewController {
                 self.evalutationIndicator.stopAnimation(self)
                 self.runEvaluationButton.isEnabled = true
                 self.chooseFolderButton.isEnabled = true
+            }
+        }
+    }
+    
+    @IBAction func coordTypeDidChange(_ sender: Any) {
+        // Ugly because repeated code
+        evaluator.reset()
+        update()
+        
+        workingIndicator.isHidden = false
+        workingIndicator.startAnimation(self)
+        runEvaluationButton.isEnabled = false
+        
+        let coordType = self.coordType
+        let coordSystem = self.coordSystem
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.parseBoxes(from: self.folders, coordType: coordType, coordSystem: coordSystem)
+
+            DispatchQueue.main.async {
+                self.update()
+                self.workingIndicator.isHidden = true
+                self.workingIndicator.stopAnimation(self)
+                self.runEvaluationButton.isEnabled = true
             }
         }
     }
