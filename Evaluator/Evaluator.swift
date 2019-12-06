@@ -13,6 +13,7 @@ struct Evaluator {
     //MARK: - Properties
     typealias Evaluations = [String: Evaluation]
     
+    private let cocoThresholds = stride(from: 50, through: 95, by: 5).map { Double($0) / 100 }
     private(set) var evaluations = Evaluations()
     private(set) var cocoAP = 0.0
     
@@ -28,8 +29,7 @@ struct Evaluator {
     /// - Parameter method: The method to evaluate true positive boxes.
     func cocoAP(_ boxes: [BoundingBox], method: EvaluationMethod = .iou) -> [Evaluations] {
         var cocoEvaluations = [Evaluations]()
-        for thresh in stride(from: 50, through: 95, by: 5) {
-            let thresh = Double(thresh) / 100
+        for thresh in cocoThresholds {
             let evaluation = self.AP(boxes, thresh: thresh, method: method)
             cocoEvaluations.append(evaluation)
         }
@@ -42,7 +42,7 @@ struct Evaluator {
     /// - Parameter method: The method to evaluate true positive boxes.
     func AP(_ boxes: [BoundingBox], thresh: Double = 0.5, method: EvaluationMethod = .iou) -> Evaluations {
         var evaluations = Evaluations()
-        for (label, bboxes) in boxes.boxesByLabel {
+        for (label, bboxes) in boxes.grouped(by: \.label) {
             let (groundTruths, detections) = formatDetGT(boxes: bboxes)
             let truePositives = calcTpFp(groundTruths: groundTruths, detections: detections, method: method, thresh: thresh)
             let (recalls, precisions) = calcRecsPrecs(truePositives: truePositives, nbGtPositives: groundTruths.nbBoundingBoxes)
@@ -61,11 +61,9 @@ struct Evaluator {
     
     // MARK: - Private Methods
     private func formatDetGT(boxes: [BoundingBox]) -> ([String: [BoundingBox]], [BoundingBox]) {
-        let groundTruths = boxes.groundTruths().boxesByImageName
-        let detections = boxes.detections().sorted {
-            $0.confidence! > $1.confidence!
-        }
-        return (groundTruths, detections)
+        let (gts, dets) = boxes.gtsDets()
+        return (gts?.grouped(by: \.name) ?? [:],
+                dets?.sorted(by: \.confidence!, reversed: true) ?? [])
     }
     
     private func calcTpFp(groundTruths: [String: [BoundingBox]], detections: [BoundingBox], method: EvaluationMethod, thresh: Double) -> [Bool] {
@@ -136,7 +134,7 @@ struct Evaluator {
         let tpAcc = truePositives.cumSum
         
         for (i, tp) in tpAcc.enumerated() {
-            let (recall, precision) = calcRecPrec(accTruePositives: tp, accDetections: i+1, nbGtPositives: nbGtPositives)
+            let (recall, precision) = calcRecPrec(accTruePositives: tp, accDetections: i + 1, nbGtPositives: nbGtPositives)
             
             recalls.append(recall)
             precisions.append(precision)
@@ -157,12 +155,12 @@ struct Evaluator {
         var precs = [0.0] + precisions + [0.0]
         let recs = [0.0] + recalls + [1.0]
         
-        for i in (0..<precs.count-1).reversed() {
-            precs[i] = max(precs[i], precs[i+1])
+        for i in (0..<precs.count - 1).reversed() {
+            precs[i] = max(precs[i], precs[i + 1])
         }
         var indexList = [Int]()
         
-        for i in 1..<recs.count where recs[i] != recs[i-1] {
+        for i in 1..<recs.count where recs[i] != recs[i - 1] {
             indexList.append(i)
         }
         for i in indexList {

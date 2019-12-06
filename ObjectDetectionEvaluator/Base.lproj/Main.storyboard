@@ -898,10 +898,10 @@
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="345"/>
                                         <subviews>
                                             <stackView wantsLayer="YES" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vhy-PU-6G7" userLabel="Boxes Stack View">
-                                                <rect key="frame" x="0.0" y="57" width="296" height="288"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="296" height="345"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cFD-2w-jVj" userLabel="Detail Label">
-                                                        <rect key="frame" x="-2" y="272" width="43" height="16"/>
+                                                        <rect key="frame" x="-2" y="329" width="43" height="16"/>
                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Detail:" id="SkC-hy-X7V">
                                                             <font key="font" usesAppearanceFont="YES"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -909,17 +909,17 @@
                                                         </textFieldCell>
                                                     </textField>
                                                     <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="owX-DK-DLq" userLabel="Detail Text Scroll View">
-                                                        <rect key="frame" x="0.0" y="0.0" width="296" height="264"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="296" height="321"/>
                                                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="TAE-dB-o5U">
-                                                            <rect key="frame" x="1" y="1" width="294" height="262"/>
+                                                            <rect key="frame" x="1" y="1" width="294" height="319"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="PB7-BH-j3l">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="294" height="262"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="294" height="319"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                    <size key="minSize" width="294" height="262"/>
+                                                                    <size key="minSize" width="294" height="319"/>
                                                                     <size key="maxSize" width="884" height="10000000"/>
                                                                     <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                 </textView>
@@ -930,7 +930,7 @@
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
                                                         <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="ax7-5d-bt0">
-                                                            <rect key="frame" x="279" y="1" width="16" height="262"/>
+                                                            <rect key="frame" x="279" y="1" width="16" height="319"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
                                                     </scrollView>
@@ -1110,6 +1110,7 @@
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="cFD-2w-jVj" firstAttribute="height" secondItem="5aG-lv-Hbb" secondAttribute="height" id="9Ul-zq-Jvn"/>
+                                            <constraint firstAttribute="bottom" secondItem="Vhy-PU-6G7" secondAttribute="bottom" id="Us7-uF-YMF"/>
                                         </constraints>
                                         <visibilityPriorities>
                                             <integer value="1000"/>

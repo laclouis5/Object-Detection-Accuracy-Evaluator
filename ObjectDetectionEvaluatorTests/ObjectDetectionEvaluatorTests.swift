@@ -10,20 +10,23 @@ import XCTest
 @testable import ObjectDetectionEvaluator
 
 class ObjectDetectionEvaluatorTests: XCTestCase {
-    let boxes = [BoundingBox].stub()
+    var boxes = [BoundingBox]()
     var evaluator = Evaluator()
 
     let folders = [
         "Yolo_V3_Tiny_Pan_Mixup_1/detections/",
-        "Yolo_V3_Tiny_Pan_Mixup_1/gts/",
+        "Yolo_V3_Tiny_Pan_Mixup_1/gts/"
     ]
     
     var urls: [URL] {
-        let desktopURL = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask)[0]
+        let desktopURL = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first!
         return folders.map { desktopURL.appendingPathComponent($0) }
     }
     
     override func setUp() {
+        boxes = urls.flatMap {
+            try! Parser.parseYoloFolder($0)
+        }
         evaluator.reset()
     }
 
@@ -48,15 +51,7 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
             XCTAssert(rec == recalls[i], "Expected: \(recalls[i]), got: \(rec), iter\(i)")
         }
     }
-    
-    func testBoxesParsing() {
-        self.measure {
-            let _ = urls.flatMap {
-                try! Parser.parseYoloFolder($0)
-            }
-        }
-    }
-    
+
     func testEvaluation() {
         let boxes = urls.flatMap {
             try! Parser.parseYoloFolder($0)
@@ -79,6 +74,12 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
             let _ = urls.flatMap {
                 try! Parser2.parseFolder($0)
             }
+        }
+    }
+    
+    func testBoxesByImageName1() {
+        self.measure {
+            let _ = boxes.grouped(by: \.name)
         }
     }
 }

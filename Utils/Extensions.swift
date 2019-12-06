@@ -46,8 +46,8 @@ extension Array {
 
 extension Dictionary where Value == [BoundingBox] {
     var nbBoundingBoxes: Int {
-        reduce(0) { (nbBBoxes, element) -> Int in
-            nbBBoxes + element.value.count
+        reduce(0) { (nbBoxes, element) -> Int in
+            nbBoxes + element.value.count
         }
     }
 }
@@ -59,9 +59,17 @@ extension Sequence {
 }
 
 extension Sequence {
-    func sorted<T: Comparable>(by keyPath: KeyPath<Element, T>) -> [Element] {
-        sorted { a, b in
-            a[keyPath: keyPath] < b[keyPath: keyPath]
+    func grouped<T>(by keyPath: KeyPath<Element, T>) -> [T: [Element]] {
+        Dictionary(grouping: self, by: { $0[keyPath: keyPath] })
+    }
+}
+
+extension Sequence {
+    func sorted<T: Comparable>(by keyPath: KeyPath<Element, T>,
+                               reversed: Bool = false) -> [Element] {
+        let method: (T, T) -> Bool = reversed ? (>) : (<)
+        return sorted { a, b in
+            method(a[keyPath: keyPath], b[keyPath: keyPath])
         }
     }
 }
@@ -86,22 +94,16 @@ extension Sequence {
     }
 }
 
-extension Double {
-    func percent(upToDigits digits: Int = 2) -> String {
+extension String.StringInterpolation {
+    mutating func appendInterpolation<T: Numeric>(_ number: T, style: NumberFormatter.Style) {
         let formatter = NumberFormatter()
-        formatter.numberStyle = .percent
-        formatter.roundingMode = .halfUp
-        formatter.maximumFractionDigits = digits
+        formatter.numberStyle = style
+        formatter.maximumFractionDigits = 2
+        formatter.roundingMode = .halfDown
         
-        return formatter.string(from: self as NSNumber)!
-    }
-}
-
-extension Int {
-    func decimal() -> String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        return formatter.string(from: self as NSNumber)!
+        if let result = formatter.string(from: number as! NSNumber) {
+            appendLiteral(result)
+        }
     }
 }
 

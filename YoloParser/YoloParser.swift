@@ -14,10 +14,9 @@ struct Parser {
     /// - Parameter fileURL: Absolute path to the txt file.
     /// - Parameter coordType: The reference coordinates used to describe rectangular boxes.
     /// - Parameter coordSystem: The coordinate system (absolute or relative) fro bounding boxes.
-    static func parseYoloTxtFile(
-        _ fileURL: URL,
-        coordType: CoordType = .XYWH,
-        coordSystem: CoordinateSystem = .relative
+    static func parseYoloTxtFile(_ fileURL: URL,
+                                 coordType: CoordType = .XYWH,
+                                 coordSystem: CoordinateSystem = .relative
     ) throws -> [BoundingBox] {
         guard let content = try? String(contentsOf: fileURL, encoding: .utf8) else {
             throw Error.unreadableAnnotation(fileURL)
@@ -33,11 +32,10 @@ struct Parser {
             // Case Ground Truth
             switch line.count {
             case 5:
-                guard
-                    let a = Double(line[1]),
-                    let b = Double(line[2]),
-                    let c = Double(line[3]),
-                    let d = Double(line[4])
+                guard let a = Double(line[1]),
+                      let b = Double(line[2]),
+                      let c = Double(line[3]),
+                      let d = Double(line[4])
                 else {
                     throw Error.invalidLineFormat(file: fileURL, line: rawLine)
                 }
@@ -54,11 +52,10 @@ struct Parser {
                 
             // Case Detection
             case 6:
-                guard
-                    let confidence = Double(line[1]),
-                    let a = Double(line[2]),
-                    let b = Double(line[3]),
-                    let c = Double(line[4]),
+                guard let confidence = Double(line[1]),
+                      let a = Double(line[2]),
+                      let b = Double(line[3]),
+                      let c = Double(line[4]),
                     let d = Double(line[5])
                 else {
                     throw Error.invalidLineFormat(file: fileURL, line: rawLine)
@@ -85,10 +82,9 @@ struct Parser {
     /// - Parameter folder: Absolute path to the folder.
     /// - Parameter coordType: The reference coordinates used to describe rectangular boxes.
     /// - Parameter coordSystem: The coordinate system (absolute or relative) fro bounding boxes.
-    static func parseYoloFolder(
-        _ folder: URL,
-        coordType: CoordType = .XYWH,
-        coordSystem: CoordinateSystem = .relative
+    static func parseYoloFolder(_ folder: URL,
+                                coordType: CoordType = .XYWH,
+                                coordSystem: CoordinateSystem = .relative
     ) throws -> [BoundingBox] {
         let fileManager = FileManager.default
         

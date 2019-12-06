@@ -75,13 +75,14 @@ class MainViewController: NSViewController {
         case 1:
             folderPath.stringValue = "1 folder selected"
         case let count:
-            folderPath.stringValue = "\(count.decimal()) folders selected"
+            folderPath.stringValue = "\(count, style: .decimal) folders selected"
         }
         
         // General Stats
-        nbGroundTruths.stringValue = boxes.groundTruths().count.decimal()
-        nbDetections.stringValue = boxes.detections().count.decimal()
-        nbLabels.stringValue = boxes.labels.count.decimal()
+        let (gts, dets) = boxes.gtsDets()
+        nbGroundTruths.stringValue = "\(gts?.count ?? 0, style: .decimal)"
+        nbDetections.stringValue = "\(dets?.count ?? 0, style: .decimal)"
+        nbLabels.stringValue = "\(boxes.labels.count, style: .decimal)"
         
         // Detection result
         boxesStats.string = boxes.labelStats
@@ -97,8 +98,8 @@ class MainViewController: NSViewController {
             print("Error: boxes not initialized.")
         }
         evalutationStats.string = evaluator.description
-        totalMAP.stringValue = evaluator.evaluations.mAP.percent()
-        cocoAP.stringValue = evaluator.cocoAP.percent()
+        totalMAP.stringValue = "\(evaluator.evaluations.mAP, style: .percent)"
+        cocoAP.stringValue = "\(evaluator.cocoAP, style: .percent)"
     }
     
     func parseBoxes(from urls: [URL], coordType: CoordType, coordSystem: CoordinateSystem) {
