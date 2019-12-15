@@ -42,7 +42,8 @@ extension BoundingBox {
         if let confidence = confidence {
             description += "\(confidence) "
         }
-        description += "\(absBox.midX) \(absBox.midY) \(absBox.width) \(absBox.height)"
+        description +=
+            "\(absBox.midX) \(absBox.midY) \(absBox.width) \(absBox.height)"
         
         return description
     }

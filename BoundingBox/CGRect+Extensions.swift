@@ -29,6 +29,7 @@ extension CGRect {
     init(midX: CGFloat, midY: CGFloat, width: CGFloat, height: CGFloat) {
         let minX = midX - width / 2.0
         let minY = midY - height / 2.0
+        
         self.init(x: minX, y: minY, width: width, height: height)
     }
     
@@ -43,6 +44,7 @@ extension CGRect {
     init(minX: CGFloat, minY: CGFloat, maxX: CGFloat, maxY: CGFloat) {
         let width  = maxX - minX
         let height = maxY - minY
+        
         self.init(x: minX, y: minY, width: width, height: height)
     }
     
@@ -60,6 +62,7 @@ extension CGRect {
         guard intersects(rect) else {
             return 0.0
         }
+        
         let intersection = self.intersection(rect).area
         let union = self.area + rect.area - intersection
         

@@ -75,13 +75,13 @@ class MainViewController: NSViewController {
         case 1:
             folderPath.stringValue = "1 folder selected"
         case let count:
-            folderPath.stringValue = "\(count, style: .decimal) folders selected"
+            folderPath.stringValue = "\(count,style: .decimal) folders selected"
         }
         
         // General Stats
         let (gts, dets) = boxes.gtsDets()
-        nbGroundTruths.stringValue = "\(gts?.count ?? 0, style: .decimal)"
-        nbDetections.stringValue = "\(dets?.count ?? 0, style: .decimal)"
+        nbGroundTruths.stringValue = "\(gts.count, style: .decimal)"
+        nbDetections.stringValue = "\(dets.count, style: .decimal)"
         nbLabels.stringValue = "\(boxes.labels.count, style: .decimal)"
         
         // Detection result
@@ -97,15 +97,24 @@ class MainViewController: NSViewController {
             runEvaluationButton.isEnabled = false
             print("Error: boxes not initialized.")
         }
+        
         evalutationStats.string = evaluator.description
         totalMAP.stringValue = "\(evaluator.evaluations.mAP, style: .percent)"
         cocoAP.stringValue = "\(evaluator.cocoAP, style: .percent)"
     }
     
-    func parseBoxes(from urls: [URL], coordType: CoordType, coordSystem: CoordinateSystem) {
+    func parseBoxes(
+        from urls: [URL],
+        coordType: CoordType,
+        coordSystem: CoordinateSystem
+    ) {
         do {
             boxes = try urls.flatMap { url -> [BoundingBox] in
-                try Parser.parseYoloFolder(url, coordType: coordType, coordSystem: coordSystem)
+                try Parser.parseYoloFolder(
+                    url,
+                    coordType: coordType,
+                    coordSystem: coordSystem
+                )
             }
         } catch Parser.Error.folderNotListable(let url) {
             print("Error: folder '\(url)' not listable")
@@ -131,7 +140,7 @@ class MainViewController: NSViewController {
         dialog.canCreateDirectories = false
         dialog.allowsMultipleSelection = true
         
-        if (dialog.runModal() == .OK) {
+        if dialog.runModal() == .OK {
             folders = dialog.urls
             evaluator.reset()
             update()
@@ -143,7 +152,11 @@ class MainViewController: NSViewController {
             let coordType = self.coordType
             let coordSystem = self.coordSystem
             DispatchQueue.global(qos: .userInitiated).async {
-                self.parseBoxes(from: self.folders, coordType: coordType, coordSystem: coordSystem)
+                self.parseBoxes(
+                    from: self.folders,
+                    coordType: coordType,
+                    coordSystem: coordSystem
+                )
 
                 DispatchQueue.main.async {
                     self.update()
@@ -164,7 +177,10 @@ class MainViewController: NSViewController {
         DispatchQueue.global(qos: .userInitiated).async {
             self.evaluator.evaluate(self.boxes)
             
-//            self.evaluator.evaluate(on: self.boxes, method: .center, thresh: 20/1536)
+//            self.evaluator.evaluate(
+//                on: self.boxes,
+//                method: .center,
+//                thresh: 20/1536)
             
             DispatchQueue.main.async {
                 self.update()
@@ -188,7 +204,11 @@ class MainViewController: NSViewController {
         let coordType = self.coordType
         let coordSystem = self.coordSystem
         DispatchQueue.global(qos: .userInitiated).async {
-            self.parseBoxes(from: self.folders, coordType: coordType, coordSystem: coordSystem)
+            self.parseBoxes(
+                from: self.folders,
+                coordType: coordType,
+                coordSystem: coordSystem
+            )
 
             DispatchQueue.main.async {
                 self.update()

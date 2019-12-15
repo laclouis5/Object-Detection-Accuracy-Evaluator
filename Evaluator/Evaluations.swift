@@ -9,7 +9,9 @@
 import Foundation
 
 extension Dictionary where Value == Evaluation {
+    // FIXME: could be improve to take less memory (use reduce, no map)
+    // Should be a func as it is O(n)
     var mAP: Double {
-        map { $0.value.mAP }.mean
+        map { $0.value.mAP }.mean()
     }
 }

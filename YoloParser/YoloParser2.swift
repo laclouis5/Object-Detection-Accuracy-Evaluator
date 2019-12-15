@@ -22,9 +22,13 @@ struct Parser2 {
     ) throws -> [BoundingBox] {
         let fileManager = FileManager.default
         
-        guard let files = try? fileManager.contentsOfDirectory(at: url, includingPropertiesForKeys: nil) else {
+        guard let files = try? fileManager.contentsOfDirectory(
+            at: url,
+            includingPropertiesForKeys: nil
+        ) else {
             throw Error.folderNotListable(url)
         }
+        
         let txtFiles = files.filter { $0.pathExtension == "txt" }
 
         do {
@@ -45,6 +49,7 @@ struct Parser2 {
         guard let content = try? String(contentsOf: url, encoding: .utf8) else {
             throw Error.unreadableAnnotation(url)
         }
+        
         var boxes = [BoundingBox]()
         
         let fileScanner = Scanner(string: content)
@@ -52,12 +57,14 @@ struct Parser2 {
         fileScanner.charactersToBeSkipped = newLine
         
         while !fileScanner.isAtEnd {
-            guard let string = fileScanner.scanUpToCharacters(from: newLine) else {
+            guard let string = fileScanner .scanUpToCharacters(from: newLine) else {
                 throw Error.unreadableAnnotation(url)
             }
+            
             guard let line = parseLine(string) else {
                 throw Error.invalidLineFormat(file: url, line: string)
             }
+            
             var box: CGRect
             switch coordType {
             case .XYWH:
@@ -65,8 +72,17 @@ struct Parser2 {
             default:
                 box = CGRect(minX: line.x, minY: line.y, maxX: line.w, maxY: line.h)
             }
-            boxes.append(BoundingBox(name: url.absoluteString, label: line.label, box: box, coordSystem: coordSystem, confidence: line.confidence, imgSize: nil))
+            
+            boxes.append(BoundingBox(
+                name: url.absoluteString,
+                label: line.label,
+                box: box,
+                coordSystem: coordSystem,
+                confidence: line.confidence,
+                imgSize: nil
+            ))
         }
+        
         return boxes
     }
     
@@ -75,12 +91,14 @@ struct Parser2 {
         let whiteSpace = CharacterSet(charactersIn: " ")
         scanner.charactersToBeSkipped = whiteSpace
         
-        guard let a = scanner.scanUpToCharacters(from: whiteSpace),
+        guard
+            let a = scanner.scanUpToCharacters(from: whiteSpace),
             let b = scanner.scanDouble(),
             let c = scanner.scanDouble(),
             let d = scanner.scanDouble(),
-            let e = scanner.scanDouble() else {
-                return nil
+            let e = scanner.scanDouble()
+        else {
+            return nil
         }
         
         if let f = scanner.scanDouble() {

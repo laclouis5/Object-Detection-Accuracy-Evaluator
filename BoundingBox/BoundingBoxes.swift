@@ -18,10 +18,11 @@ extension Array where Element == BoundingBox {
         Set(map(\.name))
     }
     
-    func gtsDets() -> (groundTruths: [BoundingBox]?, detections: [BoundingBox]?) {
+    func gtsDets() -> (groundTruths: [BoundingBox], detections: [BoundingBox]) {
         let boxesByDetectionMode = self.grouped(by: \.detectionMode)
-        let gts = boxesByDetectionMode[.groundTruth]
-        let dets = boxesByDetectionMode[.detection]
+        let gts = boxesByDetectionMode[.groundTruth] ?? []
+        let dets = boxesByDetectionMode[.detection] ?? []
+        
         return (gts, dets)
     }
 
@@ -29,9 +30,9 @@ extension Array where Element == BoundingBox {
         let (gts, dets) = gtsDets()
         
         var description = "Global Stats\n".uppercased()
-        description += "Ground Truth Count: \(gts?.count ?? 0, style: .decimal)\n"
-        description += "Detection Count:    \(dets?.count ?? 0, style: .decimal)\n"
-        description += "Number of labels:   \(gts?.labels.count ?? 0, style: .decimal)\n\n"
+        description += "Ground Truth Count: \(gts.count, style: .decimal)\n"
+        description += "Detection Count:    \(dets.count, style: .decimal)\n"
+        description += "Number of labels:   \(gts.labels.count, style: .decimal)\n\n"
         description += labelStats
 
         return description
@@ -39,6 +40,7 @@ extension Array where Element == BoundingBox {
 
     var labelStats: String {
         let boxesByLabel = self.grouped(by: \.label)
+        
         return boxesByLabel.keys.sorted().reduce(into: "") { (description, label) in
             description += label.uppercased() + "\n"
             description += "  Images:      \(boxesByLabel[label]!.imageNames.count, style: .decimal)\n"
@@ -54,8 +56,16 @@ extension Array where Element == BoundingBox {
             print("Given labels: \(labels.keys)")
             return
         }
+        
         self = map {
-            BoundingBox(name: $0.name, label: labels[$0.label]!, box: $0.box, coordSystem: $0.coordSystem, confidence: $0.confidence, imgSize: $0.imgSize)
+            BoundingBox(
+                name: $0.name,
+                label: labels[$0.label]!,
+                box: $0.box,
+                coordSystem: $0.coordSystem,
+                confidence: $0.confidence,
+                imgSize: $0.imgSize
+            )
         }
     }
     
@@ -71,6 +81,7 @@ extension Array where Element == BoundingBox {
             boxes.append(gtBox)
             boxes.append(detBox)
         }
+        
         return boxes
     }
 }
