@@ -14,7 +14,7 @@ struct Parser {
     /// - Parameter fileURL: Absolute path to the txt file.
     /// - Parameter coordType: The reference coordinates used to describe rectangular boxes.
     /// - Parameter coordSystem: The coordinate system (absolute or relative) fro bounding boxes.
-    static func parseYoloTxtFile(
+    static func parseFile(
         _ fileURL: URL,
         coordType: CoordType = .XYWH,
         coordSystem: CoordinateSystem = .relative
@@ -101,7 +101,7 @@ struct Parser {
     /// - Parameter folder: Absolute path to the folder.
     /// - Parameter coordType: The reference coordinates used to describe rectangular boxes.
     /// - Parameter coordSystem: The coordinate system (absolute or relative) fro bounding boxes.
-    static func parseYoloFolder(
+    static func parseFolder(
         _ folder: URL,
         coordType: CoordType = .XYWH,
         coordSystem: CoordinateSystem = .relative
@@ -116,7 +116,7 @@ struct Parser {
         files = files.filter { $0.pathExtension == "txt" }
         
         return try files.flatMap { url -> [BoundingBox] in
-            try parseYoloTxtFile(
+            try parseFile(
                 url,
                 coordType: coordType,
                 coordSystem: coordSystem

@@ -75,17 +75,17 @@ class MainViewController: NSViewController {
         case 1:
             folderPath.stringValue = "1 folder selected"
         case let count:
-            folderPath.stringValue = "\(count,style: .decimal) folders selected"
+            folderPath.stringValue = "\(count, style: .decimal) folders selected"
         }
         
         // General Stats
         let (gts, dets) = boxes.gtsDets()
         nbGroundTruths.stringValue = "\(gts.count, style: .decimal)"
         nbDetections.stringValue = "\(dets.count, style: .decimal)"
-        nbLabels.stringValue = "\(boxes.labels.count, style: .decimal)"
+        nbLabels.stringValue = "\(boxes.labels().count, style: .decimal)"
         
         // Detection result
-        boxesStats.string = boxes.labelStats
+        boxesStats.string = boxes.labelStats()
         
         // Detail of Evaluation
         switch boxes.count {
@@ -110,7 +110,7 @@ class MainViewController: NSViewController {
     ) {
         do {
             boxes = try urls.flatMap { url -> [BoundingBox] in
-                try Parser.parseYoloFolder(
+                try Parser2.parseFolder(
                     url,
                     coordType: coordType,
                     coordSystem: coordSystem
@@ -176,11 +176,6 @@ class MainViewController: NSViewController {
         
         DispatchQueue.global(qos: .userInitiated).async {
             self.evaluator.evaluate(self.boxes)
-            
-//            self.evaluator.evaluate(
-//                on: self.boxes,
-//                method: .center,
-//                thresh: 20/1536)
             
             DispatchQueue.main.async {
                 self.update()

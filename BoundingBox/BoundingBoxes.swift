@@ -10,11 +10,11 @@ import Foundation
 
 extension Array where Element == BoundingBox {
     // MARK: - Computed Properties
-    var labels: Set<String> {
+    func labels() -> Set<String> {
         Set(map(\.label))
     }
 
-    var imageNames: Set<String> {
+    func imageNames() -> Set<String> {
         Set(map(\.name))
     }
     
@@ -26,33 +26,33 @@ extension Array where Element == BoundingBox {
         return (gts, dets)
     }
 
-    var stats: String {
+    func stats() -> String {
         let (gts, dets) = gtsDets()
         
         var description = "Global Stats\n".uppercased()
         description += "Ground Truth Count: \(gts.count, style: .decimal)\n"
         description += "Detection Count:    \(dets.count, style: .decimal)\n"
-        description += "Number of labels:   \(gts.labels.count, style: .decimal)\n\n"
-        description += labelStats
+        description += "Number of labels:   \(gts.labels().count, style: .decimal)\n\n"
+        description += labelStats()
 
         return description
     }
 
-    var labelStats: String {
+    func labelStats() -> String {
         let boxesByLabel = self.grouped(by: \.label)
         
         return boxesByLabel.keys.sorted().reduce(into: "") { (description, label) in
             description += label.uppercased() + "\n"
-            description += "  Images:      \(boxesByLabel[label]!.imageNames.count, style: .decimal)\n"
+            description += "  Images:      \(boxesByLabel[label]!.imageNames().count, style: .decimal)\n"
             description += "  Annotations: \(boxesByLabel[label]!.count, style: .decimal)\n\n"
         }
     }
 
     // MARK: - Methods
     mutating func mapLabels(with labels: [String: String]) {
-        guard Set(labels.keys) == self.labels else {
+        guard Set(labels.keys) == self.labels() else {
             print("Error: new label keys must match old labels")
-            print("Old Labels: \(self.labels)")
+            print("Old Labels: \(self.labels())")
             print("Given labels: \(labels.keys)")
             return
         }

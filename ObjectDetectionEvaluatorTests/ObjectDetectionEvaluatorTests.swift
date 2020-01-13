@@ -25,7 +25,7 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
     
     override func setUp() {
         boxes = urls.flatMap {
-            try! Parser.parseYoloFolder($0)
+            try! Parser.parseFolder($0)
         }
         evaluator.reset()
     }
@@ -54,7 +54,7 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
 
     func testEvaluation() {
         let boxes = urls.flatMap {
-            try! Parser.parseYoloFolder($0)
+            try! Parser.parseFolder($0)
         }
         self.measure {
             evaluator.evaluate(boxes)
@@ -64,7 +64,7 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
     func testParser1() {
         self.measure {
             let _ = urls.flatMap {
-                try! Parser.parseYoloFolder($0)
+                try! Parser.parseFolder($0)
             }
         }
     }

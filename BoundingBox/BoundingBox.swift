@@ -32,8 +32,8 @@ struct BoundingBox {
     }
     
     /// Returns the distance between the center of two boxes.
-    func distance(with bbox: BoundingBox) -> Double {
-        Double(box.distance(with: bbox.box))
+    func distance(to bbox: BoundingBox) -> Double {
+        Double(box.distance(to: bbox.box))
     }
     
     /// Returns the 4 coordinates describing the bounding box as a CGRect.

@@ -20,8 +20,8 @@ struct Evaluator {
     private(set) var cocoAP = 0.0
     
     //MARK: - Methods
-    mutating func evaluate(_ boxes: [BoundingBox], method: EvaluationMethod = .iou) {
-        let cocoEvaluations = cocoAP(boxes, method: method)
+    mutating func evaluate(_ boxes: [BoundingBox]) {
+        let cocoEvaluations = cocoAP(boxes)
         cocoAP = cocoEvaluations.mean(for: \.mAP)
         evaluations = cocoEvaluations[0]
     }
@@ -29,12 +29,13 @@ struct Evaluator {
     /// Returns Coco mAP @ `[0.5...0.95]`
     /// - Parameter boxes: Detection and ground truth boxes to be evaluated.
     /// - Parameter method: The method to evaluate true positive boxes.
-    func cocoAP(_ boxes: [BoundingBox], method: EvaluationMethod = .iou) -> [Evaluations] {
-        var cocoEvaluations = [Evaluations]()
+    func cocoAP(_ boxes: [BoundingBox]) -> [Evaluations] {
+        var cocoEvaluations = [Evaluations](repeating: .init(), count: cocoThresholds.count)
         
-        for thresh in cocoThresholds {
-            let evaluation = self.AP(boxes, thresh: thresh, method: method)
-            cocoEvaluations.append(evaluation)
+        DispatchQueue.concurrentPerform(iterations: cocoThresholds.count) { index in
+            let thresh = cocoThresholds[index]
+            let evaluation = self.AP(boxes, thresh: thresh)
+            cocoEvaluations[index] = evaluation
         }
         
         return cocoEvaluations
@@ -53,7 +54,6 @@ struct Evaluator {
         
         for (label, bboxes) in boxes.grouped(by: \.label) {
             let (groundTruths, detections) = formatDetGT(boxes: bboxes)
-            
             let truePositives = calcTpFp(
                 groundTruths: groundTruths,
                 detections: detections,
@@ -105,8 +105,9 @@ struct Evaluator {
         var isVisited = groundTruths.mapValues { boxes in
             [Bool](repeating: false, count: boxes.count)
         }
-        
+
         for (i, detection) in detections.enumerated() {
+            // If no gt continue
             guard let assotiatedGts = groundTruths[detection.name] else {
                 continue
             }
@@ -122,7 +123,7 @@ struct Evaluator {
                 guard maxIou >= thresh else { continue }
                 
             case .center:
-                let distances = assotiatedGts.map { detection.distance(with: $0) }
+                let distances = assotiatedGts.map { detection.distance(to: $0) }
                 index = distances.indices.min(by: { distances[$0] < distances[$1] })!
                 let minDist = distances[index]
                 
@@ -134,7 +135,6 @@ struct Evaluator {
             isVisited[detection.name]![index] = true
             truePositives[i] = true
         }
-        
         return truePositives
     }
     
@@ -148,7 +148,7 @@ struct Evaluator {
         precisions.reserveCapacity(truePositives.count)
         recalls.reserveCapacity(truePositives.count)
         
-        let tpAcc = truePositives.cumSum
+        let tpAcc = truePositives.cumSum()
         
         for (i, tp) in tpAcc.enumerated() {
             let (recall, precision) = calcRecPrec(
@@ -156,7 +156,7 @@ struct Evaluator {
                 accDetections: i + 1,
                 nbGtPositives: nbGtPositives
             )
-    
+            
             recalls.append(recall)
             precisions.append(precision)
         }

@@ -30,7 +30,7 @@ struct Parser2 {
         }
         
         let txtFiles = files.filter { $0.pathExtension == "txt" }
-
+        
         do {
             let boxes = try txtFiles.flatMap {
                 try parseFile($0, coordType: coordType, coordSystem: coordSystem)
@@ -57,7 +57,7 @@ struct Parser2 {
         fileScanner.charactersToBeSkipped = newLine
         
         while !fileScanner.isAtEnd {
-            guard let string = fileScanner .scanUpToCharacters(from: newLine) else {
+            guard let string = fileScanner.scanUpToCharacters(from: newLine) else {
                 throw Error.unreadableAnnotation(url)
             }
             
@@ -74,7 +74,7 @@ struct Parser2 {
             }
             
             boxes.append(BoundingBox(
-                name: url.absoluteString,
+                name: url.lastPathComponent,
                 label: line.label,
                 box: box,
                 coordSystem: coordSystem,
@@ -114,17 +114,17 @@ fileprivate extension Scanner {
         var result: NSString?
         return scanUpToCharacters(from: set, into: &result) ? (result as String?) : nil
     }
-    
+
     func scanUpTo(_ string: String) -> String? {
         var result: NSString?
         return self.scanUpTo(string, into: &result) ? (result as String?) : nil
     }
-    
+
     func scanDouble() -> Double? {
         var double = 0.0
         return scanDouble(&double) ? double : nil
     }
-    
+
     func scanInt() -> Int? {
         var int = 0
         return scanInt(&int) ? int : nil

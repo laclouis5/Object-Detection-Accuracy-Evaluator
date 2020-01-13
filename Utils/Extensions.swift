@@ -9,8 +9,7 @@
 import Foundation
 
 extension Array where Element == Bool {
-    // Should be a func as complexity is O(n)
-    var cumSum: [Int] {
+    func cumSum() -> [Int] {
         reduce(into: [Int]()) { (cumSum, bool) in
             cumSum.append((cumSum.last ?? 0) + (bool ? 1 : 0))
         }
@@ -19,10 +18,16 @@ extension Array where Element == Bool {
 
 extension Array where Element: AdditiveArithmetic {
     // Should be a func as complexity is O(n)
-    var cumSum: [Element] {
+    func cumSum() -> [Element] {
         reduce(into: [Element]()) { (cumSum, element) in
             cumSum.append((cumSum.last ?? Element.zero) + element)
         }
+    }
+}
+
+extension Array where Element: AdditiveArithmetic {
+    func sum() -> Element {
+        reduce(Element.zero, +)
     }
 }
 
@@ -35,6 +40,18 @@ extension Array where Element: FloatingPoint {
 extension Array {
     func mean<T: FloatingPoint>(for keyPath: KeyPath<Element, T>) -> T {
         isEmpty ? 0 : reduce(0) { $0 + $1[keyPath: keyPath] } / T(count)
+    }
+}
+
+extension Sequence {
+    func mean<T: FloatingPoint>(for keyPath: KeyPath<Element, T>) -> T {
+        var i: UInt = 0
+        var sum = T.zero
+        for element in self {
+            defer { i += 1 }
+            sum += element[keyPath: keyPath]
+        }
+        return  i == 0 ? 0 : sum / T(i)
     }
 }
 

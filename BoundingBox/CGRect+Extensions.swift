@@ -70,11 +70,13 @@ extension CGRect {
     }
     
     /// Returns the distance between the center of two CGrect.
-    func distance(with rect: CGRect) -> CGFloat {
+    func distance(to rect: CGRect) -> CGFloat {
+//        return self.center.distance(to: rect.center)
+        
         let dx = self.midX - rect.midX
         let dy = self.midY - rect.midY
         
-        return sqrt(dx*dx + dy*dy)
+        return hypot(dx, dy)
     }
     
     /// Returns the 4 coordinates describing the bounding box as a CGRect.
