@@ -8,50 +8,57 @@
 
 import Foundation
 
-extension Array where Element == Bool {
+extension Sequence where Element == Bool {
     func cumSum() -> [Int] {
-        reduce(into: [Int]()) { (cumSum, bool) in
-            cumSum.append((cumSum.last ?? 0) + (bool ? 1 : 0))
+        var sum = 0
+        var cumSum = [Int]()
+        for bool in self {
+            sum += bool ? 1 : 0
+            cumSum.append(sum)
         }
+        return cumSum
     }
 }
 
-extension Array where Element: AdditiveArithmetic {
-    // Should be a func as complexity is O(n)
+extension Sequence where Element: AdditiveArithmetic {
     func cumSum() -> [Element] {
-        reduce(into: [Element]()) { (cumSum, element) in
-            cumSum.append((cumSum.last ?? Element.zero) + element)
-        }
-    }
-}
-
-extension Array where Element: AdditiveArithmetic {
-    func sum() -> Element {
-        reduce(Element.zero, +)
-    }
-}
-
-extension Array where Element: FloatingPoint {
-    func mean() -> Element {
-        isEmpty ? 0 : reduce(0) { $0 + $1 } / Element(count)
-    }
-}
-
-extension Array {
-    func mean<T: FloatingPoint>(for keyPath: KeyPath<Element, T>) -> T {
-        isEmpty ? 0 : reduce(0) { $0 + $1[keyPath: keyPath] } / T(count)
-    }
-}
-
-extension Sequence {
-    func mean<T: FloatingPoint>(for keyPath: KeyPath<Element, T>) -> T {
-        var i: UInt = 0
-        var sum = T.zero
+        var sum = Element.zero
+        var cumSum = [Element]()
         for element in self {
-            defer { i += 1 }
-            sum += element[keyPath: keyPath]
+            sum += element
+            cumSum.append(sum)
         }
-        return  i == 0 ? 0 : sum / T(i)
+        return cumSum
+    }
+}
+
+extension Sequence where Element: AdditiveArithmetic {
+    func sum() -> Element {
+        reduce(.zero, +)
+    }
+}
+
+extension Collection where Element: FloatingPoint {
+    func mean() -> Element {
+        isEmpty ? .nan : sum() / Element(count)
+    }
+}
+
+extension Collection where Element: BinaryInteger {
+    func mean() -> Double {
+        isEmpty ? .nan : Double(sum()) / Double(count)
+    }
+}
+
+extension Collection {
+    func mean<T: FloatingPoint>(for keyPath: KeyPath<Element, T>) -> T {
+        isEmpty ? .nan : reduce(T.zero) { $0 + $1[keyPath: keyPath] } / T(count)
+    }
+}
+
+extension Collection {
+    func mean<T: BinaryInteger>(for keyPath: KeyPath<Element, T>) -> Double {
+        isEmpty ? .nan : Double(reduce(T.zero) { $0 + $1[keyPath: keyPath] }) / Double(count)
     }
 }
 

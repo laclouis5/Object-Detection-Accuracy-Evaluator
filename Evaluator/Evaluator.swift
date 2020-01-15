@@ -13,11 +13,13 @@ struct Evaluator {
     //MARK: - Properties
     typealias Evaluations = [String: Evaluation]
     
-    private let cocoThresholds = stride(from: 50, through: 95, by: 5).map {
-        Double($0) / 100
+    private var cocoThresholds: [Double] {
+        stride(from: 50, through: 95, by: 5).map {
+            Double($0) / 100
+        }
     }
     private(set) var evaluations = Evaluations()
-    private(set) var cocoAP = 0.0
+    private(set) var cocoAP = Double.nan
     
     //MARK: - Methods
     mutating func evaluate(_ boxes: [BoundingBox]) {
@@ -81,7 +83,7 @@ struct Evaluator {
     /// Resets evaluations.
     mutating func reset() {
         evaluations.removeAll()
-        cocoAP = 0.0
+        cocoAP = Double.nan
     }
     
     // MARK: - Private Methods

@@ -25,37 +25,14 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
     
     override func setUp() {
         boxes = urls.flatMap {
-            try! Parser.parseFolder($0)
+            try! Parser2.parseFolder($0)
         }
         evaluator.reset()
     }
 
     override func tearDown() { }
 
-    func testPrecRec() {
-//        evaluator.evaluate(on: boxes)
-        
-        let detection = evaluator.evaluations["maize"]!
-        
-        let tps = [true, true]
-        let precisions = [1.0, 1.0]
-        let recalls = [0.5, 1.0]
-        
-        XCTAssert(detection.nbGtPositive == 2, "Expected: \(2), got: \(detection.nbGtPositive)")
-        
-        for i in 0..<detection.nbDetections {
-            let (tp, _, rec, prec) = detection[i]
-            
-            XCTAssert(tp == tps[i], "Expected: \(tps[i]), got: \(tp), iter: \(i)")
-            XCTAssert(prec == precisions[i], "Expected: \(precisions[i]), got: \(prec), iter \(i)")
-            XCTAssert(rec == recalls[i], "Expected: \(recalls[i]), got: \(rec), iter\(i)")
-        }
-    }
-
     func testEvaluation() {
-        let boxes = urls.flatMap {
-            try! Parser.parseFolder($0)
-        }
         self.measure {
             evaluator.evaluate(boxes)
         }
@@ -63,7 +40,7 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
     
     func testParser1() {
         self.measure {
-            let _ = urls.flatMap {
+            _ = urls.flatMap {
                 try! Parser.parseFolder($0)
             }
         }
@@ -71,7 +48,7 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
     
     func testParser2() {
         self.measure {
-            let _ = urls.flatMap {
+            _ = urls.flatMap {
                 try! Parser2.parseFolder($0)
             }
         }
@@ -79,7 +56,23 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
     
     func testBoxesByImageName1() {
         self.measure {
-            let _ = boxes.grouped(by: \.name)
+            _ = boxes.grouped(by: \.name)
+        }
+    }
+    
+    func testCumSum() {
+        let bools: [Bool] = (0..<100_000).map { _ in Bool.random() }
+        
+        self.measure {
+            _ = bools.cumSum()
+        }
+    }
+    
+    func testArrayMean() {
+        let ints: [Double] = (0..<100_000).map { _ in Double.random(in: 0..<10) }
+        
+        self.measure {
+            _ = ints.mean(for: \.self)
         }
     }
 }

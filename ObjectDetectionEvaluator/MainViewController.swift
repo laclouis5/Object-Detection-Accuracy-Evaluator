@@ -35,8 +35,6 @@ class MainViewController: NSViewController {
         }
     }
     
-    // TODO: Implement state and observers
-    
     // MARK: - Outlets
     @IBOutlet weak var folderPath: NSTextField!
     @IBOutlet weak var coordTypeSegmentedControl: NSSegmentedControl!
@@ -143,11 +141,11 @@ class MainViewController: NSViewController {
         if dialog.runModal() == .OK {
             folders = dialog.urls
             evaluator.reset()
+            boxes = []
+           
             update()
-            
             workingIndicator.isHidden = false
             workingIndicator.startAnimation(self)
-            runEvaluationButton.isEnabled = false
             
             let coordType = self.coordType
             let coordSystem = self.coordSystem
@@ -162,7 +160,6 @@ class MainViewController: NSViewController {
                     self.update()
                     self.workingIndicator.isHidden = true
                     self.workingIndicator.stopAnimation(self)
-                    self.runEvaluationButton.isEnabled = true
                 }
             }
         }
