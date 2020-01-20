@@ -16,6 +16,16 @@
 					<string>Local Baseline</string>
 				</dict>
 			</dict>
+			<key>testArrayMutation()</key>
+			<dict>
+				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
+				<dict>
+					<key>baselineAverage</key>
+					<real>0.36</real>
+					<key>baselineIntegrationDisplayName</key>
+					<string>Local Baseline</string>
+				</dict>
+			</dict>
 			<key>testBoxesByImageName1()</key>
 			<dict>
 				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>

@@ -75,4 +75,26 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
             _ = ints.mean(for: \.self)
         }
     }
+    
+    func testArrayMutation() {
+        struct Person {
+            var age = 0
+            var name = "James"
+            var profession = "Student"
+            var size = 179302.98654
+        }
+        
+        var array = [Person](repeating: Person(), count: 1_000_000)
+        
+        self.measure {
+            for index in array.indices {
+                array[index].age = 10
+            }
+//            array = array.map { person in
+//                var person = person
+//                person.age = 10
+//                return person
+//            }
+        }
+    }
 }

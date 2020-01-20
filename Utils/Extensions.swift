@@ -62,6 +62,14 @@ extension Collection {
     }
 }
 
+extension MutableCollection {
+    mutating func mutateEach(_ body: (inout Element) throws -> Void) rethrows {
+        for index in self.indices {
+            try body(&self[index])
+        }
+    }
+}
+
 extension Dictionary where Value == [BoundingBox] {
     // Should be a func as complexity is O(n)
     var nbBoundingBoxes: Int {
