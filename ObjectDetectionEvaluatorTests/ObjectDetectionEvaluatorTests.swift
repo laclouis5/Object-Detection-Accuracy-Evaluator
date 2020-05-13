@@ -19,7 +19,11 @@ class ObjectDetectionEvaluatorTests: XCTestCase {
     ]
     
     var urls: [URL] {
-        let desktopURL = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first!
+        let desktopURL = FileManager.default.urls(
+            for: .desktopDirectory,
+            in: .userDomainMask
+        ).first!
+        
         return folders.map { desktopURL.appendingPathComponent($0) }
     }
     

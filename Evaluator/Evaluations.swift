@@ -8,6 +8,8 @@
 
 import Foundation
 
+typealias Evaluations = Dictionary<String, Evaluation>
+
 extension Dictionary where Value == Evaluation {
     // FIXME: could be improve to take less memory (use reduce, no map)
     // Should be a func as it is O(n)

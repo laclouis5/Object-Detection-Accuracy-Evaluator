@@ -19,25 +19,20 @@ struct Parser2 {
         _ url: URL,
         coordType: CoordType = .XYWH,
         coordSystem: CoordinateSystem = .relative
-    ) throws -> [BoundingBox] {
+    ) throws -> BoundingBoxes {
         let fileManager = FileManager.default
         
         guard let files = try? fileManager.contentsOfDirectory(
             at: url,
             includingPropertiesForKeys: nil
         ) else {
-            throw Error.folderNotListable(url)
+            throw ParserError.folderNotListable(url)
         }
         
         let txtFiles = files.filter { $0.pathExtension == "txt" }
         
-        do {
-            let boxes = try txtFiles.flatMap {
-                try parseFile($0, coordType: coordType, coordSystem: coordSystem)
-            }
-            return boxes
-        } catch {
-            throw error
+        return try txtFiles.flatMap {
+            try parseFile($0, coordType: coordType, coordSystem: coordSystem)
         }
     }
     
@@ -45,12 +40,12 @@ struct Parser2 {
         _ url: URL,
         coordType: CoordType = .XYWH,
         coordSystem: CoordinateSystem = .relative
-    ) throws -> [BoundingBox] {
+    ) throws -> BoundingBoxes {
         guard let content = try? String(contentsOf: url, encoding: .utf8) else {
-            throw Error.unreadableAnnotation(url)
+            throw ParserError.unreadableAnnotation(url)
         }
         
-        var boxes = [BoundingBox]()
+        var boxes = BoundingBoxes()
         
         let fileScanner = Scanner(string: content)
         let newLine = CharacterSet(charactersIn: "\n")
@@ -58,11 +53,11 @@ struct Parser2 {
         
         while !fileScanner.isAtEnd {
             guard let string = fileScanner.scanUpToCharacters(from: newLine) else {
-                throw Error.unreadableAnnotation(url)
+                throw ParserError.unreadableAnnotation(url)
             }
             
             guard let line = parseLine(string) else {
-                throw Error.invalidLineFormat(file: url, line: string)
+                throw ParserError.invalidLineFormat(file: url, line: string)
             }
             
             var box: CGRect
@@ -79,8 +74,7 @@ struct Parser2 {
                 box: box,
                 coordSystem: coordSystem,
                 confidence: line.confidence,
-                imgSize: nil
-            ))
+                imgSize: nil))
         }
         
         return boxes
@@ -108,25 +102,25 @@ struct Parser2 {
         }
     }
 }
-
-fileprivate extension Scanner {
-    func scanUpToCharacters(from set: CharacterSet) -> String? {
-        var result: NSString?
-        return scanUpToCharacters(from: set, into: &result) ? (result as String?) : nil
-    }
-
-    func scanUpTo(_ string: String) -> String? {
-        var result: NSString?
-        return self.scanUpTo(string, into: &result) ? (result as String?) : nil
-    }
-
-    func scanDouble() -> Double? {
-        var double = 0.0
-        return scanDouble(&double) ? double : nil
-    }
-
-    func scanInt() -> Int? {
-        var int = 0
-        return scanInt(&int) ? int : nil
-    }
-}
+//
+//fileprivate extension Scanner {
+//    func scanUpToCharacters(from set: CharacterSet) -> String? {
+//        var result: NSString?
+//        return scanUpToCharacters(from: set, into: &result) ? (result as String?) : nil
+//    }
+//
+//    func scanUpTo(_ string: String) -> String? {
+//        var result: NSString?
+//        return self.scanUpTo(string, into: &result) ? (result as String?) : nil
+//    }
+//
+//    func scanDouble() -> Double? {
+//        var double = 0.0
+//        return scanDouble(&double) ? double : nil
+//    }
+//
+//    func scanInt() -> Int? {
+//        var int = 0
+//        return scanInt(&int) ? int : nil
+//    }
+//}

@@ -11,8 +11,6 @@ import Foundation
 /// Object to evaluate mAP on a list on detection and ground truth bounding boxes.
 struct Evaluator {
     //MARK: - Properties
-    typealias Evaluations = [String: Evaluation]
-    
     private var cocoThresholds: [Double] {
         stride(from: 50, through: 95, by: 5).map {
             Double($0) / 100
@@ -22,7 +20,7 @@ struct Evaluator {
     private(set) var cocoAP = Double.nan
     
     //MARK: - Methods
-    mutating func evaluate(_ boxes: [BoundingBox]) {
+    mutating func evaluate(_ boxes: BoundingBoxes) {
         let cocoEvaluations = cocoAP(boxes)
         cocoAP = cocoEvaluations.mean(for: \.mAP)
         evaluations = cocoEvaluations[0]
@@ -31,7 +29,7 @@ struct Evaluator {
     /// Returns Coco mAP @ `[0.5...0.95]`
     /// - Parameter boxes: Detection and ground truth boxes to be evaluated.
     /// - Parameter method: The method to evaluate true positive boxes.
-    func cocoAP(_ boxes: [BoundingBox]) -> [Evaluations] {
+    func cocoAP(_ boxes: BoundingBoxes) -> [Evaluations] {
         var cocoEvaluations = [Evaluations](repeating: .init(), count: cocoThresholds.count)
         
         DispatchQueue.concurrentPerform(iterations: cocoThresholds.count) { index in
@@ -48,7 +46,7 @@ struct Evaluator {
     /// - Parameter thresh: IoU threshold or distance threshold depending on the specified method.
     /// - Parameter method: The method to evaluate true positive boxes.
     func AP(
-        _ boxes: [BoundingBox],
+        _ boxes: BoundingBoxes,
         thresh: Double = 0.5,
         method: EvaluationMethod = .iou
     ) -> Evaluations {
@@ -87,8 +85,8 @@ struct Evaluator {
     }
     
     // MARK: - Private Methods
-    typealias BoxesDict = [String: [BoundingBox]]
-    private func formatDetGT(boxes: [BoundingBox]) -> (BoxesDict, [BoundingBox]) {
+    typealias BoxesDict = [String: BoundingBoxes]
+    private func formatDetGT(boxes: BoundingBoxes) -> (BoxesDict, BoundingBoxes) {
         let (gts, dets) = boxes.gtsDets()
         
         return (
@@ -99,7 +97,7 @@ struct Evaluator {
     
     private func calcTpFp(
         groundTruths: BoxesDict,
-        detections: [BoundingBox],
+        detections: BoundingBoxes,
         method: EvaluationMethod,
         thresh: Double
     ) -> [Bool] {
@@ -202,7 +200,7 @@ struct Evaluator {
     }
     
     private func calcLabelAP(
-        boxes: [BoundingBox],
+        boxes: BoundingBoxes,
         thresh: Double = 0.5,
         method: EvaluationMethod = .iou
     ) -> Double {

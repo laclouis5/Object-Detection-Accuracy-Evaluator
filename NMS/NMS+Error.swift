@@ -9,5 +9,5 @@
 import Foundation
 
 enum NMSError: Swift.Error {
-    case areNotDetectionBoxes
+    case notDetectionBoxes
 }

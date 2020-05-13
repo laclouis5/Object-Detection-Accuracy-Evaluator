@@ -30,6 +30,7 @@
 		B9ABD4452323DC4B00AC087A /* Evaluation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD43B2323DC4B00AC087A /* Evaluation.swift */; };
 		B9ABD44A2323DEDE00AC087A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4492323DEDE00AC087A /* MainViewController.swift */; };
 		B9ADA2B32330111800747D33 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ADA2B22330111800747D33 /* Extensions.swift */; };
+		B9B54CC724633B590009776E /* YoloParser3.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B54CC624633B590009776E /* YoloParser3.swift */; };
 		B9FA49F92348FF8200DDC86E /* YoloParser2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FA49F82348FF8200DDC86E /* YoloParser2.swift */; };
 /* End PBXBuildFile section */
 
@@ -81,6 +82,7 @@
 		B9ABD43B2323DC4B00AC087A /* Evaluation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Evaluation.swift; sourceTree = "<group>"; };
 		B9ABD4492323DEDE00AC087A /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		B9ADA2B22330111800747D33 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		B9B54CC624633B590009776E /* YoloParser3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoloParser3.swift; sourceTree = "<group>"; };
 		B9FA49F82348FF8200DDC86E /* YoloParser2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoloParser2.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -187,6 +189,7 @@
 			children = (
 				B9ABD4342323DC4B00AC087A /* YoloParser.swift */,
 				B9FA49F82348FF8200DDC86E /* YoloParser2.swift */,
+				B9B54CC624633B590009776E /* YoloParser3.swift */,
 				B9685EFC23245A43007F68A8 /* YoloParser+Error.swift */,
 			);
 			path = YoloParser;
@@ -366,6 +369,7 @@
 				B9A8CE8B2338FE81002EE363 /* NMS+Error.swift in Sources */,
 				B9ABD43F2323DC4B00AC087A /* YoloParser.swift in Sources */,
 				B9ABD4452323DC4B00AC087A /* Evaluation.swift in Sources */,
+				B9B54CC724633B590009776E /* YoloParser3.swift in Sources */,
 				B9ABD4412323DC4B00AC087A /* BoundingBox+Types.swift in Sources */,
 				B9ABD44A2323DEDE00AC087A /* MainViewController.swift in Sources */,
 				B9A8CE892338F626002EE363 /* NMS.swift in Sources */,

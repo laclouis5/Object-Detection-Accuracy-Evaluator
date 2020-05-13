@@ -11,7 +11,7 @@ import Cocoa
 class MainViewController: NSViewController {
     // MARK: - Properties
     var folders = [URL]()
-    var boxes = [BoundingBox]()
+    var boxes = BoundingBoxes()
     var evaluator = Evaluator()
     
     var coordType: CoordType {
@@ -106,25 +106,24 @@ class MainViewController: NSViewController {
         coordType: CoordType,
         coordSystem: CoordinateSystem
     ) {
+        boxes = []
+        
         do {
-            boxes = try urls.flatMap { url -> [BoundingBox] in
+            boxes = try urls.flatMap { url -> BoundingBoxes in
                 try Parser2.parseFolder(
                     url,
                     coordType: coordType,
                     coordSystem: coordSystem
                 )
             }
-        } catch Parser.Error.folderNotListable(let url) {
+        } catch ParserError.folderNotListable(let url) {
             print("Error: folder '\(url)' not listable")
-            boxes = []
-        } catch Parser.Error.unreadableAnnotation(let url) {
+        } catch ParserError.unreadableAnnotation(let url) {
             print("Error: annotation '\(url)' not readable")
-            boxes = []
-        } catch Parser.Error.invalidLineFormat(file: let url, line: let line) {
+        } catch ParserError.invalidLineFormat(file: let url, line: let line) {
             print("Error: Line '\(line)' of file '\(url)' not readable")
-        } catch let error {
-            print("Error while reading annotations: \(error)")
-            boxes = []
+        } catch {
+            print("Unexpected error: \(error)")
         }
     }
     
@@ -141,7 +140,6 @@ class MainViewController: NSViewController {
         if dialog.runModal() == .OK {
             folders = dialog.urls
             evaluator.reset()
-            boxes = []
            
             update()
             workingIndicator.isHidden = false
@@ -196,6 +194,7 @@ class MainViewController: NSViewController {
         let coordType = self.coordType
         let coordSystem = self.coordSystem
         DispatchQueue.global(qos: .userInitiated).async {
+            // If coord did change just convert all boxes instead of parsing again
             self.parseBoxes(
                 from: self.folders,
                 coordType: coordType,

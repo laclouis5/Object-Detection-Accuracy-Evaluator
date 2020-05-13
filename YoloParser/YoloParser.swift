@@ -18,9 +18,9 @@ struct Parser {
         _ fileURL: URL,
         coordType: CoordType = .XYWH,
         coordSystem: CoordinateSystem = .relative
-    ) throws -> [BoundingBox] {
+    ) throws -> BoundingBoxes {
         guard let content = try? String(contentsOf: fileURL, encoding: .utf8) else {
-            throw Error.unreadableAnnotation(fileURL)
+            throw ParserError.unreadableAnnotation(fileURL)
         }
         
         let lines = content.components(separatedBy: .newlines).filter {
@@ -43,7 +43,7 @@ struct Parser {
                     let c = Double(line[3]),
                     let d = Double(line[4])
                 else {
-                    throw Error.invalidLineFormat(file: fileURL, line: rawLine)
+                    throw ParserError.invalidLineFormat(file: fileURL, line: rawLine)
                 }
                 
                 let rect: CGRect
@@ -70,7 +70,7 @@ struct Parser {
                     let c = Double(line[4]),
                     let d = Double(line[5])
                 else {
-                    throw Error.invalidLineFormat(file: fileURL, line: rawLine)
+                    throw ParserError.invalidLineFormat(file: fileURL, line: rawLine)
                 }
                 
                 let rect: CGRect
@@ -90,7 +90,7 @@ struct Parser {
                 )
             // Case wrong annotation
             default:
-                throw Error.invalidLineFormat(file: fileURL, line: rawLine)
+                throw ParserError.invalidLineFormat(file: fileURL, line: rawLine)
             }
         }
         
@@ -105,17 +105,17 @@ struct Parser {
         _ folder: URL,
         coordType: CoordType = .XYWH,
         coordSystem: CoordinateSystem = .relative
-    ) throws -> [BoundingBox] {
+    ) throws -> BoundingBoxes {
         let fileManager = FileManager.default
         
         guard var files = try? fileManager.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)
         else {
-            throw Error.folderNotListable(folder)
+            throw ParserError.folderNotListable(folder)
         }
         
         files = files.filter { $0.pathExtension == "txt" }
         
-        return try files.flatMap { url -> [BoundingBox] in
+        return try files.flatMap { url in
             try parseFile(
                 url,
                 coordType: coordType,

@@ -8,7 +8,9 @@
 
 import Foundation
 
-extension Array where Element == BoundingBox {
+typealias BoundingBoxes = Array<BoundingBox>
+
+extension BoundingBoxes {
     // MARK: - Computed Properties
     func labels() -> Set<String> {
         Set(map(\.label))
@@ -18,7 +20,7 @@ extension Array where Element == BoundingBox {
         Set(map(\.name))
     }
     
-    func gtsDets() -> (groundTruths: [BoundingBox], detections: [BoundingBox]) {
+    func gtsDets() -> (groundTruths: BoundingBoxes, detections: BoundingBoxes) {
         let boxesByDetectionMode = self.grouped(by: \.detectionMode)
         let gts = boxesByDetectionMode[.groundTruth] ?? []
         let dets = boxesByDetectionMode[.detection] ?? []
@@ -70,8 +72,8 @@ extension Array where Element == BoundingBox {
     }
     
     // MARK: - Stubs
-    static func stub() -> [BoundingBox] {
-        var boxes = [BoundingBox]()
+    static func stub() -> BoundingBoxes {
+        var boxes = BoundingBoxes()
         
         for i in 0..<10 {
             let name = "im_\(i).jpg"
