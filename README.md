@@ -34,7 +34,7 @@ Format for ground truths:
 
 ## TODO
 - [x] Parallelize file reading in `YoloParser` for speedup
-- [ ] Add a selector for the input format (XYWH, XYX2Y2, relative, absolute)
+- [x] Add a selector for the input format (XYWH, XYX2Y2, relative, absolute)
 - [x] Add methods for mAP computation
 - [ ] Logs for errors during reading
 - [x] Background queue for file reading and evaluation
