@@ -14,8 +14,6 @@
 		B93CDDC023C5E919001AD8CA /* CGPoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CDDBF23C5E919001AD8CA /* CGPoint+Extensions.swift */; };
 		B9618E9C23269F3600CD0823 /* CGRect+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9618E9B23269F3600CD0823 /* CGRect+Extensions.swift */; };
 		B9685EFD23245A43007F68A8 /* YoloParser+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9685EFC23245A43007F68A8 /* YoloParser+Error.swift */; };
-		B9A8CE892338F626002EE363 /* NMS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A8CE882338F626002EE363 /* NMS.swift */; };
-		B9A8CE8B2338FE81002EE363 /* NMS+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A8CE8A2338FE81002EE363 /* NMS+Error.swift */; };
 		B9ABD4032323C68700AC087A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABD4022323C68700AC087A /* AppDelegate.swift */; };
 		B9ABD4072323C68B00AC087A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9ABD4062323C68B00AC087A /* Assets.xcassets */; };
 		B9ABD40A2323C68B00AC087A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9ABD4082323C68B00AC087A /* Main.storyboard */; };
@@ -59,8 +57,6 @@
 		B93CDDBF23C5E919001AD8CA /* CGPoint+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Extensions.swift"; sourceTree = "<group>"; };
 		B9618E9B23269F3600CD0823 /* CGRect+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGRect+Extensions.swift"; sourceTree = "<group>"; };
 		B9685EFC23245A43007F68A8 /* YoloParser+Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YoloParser+Error.swift"; sourceTree = "<group>"; };
-		B9A8CE882338F626002EE363 /* NMS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NMS.swift; sourceTree = "<group>"; };
-		B9A8CE8A2338FE81002EE363 /* NMS+Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NMS+Error.swift"; sourceTree = "<group>"; };
 		B9ABD3FF2323C68700AC087A /* ObjectDetectionEvaluator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ObjectDetectionEvaluator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9ABD4022323C68700AC087A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B9ABD4062323C68B00AC087A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -122,8 +118,6 @@
 		B9A8CE872338F605002EE363 /* NMS */ = {
 			isa = PBXGroup;
 			children = (
-				B9A8CE882338F626002EE363 /* NMS.swift */,
-				B9A8CE8A2338FE81002EE363 /* NMS+Error.swift */,
 			);
 			path = NMS;
 			sourceTree = "<group>";
@@ -366,13 +360,11 @@
 				B9ABD4422323DC4B00AC087A /* BoundingBox.swift in Sources */,
 				B9618E9C23269F3600CD0823 /* CGRect+Extensions.swift in Sources */,
 				B9ABD4432323DC4B00AC087A /* BoundingBoxes.swift in Sources */,
-				B9A8CE8B2338FE81002EE363 /* NMS+Error.swift in Sources */,
 				B9ABD43F2323DC4B00AC087A /* YoloParser.swift in Sources */,
 				B9ABD4452323DC4B00AC087A /* Evaluation.swift in Sources */,
 				B9B54CC724633B590009776E /* YoloParser3.swift in Sources */,
 				B9ABD4412323DC4B00AC087A /* BoundingBox+Types.swift in Sources */,
 				B9ABD44A2323DEDE00AC087A /* MainViewController.swift in Sources */,
-				B9A8CE892338F626002EE363 /* NMS.swift in Sources */,
 				B90C07EE2330F78A0018BBE1 /* Evaluation+Description.swift in Sources */,
 				B90C07EC2330F7780018BBE1 /* Evaluator+Description.swift in Sources */,
 				B9ADA2B32330111800747D33 /* Extensions.swift in Sources */,
